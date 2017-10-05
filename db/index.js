@@ -8,7 +8,7 @@ mongoose.Promise = require('bluebird');
 const options = { promiseLibrary: require('bluebird') };
 mongoose.connect(dbConnectionString, options);
 
-const Driver = require('./entities/Driver')(mongoose);
+const User = require('./entities/User')(mongoose);
 
 const db = mongoose.connection;
 // Check for error on connecting to Mongo DB
@@ -25,5 +25,5 @@ db.on('open', () => {
 });
 
 module.exports = {
-  Driver,
+  User,
 };

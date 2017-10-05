@@ -1,32 +1,32 @@
 // DOMAIN LAYER
-// Has the userInterface as a dependency. The DriverService does not know
+// Has the pictureInterface as a dependency. The DriverService does not know
 // nor does it care where the user models came from. This is abstracted away
 // by the implementation of the interfaces. It just calls the needed interfaces
 // gets the results and usually applies some business logic on them.
 
-const debug = require('debug')('services:USER');
+const debug = require('debug')('services:PICTURE');
 
 
-function init({ userInterface }) {
-  debug('------- INIT SERVICES:USER ---------');
+function init({ pictureInterface }) {
+  debug('------- INIT SERVICES:PICTURE ---------');
 
   const getUsersList = () => {
     debug('getDriversList called');
-    return userInterface.getList()
+    return pictureInterface.getList()
       .then(drivers => drivers)
       .catch(error => Promise.reject(error));
   };
 
-  const createUser = (options) => {
+  const createPicture = (options) => {
     debug('createDriver called');
-    return userInterface.create(options)
+    return pictureInterface.create(options)
       .then(driver => driver)
       .catch(error => Promise.reject(error));
   };
 
   const getUser = (options) => {
     debug('createDriver called');
-    return userInterface.get(options)
+    return pictureInterface.get(options)
       .then(driver => driver)
       .catch(error => Promise.reject(error));
   };
@@ -34,7 +34,7 @@ function init({ userInterface }) {
 
   return {
     getList: getUsersList,
-    create: createUser,
+    create: createPicture,
     get: getUser,
   };
 }

@@ -4,27 +4,27 @@
 // by the implementation of the interfaces. It just calls the needed interfaces
 // gets the results and usually applies some business logic on them.
 
-const debug = require('debug')('services:driver');
+const debug = require('debug')('services:USER');
 
 
 function init(userInterface) {
-  debug('------- INIT SERVICES:DRIVER ---------');
+  debug('------- INIT SERVICES:USER ---------');
 
-  const getDriversList = () => {
+  const getUsersList = () => {
     debug('getDriversList called');
     return userInterface.getList()
       .then(drivers => drivers)
       .catch(error => Promise.reject(error));
   };
 
-  const createDriver = (options) => {
+  const createUser = (options) => {
     debug('createDriver called');
     return userInterface.create(options)
       .then(driver => driver)
       .catch(error => Promise.reject(error));
   };
 
-  const getDriver = (options) => {
+  const getUser = (options) => {
     debug('createDriver called');
     return userInterface.get(options)
       .then(driver => driver)
@@ -33,9 +33,9 @@ function init(userInterface) {
 
 
   return {
-    getList: getDriversList,
-    create: createDriver,
-    get: getDriver,
+    getList: getUsersList,
+    create: createUser,
+    get: getUser,
   };
 }
 

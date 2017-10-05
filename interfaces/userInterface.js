@@ -1,5 +1,5 @@
 // DATA LAYER
-// driverInterface:
+// userInterface:
 // is used to provide an abstraction on top of the database ( and possible other data sources)
 // so other parts of the application are decoupled from the specific database implementation.
 // Furthermore it can hide the origin of the data from it's consumers.
@@ -15,7 +15,7 @@ function init({ User }) {
   const getUsersList = () => {
     const promise = User.find({}).lean().exec();
     return promise
-      .then(usersList => usersList.map(user => new UserModel(user.name, user.created)))
+      .then(usersList => usersList.map(user => User.toUserModel(user)))
       .catch(error => Promise.reject(error));
   };
 
@@ -34,7 +34,7 @@ function init({ User }) {
     const promise = User.find({ name: options.id }).exec();
     return promise
       .then((usersList) => {
-        const users = usersList.map(user => new UserModel(user.name, user.created));
+        const users = usersList.map(user => User.toUserModel(user));
         return users;
       })
       .catch(error => Promise.reject(error));

@@ -1,4 +1,5 @@
 const moment = require('moment');
+const UserModel = require('../../models/User');
 
 module.exports = (mongoose) => {
   const userSchema = mongoose.Schema({
@@ -16,6 +17,10 @@ module.exports = (mongoose) => {
     this.created = moment().toJSON();
     next();
   });
+
+  userSchema.statics.toUserModel = function(user) {
+    return new UserModel(user.name, user.email, user.created, user['_id']);
+  };
 
   return mongoose.model('User', userSchema);
 };

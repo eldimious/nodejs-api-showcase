@@ -7,7 +7,6 @@
 // network or the db without the need to alter the consumers code.
 
 const debug = require('debug')('interfaces:USER');
-const moment = require('moment');
 const UserModel = require('../models/User');
 
 function init({ User }) {
@@ -23,7 +22,7 @@ function init({ User }) {
   const createUser = (options) => {
     const userDocument = User({
       name: options.name,
-      created: moment().toJSON(),
+      email: options.email,
     });
     const promise = userDocument.save();
     return promise
@@ -32,9 +31,12 @@ function init({ User }) {
   };
 
   const getUser = (options) => {
-    const promise = User.findOne({ name: options.id }).lean().exec();
+    const promise = User.find({ name: options.id }).exec();
     return promise
-      .then(driver => new UserModel(user.name, user.created))
+      .then((usersList) => {
+        const users = usersList.map(user => new UserModel(user.name, user.created));
+        return users;
+      })
       .catch(error => Promise.reject(error));
   };
 

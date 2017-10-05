@@ -17,8 +17,7 @@ function init({ userService }) {
     debug('add new user');
     const options = {
       name: req.body.name,
-      city: req.body.city,
-      vehicle: req.body.vehicle,
+      email: req.body.email,
     };
     return userService.create(options)
       .then(result => res.json(result))

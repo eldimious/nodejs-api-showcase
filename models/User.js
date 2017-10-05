@@ -3,8 +3,9 @@
   * the Entities used for the databse
 */
 class User {
-  constructor(name, created) {
+  constructor(name, email, created) {
     this.name = name;
+    this.email = email;
     this.created = created;
   }
 }

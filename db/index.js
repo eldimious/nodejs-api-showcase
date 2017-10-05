@@ -9,6 +9,7 @@ const options = { promiseLibrary: require('bluebird') };
 mongoose.connect(dbConnectionString, options);
 
 const User = require('./entities/User')(mongoose);
+const Picture = require('./entities/Picture')(mongoose);
 
 const db = mongoose.connection;
 // Check for error on connecting to Mongo DB
@@ -26,4 +27,5 @@ db.on('open', () => {
 
 module.exports = {
   User,
+  Picture,
 };

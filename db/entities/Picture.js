@@ -1,4 +1,5 @@
 const moment = require('moment');
+const PictureModel = require('../../models/Picture');
 
 module.exports = (mongoose) => {
   const pictureSchema = mongoose.Schema({
@@ -14,6 +15,10 @@ module.exports = (mongoose) => {
     this.created = moment().toJSON();
     next();
   });
+
+  pictureSchema.statics.toPictureModel = function(picture) {
+    return new PictureModel(picture.imageUrl, picture.postUrl, picture.created, picture.network, picture.networkId, picture.userID, picture['_id']);
+  };
 
   return mongoose.model('Picture', pictureSchema);
 };

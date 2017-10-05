@@ -9,12 +9,12 @@ function init({ pictureService }) {
   const getListOfUsers = (req, res, next) => {
     debug('get users list');
     return pictureService.getList()
-      .then(result => res.json({ usersList: result }))
+      .then(result => res.json({ picturesList: result }))
       .catch(error => next(error));
   };
 
   const addPicture = (req, res, next) => {
-    debug('add new user');
+    debug('add new picture');
     const options = {
       imageUrl: req.body.imageUrl,
       postUrl: req.body.postUrl,
@@ -22,6 +22,7 @@ function init({ pictureService }) {
       network: req.body.network,
       userID: req.params.userID,
     };
+    console.log("addPicture", options)
     return pictureService.create(options)
       .then(result => res.json(result))
       .catch(error => next(error));

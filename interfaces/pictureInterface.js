@@ -40,10 +40,15 @@ function init({ Picture }) {
       .catch(error => Promise.reject(error));
   };
 
+  const getSpecificPictureByNetwork = (network) => Picture.find({ network }).lean().populate('user', 'name email _id').exec()
+    .then(picturesList => picturesList.map(picture => Picture.toPictureModel(picture)))
+    .catch(error => Promise.reject(error));
+
   return {
     getListByUser: getPicturesListByUser,
     create: createPicture,
     getByPictureId: getSpecificPictureById,
+    getByNetwork: getSpecificPictureByNetwork,
   };
 }
 

@@ -28,7 +28,7 @@ function init({ pictureService }) {
   };
 
   const getSpecificPictureById = (req, res, next) => {
-    debug('get specific user');
+    debug('get specific picture by id');
     const options = {
       id: req.params.id,
     };
@@ -37,11 +37,23 @@ function init({ pictureService }) {
       .catch(error => next(error));
   };
 
-  router.get('/:user', getListOfUsers);
+  const getSpecificPictureByNetwork = (req, res, next) => {
+    debug('get specific picture by network');
+    const options = {
+      network: req.params.network,
+    };
+    return pictureService.getByNetwork(options)
+      .then(result => res.json(result))
+      .catch(error => next(error));
+  };
 
-  router.post('/:user', addPicture);
+  router.get('/:id', getSpecificPictureById);
 
-  router.get('/:user/:id', getSpecificPictureById);
+  router.get('/user/:user', getListOfUsers);
+
+  router.post('/user/:user', addPicture);
+
+  router.get('/network/:network', getSpecificPictureByNetwork);
 
   return router;
 }

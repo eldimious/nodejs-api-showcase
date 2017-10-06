@@ -31,11 +31,19 @@ function init({ pictureInterface }) {
       .catch(error => Promise.reject(error));
   };
 
+  const getSpecificPictureByNetwork = (options) => {
+    debug('createDriver called');
+    return pictureInterface.getByNetwork(options.network)
+      .then(driver => driver)
+      .catch(error => Promise.reject(error));
+  };
+
 
   return {
     getListByUser: getPicturesListByUser,
     create: createPicture,
     getByPictureId: getSpecificPictureById,
+    getByNetwork: getSpecificPictureByNetwork,
   };
 }
 

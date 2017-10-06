@@ -10,40 +10,44 @@ const debug = require('debug')('services:PICTURE');
 function init({ pictureInterface }) {
   debug('------- INIT SERVICES:PICTURE ---------');
 
-  const getPicturesListByUser = (user) => {
-    debug('getDriversList called');
-    return pictureInterface.getListByUser(user)
+  const findQueryForPicturesList = (options) => {
+    if (options.network && options.user) {
+      return pictureInterface.getListByUserAndNetwork(options.user, options.network);
+    } else if (options.network) {
+      return pictureInterface.getListByNetwork(options.network);
+    } else if (options.user) {
+      return pictureInterface.getListByUser(options.user);
+    }
+    return pictureInterface.getList();
+  };
+
+
+  const getPicturesList = (options) => {
+    debug('getPicturesList called', options);
+    return findQueryForPicturesList(options)
       .then(drivers => drivers)
       .catch(error => Promise.reject(error));
   };
 
   const createPicture = (options) => {
-    debug('createDriver called');
+    debug('createPicture called');
     return pictureInterface.create(options)
       .then(driver => driver)
       .catch(error => Promise.reject(error));
   };
 
   const getSpecificPictureById = (options) => {
-    debug('createDriver called');
+    debug('getSpecificPictureById called');
     return pictureInterface.getByPictureId(options)
-      .then(driver => driver)
-      .catch(error => Promise.reject(error));
-  };
-
-  const getSpecificPictureByNetwork = (options) => {
-    debug('createDriver called');
-    return pictureInterface.getByNetwork(options.network)
       .then(driver => driver)
       .catch(error => Promise.reject(error));
   };
 
 
   return {
-    getListByUser: getPicturesListByUser,
+    getList: getPicturesList,
     create: createPicture,
     getByPictureId: getSpecificPictureById,
-    getByNetwork: getSpecificPictureByNetwork,
   };
 }
 

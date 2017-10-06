@@ -6,9 +6,13 @@ const router = express.Router({ mergeParams: true });
 function init({ pictureService }) {
   debug(' ---------- Init routes-DRIVERS --------- ');
 
-  const getListOfUsers = (req, res, next) => {
-    debug('get pictures list by user');
-    return pictureService.getListByUser(req.params.user)
+  const getListOfPictures = (req, res, next) => {
+    debug('get list based on query options');
+    const options = {
+      user: req.query.user,
+      network: req.query.network,
+    };
+    return pictureService.getList(options)
       .then(result => res.json({ picturesList: result }))
       .catch(error => next(error));
   };
@@ -22,6 +26,7 @@ function init({ pictureService }) {
       network: req.body.network,
       user: req.params.user,
     };
+    console.log("addPicture", options)
     return pictureService.create(options)
       .then(result => res.json(result))
       .catch(error => next(error));
@@ -37,23 +42,13 @@ function init({ pictureService }) {
       .catch(error => next(error));
   };
 
-  const getSpecificPictureByNetwork = (req, res, next) => {
-    debug('get specific picture by network');
-    const options = {
-      network: req.params.network,
-    };
-    return pictureService.getByNetwork(options)
-      .then(result => res.json(result))
-      .catch(error => next(error));
-  };
+
+  router.get('/', getListOfPictures);
 
   router.get('/:id', getSpecificPictureById);
 
-  router.get('/user/:user', getListOfUsers);
-
   router.post('/user/:user', addPicture);
 
-  router.get('/network/:network', getSpecificPictureByNetwork);
 
   return router;
 }

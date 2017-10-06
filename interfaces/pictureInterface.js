@@ -12,20 +12,20 @@ const PictureModel = require('../models/Picture');
 function init({ Picture }) {
   debug('------- INIT INTERFACES:PICTURE ---------');
 
-  const getUsersList = () => {
-    const promise = Picture.find({}).lean().exec();
+  const getPicturesListByUser = (user) => {
+    const promise = Picture.find({ user }).lean().populate('user', 'name email _id').exec();
     return promise
       .then(picturesList => picturesList.map(picture => Picture.toPictureModel(picture)))
       .catch(error => Promise.reject(error));
   };
 
-  const createUser = (options) => {
+  const createPicture = (options) => {
     const pictureDocument = Picture({
       imageUrl: options.imageUrl,
       postUrl: options.postUrl,
       postId: options.postId,
       network: options.network,
-      userID: options.userID,
+      user: options.user,
     });
     const promise = pictureDocument.save();
     return promise
@@ -33,20 +33,17 @@ function init({ Picture }) {
       .catch(error => Promise.reject(error));
   };
 
-  const getUser = (options) => {
-    const promise = Picture.find({ name: options.id }).exec();
+  const getSpecificPictureById = (options) => {
+    const promise = Picture.findById(options.id).exec();
     return promise
-      .then((usersList) => {
-        const users = usersList.map(user => Picture.toUserModel(user));
-        return users;
-      })
+      .then(picture => Picture.toPictureModel(picture))
       .catch(error => Promise.reject(error));
   };
 
   return {
-    getList: getUsersList,
-    create: createUser,
-    get: getUser,
+    getListByUser: getPicturesListByUser,
+    create: createPicture,
+    getByPictureId: getSpecificPictureById,
   };
 }
 

@@ -10,9 +10,9 @@ const debug = require('debug')('services:PICTURE');
 function init({ pictureInterface }) {
   debug('------- INIT SERVICES:PICTURE ---------');
 
-  const getUsersList = () => {
+  const getPicturesListByUser = (user) => {
     debug('getDriversList called');
-    return pictureInterface.getList()
+    return pictureInterface.getListByUser(user)
       .then(drivers => drivers)
       .catch(error => Promise.reject(error));
   };
@@ -24,18 +24,18 @@ function init({ pictureInterface }) {
       .catch(error => Promise.reject(error));
   };
 
-  const getUser = (options) => {
+  const getSpecificPictureById = (options) => {
     debug('createDriver called');
-    return pictureInterface.get(options)
+    return pictureInterface.getByPictureId(options)
       .then(driver => driver)
       .catch(error => Promise.reject(error));
   };
 
 
   return {
-    getList: getUsersList,
+    getListByUser: getPicturesListByUser,
     create: createPicture,
-    get: getUser,
+    getByPictureId: getSpecificPictureById,
   };
 }
 

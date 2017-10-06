@@ -3,13 +3,13 @@
   * the Entities used for the databse
 */
 class Picture {
-  constructor(imageUrl, postUrl, created, network, networkId, userID, id) {
+  constructor(imageUrl, postUrl, created, network, networkId, user, id) {
     this.imageUrl = imageUrl;
     this.postUrl = postUrl;
     this.created = created;
     this.network = network;
     this.networkId = networkId;
-    this.userID = userID;
+    this.user = user;
     this.id = id;
   }
 }

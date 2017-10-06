@@ -25,7 +25,9 @@ db.on('open', () => {
   console.log('-------------------');
 });
 
+
 module.exports = {
   User,
   Picture,
+  close: () => mongoose.disconnect(),
 };

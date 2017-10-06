@@ -7,7 +7,7 @@
 const debug = require('debug')('services:USER');
 
 
-function init(userInterface) {
+function init({ userInterface }) {
   debug('------- INIT SERVICES:USER ---------');
 
   const getUsersList = () => {

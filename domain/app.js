@@ -4,6 +4,7 @@ const compress = require('compression')();
 const bodyParser = require('body-parser');
 const logger = require('morgan');
 const usersRouter = require('./routes/users');
+const picturesRouter = require('./routes/pictures');
 const errorRoute = require('./routes/errors');
 
 const app = express();
@@ -18,8 +19,11 @@ app.use(logger('dev'));
 
 module.exports = (services) => {
   const usersRoutes = usersRouter.init(services);
+  const picturesRoutes = picturesRouter.init(services);
 
   app.use('/users', usersRoutes);
+
+  app.use('/pictures', picturesRoutes);
 
   app.use(errorRoute);
 

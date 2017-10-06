@@ -43,15 +43,21 @@ function init({ Picture }) {
     .catch(error => Promise.reject(error));
 
 
+  const getPicturesListByUserAndNetwork = (user, network) => Picture.find({ user, network }).lean().populate('user', 'name email _id').exec()
+    .then(picturesList => picturesList.map(picture => Picture.toPictureModel(picture)))
+    .catch(error => Promise.reject(error));
+
+
   const getPicturesList = () => Picture.find({}).lean().populate('user', 'name email _id').exec()
     .then(picturesList => picturesList.map(picture => Picture.toPictureModel(picture)))
     .catch(error => Promise.reject(error));
 
-  
+
   return {
     getList: getPicturesList,
     getListByNetwork: getSpecificPictureByNetwork,
     getListByUser: getPicturesListByUser,
+    getListByUserAndNetwork: getPicturesListByUserAndNetwork,
     create: createPicture,
     getByPictureId: getSpecificPictureById,
   };

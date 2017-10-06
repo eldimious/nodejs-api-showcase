@@ -26,7 +26,6 @@ function init({ pictureService }) {
       network: req.body.network,
       user: req.params.user,
     };
-    console.log("addPicture", options)
     return pictureService.create(options)
       .then(result => res.json(result))
       .catch(error => next(error));

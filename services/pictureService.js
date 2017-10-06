@@ -30,7 +30,7 @@ function init({ pictureInterface }) {
   };
 
   const createPicture = (options) => {
-    debug('createPicture called');
+    debug('createPicture called', options);
     return pictureInterface.create(options)
       .then(driver => driver)
       .catch(error => Promise.reject(error));

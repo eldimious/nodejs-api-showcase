@@ -7,7 +7,41 @@ Promise.promisifyAll(require('request'));
 
 function init(interfaces) {
   debug('------- INIT SERVICES:SOCIALNETWORK ---------');
+
   const createErrorMessage = (error, defaultMsg) => error && error.message ? error.message : defaultMsg;
+
+
+  const safelyParseJSON = (json) => {
+    let parsed;
+    try {
+      parsed = JSON.parse(json);
+    } catch (e) {
+      debug('error with parsing');
+    }
+    return parsed;
+  };
+
+
+  const handleInstagramApiResponse = (response) => {
+    if (!response.body) {
+      return Promise.reject(new errors.json_parse('instagram get post error. No response body'));
+    }
+    const parsedBody = safelyParseJSON(response.body);
+    if (!parsedBody || !parsedBody.meta) {
+      return Promise.reject(new errors.json_parse('instagram get post content no data after JSON.'));
+    }
+    if (parsedBody.meta.error_type) {
+      let errorMessage = parsedBody.meta.error_message || 'instagram get user post error. Status code !== 200.';
+      if (parsedBody.meta.error_type === 'OAuthAccessTokenException') {
+        errorMessage = 'Instagram token error';
+      }
+      if (parsedBody.meta.error_message && parsedBody.meta.error_message === 'invalid media id') {
+        errorMessage = 'Instagram post not found';
+      }
+      return Promise.reject(new errors.not_found(errorMessage));
+    }
+    return Promise.resolve(parsedBody);
+  };
 
 
   const getInstagramApiUrlForMedia = ({ hashtag, userId, count, nextMaxId }) => {
@@ -24,7 +58,7 @@ function init(interfaces) {
       url: `https://api.instagram.com/v1/${params}&access_token=${token}`,
     };
     return request.getAsync(options)
-      .then(response => helperService.handleInstagramApiResponse(response))
+      .then(response => handleInstagramApiResponse(response))
       .then((data) => {
         const tagsContent = {
           pagination: {

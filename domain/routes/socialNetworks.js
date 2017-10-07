@@ -1,5 +1,3 @@
-'use strict';
-
 const express = require('express');
 const debug = require('debug')('routes-users');
 const { tokens } = require('../../configuration');

@@ -8,7 +8,7 @@ const EndpointValidator = require('../../middlewares/endpointValidator');
 const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
 
-function init(services) {
+function init({ socialNetworkService }) {
   debug(' ---------- Init routes-NETWORKS --------- ');
 
   const DEFAULT_POSTS_LIMIT_PER_NETWORK = {
@@ -33,7 +33,7 @@ function init(services) {
       nextMaxId: req.query.nextMaxId,
       count: DEFAULT_POSTS_LIMIT_PER_NETWORK[req.params.network],
     };
-    return services.networksService[options.network].getMedia(options)
+    return socialNetworkService[options.network].getMedia(options)
       .then(result => res.json({ mediaList: result }))
       .catch(error => next(error));
   };

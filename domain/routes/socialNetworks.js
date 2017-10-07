@@ -3,7 +3,9 @@
 const express = require('express');
 const debug = require('debug')('routes-users');
 const { tokens } = require('../../configuration');
+const EndpointValidator = require('../../middlewares/endpointValidator');
 
+const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
 
 function init(services) {
@@ -40,7 +42,7 @@ function init(services) {
   /**
     * Get media from a network depend on tag
   */
-  router.get('/:network/:type/media', routesValidator.requireValidNetwork, routesValidator.requireValidType, getNetworkMedia);
+  router.get('/:network/:type/media', endpointValidator.requireValidNetwork, endpointValidator.requireValidType, getNetworkMedia);
 
 
   return router;

@@ -6,8 +6,6 @@ const logger = require('morgan');
 const expressValidator = require('express-validator');
 const EndpointValidator = require('../middlewares/endpointValidator');
 const usersRouter = require('./routes/users');
-const picturesRouter = require('./routes/pictures');
-const socialNetworksRouter = require('./routes/socialNetworks');
 const errorRoute = require('./routes/errors');
 
 const endpointValidator = new EndpointValidator();
@@ -23,14 +21,8 @@ app.use(expressValidator(endpointValidator.settings));
 
 module.exports = (services) => {
   const usersRoutes = usersRouter.init(services);
-  const picturesRoutes = picturesRouter.init(services);
-  const socialNetworksRoutes = socialNetworksRouter.init(services);
 
   app.use('/users', usersRoutes);
-
-  app.use('/pictures', picturesRoutes);
-
-  app.use('/socialNetworks', socialNetworksRoutes);
 
   app.use(errorRoute);
 

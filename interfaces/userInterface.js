@@ -31,12 +31,9 @@ function init({ User }) {
   };
 
   const getUser = (options) => {
-    const promise = User.find({ name: options.id }).exec();
+    const promise = User.findById(options.id).exec();
     return promise
-      .then((usersList) => {
-        const users = usersList.map(user => User.toUserModel(user));
-        return users;
-      })
+      .then(user => User.toUserModel(user))
       .catch(error => Promise.reject(error));
   };
 

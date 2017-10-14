@@ -59,6 +59,23 @@ not_modified.prototype.name = 'not_modified';
 invalid_argument.prototype.name = 'invalid_argument';
 json_parse.prototype.name = 'json_parse';
 
+const createErrorMessage = (error, defaultMsg) => error && error.message ? error.message : defaultMsg;
+
+const hasErrorCustomName = (error) => {
+  if (error.name === 'not_found' || error.name === 'json_parse' || error.name === 'forbidden' || error.name === 'duplicate' || 
+    error.name === 'not_modified' || error.name === 'invalid_argument' || error.name === 'unauthorized') {
+    return true;
+  }
+  return false;
+};
+
+const genericErrorHandler = (error, msg = 'Generic Error in interface functions') => {
+  if (error && hasErrorCustomName(error)) {
+    return Promise.reject(error);
+  }
+  return Promise.reject(new Error(createErrorMessage(error, msg)));
+};
+
 exports.forbidden = forbidden;
 exports.duplicate = duplicate;
 exports.unauthorized = unauthorized;
@@ -66,3 +83,5 @@ exports.not_modified = not_modified; //eslint-disable-line
 exports.not_found = not_found; //eslint-disable-line
 exports.invalid_argument = invalid_argument; //eslint-disable-line
 exports.json_parse = json_parse; //eslint-disable-line
+exports.genericErrorHandler = genericErrorHandler;
+

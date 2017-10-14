@@ -6,9 +6,26 @@ const router = express.Router({ mergeParams: true });
 function init({ userService }) {
   debug(' ---------- Init routes-DRIVERS --------- ');
 
+  const DEFAULT_PAGINATION_LIMIT = 25;
+  const MAX_PAGINATION_LIMIT = 100;
+  const DEFAULT_PAGINATION_PAGE = 1;
+
   const getListOfUsers = (req, res, next) => {
     debug('get users list');
-    return userService.getList()
+    const options = {
+      page: req.query.page ? parseInt(req.query.page, 10) : 1,
+      limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
+    };
+    if (isNaN(options.limit)) {
+      options.limit = DEFAULT_PAGINATION_LIMIT;
+    }
+    if (isNaN(options.page)) {
+      options.page = DEFAULT_PAGINATION_PAGE;
+    }
+    if (options.limit > MAX_PAGINATION_LIMIT) {
+      options.limit = MAX_PAGINATION_LIMIT;
+    }
+    return userService.getList(options)
       .then(result => res.json({ usersList: result }))
       .catch(error => next(error));
   };

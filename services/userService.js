@@ -10,7 +10,7 @@ const debug = require('debug')('services:USER');
 function init({ userInterface }) {
   debug('------- INIT SERVICES:USER ---------');
 
-  const getUsersList = () => {
+  const getUsersList = (options) => {
     debug('getDriversList called');
     return userInterface.getList()
       .then(userList => userList)

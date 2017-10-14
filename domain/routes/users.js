@@ -13,6 +13,7 @@ function init({ userService }) {
   const getListOfUsers = (req, res, next) => {
     debug('get users list');
     const options = {
+      name: req.query.name,
       page: req.query.page ? parseInt(req.query.page, 10) : 1,
       limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
     };

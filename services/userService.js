@@ -10,9 +10,19 @@ const debug = require('debug')('services:USER');
 function init({ userInterface }) {
   debug('------- INIT SERVICES:USER ---------');
 
+  const findProperGetListFunction = (options) => {
+    debug('findProperGetUserFunction called', options);
+    if (options.name) {
+      return userInterface.getListByName(options);
+    } else if (options.fromDate) {
+      return userInterface.getListByDate(options);
+    }
+    return userInterface.getList(options);
+  };
+
   const getUsersList = (options) => {
     debug('getDriversList called');
-    return userInterface.getList()
+    return findProperGetListFunction(options)
       .then(userList => userList)
       .catch(error => Promise.reject(error));
   };

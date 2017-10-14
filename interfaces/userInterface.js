@@ -7,13 +7,61 @@
 // network or the db without the need to alter the consumers code.
 
 const debug = require('debug')('interfaces:USER');
+const errors = require('../common/errors');
+
 
 function init({ User }) {
   debug('------- INIT INTERFACES:USER ---------');
 
-  const getList = () => User.find({}).lean().exec()
-    .then(usersList => usersList.map(user => User.toUserModel(user)))
-    .catch(error => Promise.reject(error));
+  const DEFAULT_PAGINATION_CONTENT = {
+    pagination: {},
+    users: [],
+  };
+
+
+  const _createPaginationOptions = options => ({
+    lean: true,
+    page: options.page,
+    limit: options.limit,
+    sort: { 'creation.date': -1 },
+  });
+
+
+  const _handleUsersPaginationResponse = (paginatedUsers) => {
+    if (!paginatedUsers.docs || paginatedUsers.docs.length <= 0) {
+      return DEFAULT_PAGINATION_CONTENT;
+    }
+    const usersList = {
+      users: paginatedUsers.docs.map(user => User.toUserModel(user)),
+      pagination: {
+        total: paginatedUsers.total,
+        limit: paginatedUsers.limit,
+        page: paginatedUsers.page,
+        pages: paginatedUsers.pages,
+      },
+    };
+    return usersList;
+  };
+
+
+  const getList = (options) => {
+    debug('get all users', options);
+    const paginationOptions = _createPaginationOptions(options);
+    return User.paginate({}, paginationOptions)
+      .then(paginatedUsers => _handleUsersPaginationResponse(paginatedUsers))
+      .catch(error => errors.genericErrorHandler(error, 'Internal error in getList func in userInterface.'));
+  };
+
+
+  const getListByName = (options) => {
+    debug('get user list by name', options);
+    const paginationOptions = _createPaginationOptions(options);
+    return User.paginate({
+      'name' : { $regex: new RegExp(options.name), $options: 'i' },
+    }, paginationOptions)
+      .then(paginatedUsers => _handleUsersPaginationResponse(paginatedUsers))
+      .catch(error => errors.genericErrorHandler(error, 'Internal error in getListByFullName func in userInterface.'));
+  };
 
 
   const createUser = (options) => {
@@ -33,6 +81,7 @@ function init({ User }) {
 
   return {
     getList,
+    getListByName,
     create: createUser,
     get: getUser,
   };

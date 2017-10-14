@@ -11,11 +11,10 @@ const debug = require('debug')('interfaces:USER');
 function init({ User }) {
   debug('------- INIT INTERFACES:USER ---------');
 
-  const getUsersList = () => {
-    return User.find({}).lean().exec()
-      .then(usersList => usersList.map(user => User.toUserModel(user)))
-      .catch(error => Promise.reject(error));
-  };
+  const getList = () => User.find({}).lean().exec()
+    .then(usersList => usersList.map(user => User.toUserModel(user)))
+    .catch(error => Promise.reject(error));
+
 
   const createUser = (options) => {
     const userDocument = User({
@@ -27,14 +26,13 @@ function init({ User }) {
       .catch(error => Promise.reject(error));
   };
 
-  const getUser = (options) => {
-    return User.findById(options.id).exec()
-      .then(user => User.toUserModel(user))
-      .catch(error => Promise.reject(error));
-  };
+  const getUser = options => User.findById(options.id).exec()
+    .then(user => User.toUserModel(user))
+    .catch(error => Promise.reject(error));
+
 
   return {
-    getList: getUsersList,
+    getList,
     create: createUser,
     get: getUser,
   };

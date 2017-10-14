@@ -13,21 +13,21 @@ function init({ userInterface }) {
   const getUsersList = () => {
     debug('getDriversList called');
     return userInterface.getList()
-      .then(drivers => drivers)
+      .then(userList => userList)
       .catch(error => Promise.reject(error));
   };
 
   const createUser = (options) => {
     debug('createDriver called');
     return userInterface.create(options)
-      .then(driver => driver)
+      .then(user => user)
       .catch(error => Promise.reject(error));
   };
 
   const getUser = (options) => {
     debug('createDriver called');
     return userInterface.get(options)
-      .then(driver => driver)
+      .then(user => user)
       .catch(error => Promise.reject(error));
   };
 

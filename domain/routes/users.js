@@ -26,7 +26,7 @@ function init({ userService }) {
       options.limit = MAX_PAGINATION_LIMIT;
     }
     return userService.getList(options)
-      .then(result => res.json({ usersList: result }))
+      .then(result => res.json(result))
       .catch(error => next(error));
   };
 

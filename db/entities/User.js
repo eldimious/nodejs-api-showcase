@@ -23,6 +23,8 @@ module.exports = (mongoose) => {
     return new UserModel(user.name, user.email, user.created, user['_id']);
   };
 
+  userSchema.index({ name: 1, created: -1 });
+
   userSchema.plugin(mongoosePaginate);
 
   return mongoose.model('User', userSchema);

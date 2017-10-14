@@ -23,7 +23,7 @@ function init({ User }) {
     lean: true,
     page: options.page,
     limit: options.limit,
-    sort: { 'creation.date': -1 },
+    sort: { created: -1 },
   });
 
 

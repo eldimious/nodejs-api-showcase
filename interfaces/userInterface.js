@@ -7,14 +7,12 @@
 // network or the db without the need to alter the consumers code.
 
 const debug = require('debug')('interfaces:USER');
-const UserModel = require('../models/User');
 
 function init({ User }) {
   debug('------- INIT INTERFACES:USER ---------');
 
   const getUsersList = () => {
-    const promise = User.find({}).lean().exec();
-    return promise
+    return User.find({}).lean().exec()
       .then(usersList => usersList.map(user => User.toUserModel(user)))
       .catch(error => Promise.reject(error));
   };
@@ -24,15 +22,13 @@ function init({ User }) {
       name: options.name,
       email: options.email,
     });
-    const promise = userDocument.save();
-    return promise
+    return userDocument.save()
       .then(userDoc => userDoc)
       .catch(error => Promise.reject(error));
   };
 
   const getUser = (options) => {
-    const promise = User.findById(options.id).exec();
-    return promise
+    return User.findById(options.id).exec()
       .then(user => User.toUserModel(user))
       .catch(error => Promise.reject(error));
   };

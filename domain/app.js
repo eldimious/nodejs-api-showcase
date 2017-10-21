@@ -1,3 +1,4 @@
+require('express-jsend');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const compress = require('compression')();

@@ -1,6 +1,6 @@
 # nodejs-app-architecture-couchbase
 
-> A Node.js App Architecture showcase using using MongoDB and Mongoose as ORM.
+> A Node.js App Architecture showcase using [Express](https://www.npmjs.com/package/express), [MongoDB](https://www.mongodb.com/) and [Mongoose](http://mongoosejs.com/) as ORM.
 
 ## Development
 

@@ -10,26 +10,34 @@ function init({ userService }) {
   const MAX_PAGINATION_LIMIT = 100;
   const DEFAULT_PAGINATION_PAGE = 1;
 
+  const _handlePaginationInOptions = (options) => {
+    const populateOptionsWithPagination = Object.assign({}, options);
+    if (isNaN(populateOptionsWithPagination.limit)) {
+      populateOptionsWithPagination.limit = DEFAULT_PAGINATION_LIMIT;
+    }
+    if (isNaN(populateOptionsWithPagination.page)) {
+      populateOptionsWithPagination.page = DEFAULT_PAGINATION_PAGE;
+    }
+    if (populateOptionsWithPagination.limit > MAX_PAGINATION_LIMIT) {
+      populateOptionsWithPagination.limit = MAX_PAGINATION_LIMIT;
+    }
+    return populateOptionsWithPagination;
+  };
+
+
   const getListOfUsers = (req, res, next) => {
     debug('get users list');
-    const options = {
+    let options = {
       name: req.query.name,
       page: req.query.page ? parseInt(req.query.page, 10) : 1,
       limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
     };
-    if (isNaN(options.limit)) {
-      options.limit = DEFAULT_PAGINATION_LIMIT;
-    }
-    if (isNaN(options.page)) {
-      options.page = DEFAULT_PAGINATION_PAGE;
-    }
-    if (options.limit > MAX_PAGINATION_LIMIT) {
-      options.limit = MAX_PAGINATION_LIMIT;
-    }
+    options = _handlePaginationInOptions(options);
     return userService.getList(options)
       .then(result => res.jsend(result))
       .catch(error => next(error));
   };
+
 
   const addUser = (req, res, next) => {
     debug('add new user');
@@ -42,6 +50,7 @@ function init({ userService }) {
       .catch(error => next(error));
   };
 
+
   const getUser = (req, res, next) => {
     debug('get specific user');
     const options = {
@@ -51,6 +60,7 @@ function init({ userService }) {
       .then(result => res.jsend({ user: result }))
       .catch(error => next(error));
   };
+
 
   router.get('/', getListOfUsers);
 

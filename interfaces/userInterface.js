@@ -53,6 +53,15 @@ function init({ User }) {
   };
 
 
+  const getListByEmail = (options) => {
+    debug('get all users', options);
+    const paginationOptions = _createPaginationOptions(options);
+    return User.paginate({ email: options.email }, paginationOptions)
+      .then(paginatedUsers => _handleUsersPaginationResponse(paginatedUsers))
+      .catch(error => errors.genericErrorHandler(error, 'Internal error in getListByEmail func in userInterface.'));
+  };
+
+
   const getListByName = (options) => {
     debug('get user list by name', options);
     const paginationOptions = _createPaginationOptions(options);
@@ -81,6 +90,7 @@ function init({ User }) {
 
   return {
     getList,
+    getListByEmail,
     getListByName,
     create: createUser,
     get: getUser,

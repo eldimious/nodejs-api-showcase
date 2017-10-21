@@ -29,10 +29,12 @@ function init({ userService }) {
     debug('get users list');
     let options = {
       name: req.query.name,
+      email: req.query.email,
       page: req.query.page ? parseInt(req.query.page, 10) : 1,
       limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
     };
     options = _handlePaginationInOptions(options);
+    Object.keys(options).forEach(key => (!options[key]) && delete options[key]);
     return userService.getList(options)
       .then(result => res.jsend(result))
       .catch(error => next(error));

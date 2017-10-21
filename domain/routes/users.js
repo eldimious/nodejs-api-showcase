@@ -27,7 +27,7 @@ function init({ userService }) {
       options.limit = MAX_PAGINATION_LIMIT;
     }
     return userService.getList(options)
-      .then(result => res.json(result))
+      .then(result => res.jsend(result))
       .catch(error => next(error));
   };
 
@@ -38,7 +38,7 @@ function init({ userService }) {
       email: req.body.email,
     };
     return userService.create(options)
-      .then(result => res.json(result))
+      .then(result => res.jsend({ user: result }))
       .catch(error => next(error));
   };
 
@@ -48,7 +48,7 @@ function init({ userService }) {
       id: req.params.id,
     };
     return userService.get(options)
-      .then(result => res.json(result))
+      .then(result => res.jsend({ user: result }))
       .catch(error => next(error));
   };
 

@@ -7,6 +7,14 @@
 Create an .env file in project root to register the following required environment variables:
   - `DATABASE_URL` - MongoDB connection URL
 
+## Server
+
+To start the server run:
+```shell
+npm install
+node index.js
+```
+
 ## Packages and Tools
 
   - [Node.js](https://nodejs.org/en/)

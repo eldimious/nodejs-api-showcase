@@ -5,7 +5,7 @@
 */
 const config = {
   dbConnectionString: process.env.DATABASE_URL,
-  port: process.env.PORT || 5555,
+  port: process.env.HTTP_PORT || 5555,
   tokens: {
     instagram: {
       tokenKey: process.env.INSTAGRAM_TOKEN,

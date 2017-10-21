@@ -12,6 +12,8 @@ Create an .env file in project root to register the following required environme
   - [Node.js](https://nodejs.org/en/)
   - [Express](https://www.npmjs.com/package/express)
   - [Mongoose](http://mongoosejs.com/)
+  - [Mongoose-Pagination](https://github.com/edwardhotchkiss/mongoose-paginate)
+  - [Express-jsend](https://www.npmjs.com/package/express-jsend)
   - [Express-validator](https://github.com/ctavan/express-validator)
   - [Mocha](https://www.npmjs.com/package/mocha)
   - [Chai](https://www.npmjs.com/package/chai)

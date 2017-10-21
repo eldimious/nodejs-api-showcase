@@ -15,6 +15,10 @@ npm install
 node index.js
 ```
 
+## Data Store
+
+[MongoDB](https://www.mongodb.com/) is used as a data store.
+
 ## Packages and Tools
 
   - [Node.js](https://nodejs.org/en/)

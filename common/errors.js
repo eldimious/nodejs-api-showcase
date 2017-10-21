@@ -25,12 +25,6 @@ function not_found(msg, constr) { //eslint-disable-line
   this.message = msg || 'Not Found';
 }
 
-function not_modified(msg, constr) { //eslint-disable-line
-  debug('not_modified');
-  Error.captureStackTrace(this, constr || this);
-  this.message = msg || 'Not Modified';
-}
-
 function invalid_argument(msg, constr) { //eslint-disable-line
   debug('invalid_argument');
   Error.captureStackTrace(this, constr || this);
@@ -47,7 +41,6 @@ util.inherits(forbidden, Error);
 util.inherits(duplicate, Error);
 util.inherits(not_found, Error);
 util.inherits(unauthorized, Error);
-util.inherits(not_modified, Error);
 util.inherits(invalid_argument, Error);
 util.inherits(json_parse, Error);
 
@@ -55,15 +48,14 @@ forbidden.prototype.name = 'forbidden';
 duplicate.prototype.name = 'duplicate';
 unauthorized.prototype.name = 'unauthorized';
 not_found.prototype.name = 'not_found';
-not_modified.prototype.name = 'not_modified';
 invalid_argument.prototype.name = 'invalid_argument';
 json_parse.prototype.name = 'json_parse';
 
 const createErrorMessage = (error, defaultMsg) => error && error.message ? error.message : defaultMsg;
 
 const hasErrorCustomName = (error) => {
-  if (error.name === 'not_found' || error.name === 'json_parse' || error.name === 'forbidden' || error.name === 'duplicate' || 
-    error.name === 'not_modified' || error.name === 'invalid_argument' || error.name === 'unauthorized') {
+  if (error.name === 'not_found' || error.name === 'json_parse' || error.name === 'forbidden' || 
+    error.name === 'duplicate' || error.name === 'invalid_argument' || error.name === 'unauthorized') {
     return true;
   }
   return false;
@@ -79,7 +71,6 @@ const genericErrorHandler = (error, msg = 'Generic Error in interface functions'
 exports.forbidden = forbidden;
 exports.duplicate = duplicate;
 exports.unauthorized = unauthorized;
-exports.not_modified = not_modified; //eslint-disable-line
 exports.not_found = not_found; //eslint-disable-line
 exports.invalid_argument = invalid_argument; //eslint-disable-line
 exports.json_parse = json_parse; //eslint-disable-line

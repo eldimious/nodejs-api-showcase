@@ -13,7 +13,6 @@ function init({ userInterface }) {
   const findProperGetListFunction = (options) => {
     debug('findProperGetUserFunction called', options);
     const queryParams = Object.keys(options);
-    console.log('queryParams length', queryParams.length);
     if (queryParams.length > 3) {
       return userInterface.getListGenericQuery(options);
     } else if (options.name) {

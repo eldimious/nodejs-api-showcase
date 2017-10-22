@@ -10,6 +10,9 @@ module.exports = class EndpointValidator {
         isInArray(item, array) {
           return array.includes(item);
         },
+        isMongoObjectID(param) {
+          return new RegExp('^[0-9a-fA-F]{24}$').test(param);
+        },
       },
     };
     debug('constract EndpointValidator ends');
@@ -25,7 +28,7 @@ module.exports = class EndpointValidator {
 
 
   requireValidUserId(req, res, next) {
-    req.checkParams('id', 'add a valid user id.').isUUID();
+    req.checkParams('id', 'add a valid user id.').isMongoObjectID();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
         return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);

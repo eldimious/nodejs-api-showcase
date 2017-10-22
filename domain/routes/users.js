@@ -70,7 +70,7 @@ function init({ userService }) {
 
   router.post('/', endpointValidator.requireValidUserCreateBody, addUser);
 
-  router.get('/:id', getUser);
+  router.get('/:id', endpointValidator.requireValidUserId, getUser);
 
   return router;
 }

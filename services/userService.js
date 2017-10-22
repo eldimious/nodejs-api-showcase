@@ -14,10 +14,8 @@ function init({ userInterface }) {
     debug('findProperGetUserFunction called', options);
     if (options.name) {
       return userInterface.getListByName(options);
-    } if (options.email) {
+    } else if (options.email) {
       return userInterface.getListByEmail(options);
-    } else if (options.fromDate || options.toDate) {
-      return userInterface.getListByDate(options);
     }
     return userInterface.getList(options);
   };

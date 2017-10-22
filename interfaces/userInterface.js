@@ -73,21 +73,6 @@ function init({ User }) {
   };
 
 
-  const getListByCreatedDate = (options) => {
-    debug('get requests list by request_date', options);
-    const paginationOptions = _createPaginationOptions(options);
-    let queryOptions;
-    if (options.toDate) {
-      queryOptions = { $gte: options.fromDate, $lt: options.toDate };
-    } else {
-      queryOptions = { $gte: options.fromDate };
-    }
-    return User.paginate({ created: queryOptions }, paginationOptions)
-      .then(paginatedRequests => _handleUsersPaginationResponse(paginatedRequests))
-      .catch(error => errors.genericErrorHandler(error, 'Internal error in getListByCreatedDate func in requestInterface.'));
-  };
-
-
   const createUser = (options) => {
     const userDocument = User({
       name: options.name,
@@ -107,7 +92,6 @@ function init({ User }) {
     getList,
     getListByEmail,
     getListByName,
-    getListByCreatedDate,
     create: createUser,
     get: getUser,
   };

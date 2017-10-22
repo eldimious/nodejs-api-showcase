@@ -12,8 +12,6 @@ module.exports = (mongoose) => {
     created: Date,
   });
 
-  userSchema.index({ name: 1 });
-
   userSchema.pre('save', function (next) {
     this.created = moment().toJSON();
     next();
@@ -22,6 +20,8 @@ module.exports = (mongoose) => {
   userSchema.statics.toUserModel = function(user) {
     return new UserModel(user.name, user.email, user.created, user['_id']);
   };
+
+  userSchema.index({ name: 1 });
 
   userSchema.index({ name: 1, created: -1 });
 

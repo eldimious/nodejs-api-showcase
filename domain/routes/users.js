@@ -30,8 +30,6 @@ function init({ userService }) {
     let options = {
       name: req.query.name,
       email: req.query.email,
-      fromDate: req.query.fromDate,
-      toDate: req.query.toDate,
       page: req.query.page ? parseInt(req.query.page, 10) : 1,
       limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
     };

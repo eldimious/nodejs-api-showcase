@@ -44,12 +44,40 @@ function init({ User }) {
   };
 
 
+  const _constructQueryObject = (options) => {
+    const queries = {};
+    if (options.email) {
+      queries.email = options.emaile;
+    }
+    if (options.name) {
+      queries.name = {
+        $regex: new RegExp(options.name),
+        $options: 'i',
+      };
+    }
+    return queries;
+  };
+
+
   const getList = (options) => {
     debug('get all users', options);
     const paginationOptions = _createPaginationOptions(options);
     return User.paginate({}, paginationOptions)
       .then(paginatedUsers => _handleUsersPaginationResponse(paginatedUsers))
       .catch(error => errors.genericErrorHandler(error, 'Internal error in getList func in userInterface.'));
+  };
+
+
+  const getListGenericQuery = (options) => {
+    debug('get users generic queries', options);
+    const paginationOptions = _createPaginationOptions(options);
+    const queryOptions = _constructQueryObject(options);
+    if (Object.keys(queryOptions).length <= 0) {
+      return Promise.reject(new errors.invalid_argument('Should add a property.'));
+    }
+    return User.paginate(queryOptions, paginationOptions)
+      .then(paginatedRequests => _handleUsersPaginationResponse(paginatedRequests))
+      .catch(error => errors.genericErrorHandler(error, 'Internal error in getListGenericQuery func in requestInterface.'));
   };
 
 
@@ -90,6 +118,7 @@ function init({ User }) {
 
   return {
     getList,
+    getListGenericQuery,
     getListByEmail,
     getListByName,
     create: createUser,

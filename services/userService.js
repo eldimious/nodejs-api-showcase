@@ -12,7 +12,11 @@ function init({ userInterface }) {
 
   const findProperGetListFunction = (options) => {
     debug('findProperGetUserFunction called', options);
-    if (options.name) {
+    const queryParams = Object.keys(options);
+    console.log('queryParams length', queryParams.length);
+    if (queryParams.length > 3) {
+      return userInterface.getListGenericQuery(options);
+    } else if (options.name) {
       return userInterface.getListByName(options);
     } else if (options.email) {
       return userInterface.getListByEmail(options);

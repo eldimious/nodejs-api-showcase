@@ -24,28 +24,6 @@ module.exports = class EndpointValidator {
   }
 
 
-  requireValidNetwork(req, res, next) {
-    req.checkParams('network', 'add a valid source for getting media.').isInArray(['instagram', 'twitter']);
-    req.getValidationResult().then((result) => {
-      if (!result.isEmpty()) {
-        return res.status(400).send({ status: `${result.array({ onlyFirstError: true })[0].msg}` });
-      }
-      return next();
-    });
-  }
-
-
-  requireValidType(req, res, next) {
-    req.checkParams('type', 'add a valid type for getting media.').isInArray(['hashtag', 'user']);
-    req.getValidationResult().then((result) => {
-      if (!result.isEmpty()) {
-        return res.status(400).send({ status: `${result.array({ onlyFirstError: true })[0].msg}` });
-      }
-      return next();
-    });
-  }
-
-
   requireValidUserId(req, res, next) {
     req.checkParams('id', 'add a valid user id.').isUUID();
     req.getValidationResult().then((result) => {

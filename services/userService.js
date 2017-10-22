@@ -16,7 +16,7 @@ function init({ userInterface }) {
       return userInterface.getListByName(options);
     } if (options.email) {
       return userInterface.getListByEmail(options);
-    } else if (options.fromDate) {
+    } else if (options.fromDate || options.toDate) {
       return userInterface.getListByDate(options);
     }
     return userInterface.getList(options);

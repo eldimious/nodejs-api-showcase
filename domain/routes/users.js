@@ -1,6 +1,8 @@
 const express = require('express');
 const debug = require('debug')('routes-users');
+const EndpointValidator = require('../../middlewares/endpointValidator');
 
+const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
 
 function init({ userService }) {
@@ -66,7 +68,7 @@ function init({ userService }) {
 
   router.get('/', getListOfUsers);
 
-  router.post('/', addUser);
+  router.post('/', endpointValidator.requireValidUserCreateBody, addUser);
 
   router.get('/:id', getUser);
 

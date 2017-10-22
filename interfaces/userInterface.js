@@ -47,7 +47,7 @@ function init({ User }) {
   const _constructQueryObject = (options) => {
     const queries = {};
     if (options.email) {
-      queries.email = options.emaile;
+      queries.email = options.email;
     }
     if (options.name) {
       queries.name = {
@@ -72,6 +72,7 @@ function init({ User }) {
     debug('get users generic queries', options);
     const paginationOptions = _createPaginationOptions(options);
     const queryOptions = _constructQueryObject(options);
+    console.log('queryOptions', queryOptions)
     if (Object.keys(queryOptions).length <= 0) {
       return Promise.reject(new errors.invalid_argument('Should add a property.'));
     }

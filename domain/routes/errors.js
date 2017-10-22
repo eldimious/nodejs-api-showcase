@@ -2,7 +2,7 @@ const debug = require('debug')('routes:errors');
 const errors = require('../../common/errors');
 
 function sendError(error, req, res, next) { //eslint-disable-line
-  debug('send error', error);
+  debug('send error');
   const generic4xxError = /^[4][0-9][0-9]$/;
   if (error.constructor === errors.invalid_argument) {
     res.status(400).jerror(400, error.message);

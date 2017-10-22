@@ -112,7 +112,12 @@ function init({ User }) {
   };
 
   const getUser = options => User.findById(options.id).exec()
-    .then(user => User.toUserModel(user))
+    .then((userDoc) => {
+      if (!userDoc) {
+        return Promise.reject(new errors.not_found(`User with id ${options.id} not found.`));
+      }
+      return User.toUserModel(userDoc);
+    })
     .catch(error => Promise.reject(error));
 
 

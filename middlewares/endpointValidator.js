@@ -28,7 +28,7 @@ module.exports = class EndpointValidator {
     req.checkParams('id', 'add a valid user id.').isUUID();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
-        return res.status(400).send({ status: `${result.array({ onlyFirstError: true })[0].msg}` });
+        return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);
       }
       return next();
     });
@@ -40,7 +40,7 @@ module.exports = class EndpointValidator {
     req.checkBody('name', 'name in body required.').notEmpty();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
-        return res.status(400).send({ status: `${result.array({ onlyFirstError: true })[0].msg}` });
+        return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);
       }
       return next();
     });

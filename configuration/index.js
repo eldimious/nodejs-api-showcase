@@ -5,18 +5,7 @@
 */
 const config = {
   dbConnectionString: process.env.DATABASE_URL,
-  port: process.env.HTTP_PORT || 5555,
-  tokens: {
-    instagram: {
-      tokenKey: process.env.INSTAGRAM_TOKEN,
-    },
-    twitter: {
-      tokenKey: process.env.TWITTER_TOKEN,
-      tokenSecret: process.env.TWITTER_TOKEN_SECRET,
-      consumerKey: process.env.TWITTER_CONSUMER_KEY,
-      consumerSecret: process.env.TWITTER_CONSUMER_SECRET,
-    },
-  },
+  httpPort: process.env.HTTP_PORT || 5555,
 };
 
 module.exports = config;

@@ -104,6 +104,7 @@ function init({ User }) {
   const createUser = (options) => {
     const userDocument = User({
       name: options.name,
+      surname: options.surname,
       email: options.email,
     });
     return userDocument.save()

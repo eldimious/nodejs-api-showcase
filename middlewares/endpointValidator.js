@@ -41,6 +41,7 @@ module.exports = class EndpointValidator {
   requireValidUserCreateBody(req, res, next) {
     req.checkBody('email', 'add a valid email.').notEmpty().isEmail();
     req.checkBody('name', 'name in body required.').notEmpty();
+    req.checkBody('surname', 'surname in body required.').notEmpty();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
         return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);

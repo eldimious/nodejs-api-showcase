@@ -47,6 +47,7 @@ function init({ userService }) {
     debug('add new user');
     const options = {
       name: req.body.name,
+      surname: req.body.surname,
       email: req.body.email,
     };
     return userService.create(options)

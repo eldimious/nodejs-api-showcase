@@ -8,6 +8,10 @@ module.exports = (mongoose) => {
       type: String,
       required: true,
     },
+    surname: {
+      type: String,
+      required: true,
+    },
     email: String,
     created: Date,
   });

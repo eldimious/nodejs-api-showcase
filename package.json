@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha test --recursive"
+    "test": "mocha test/routes --recursive"
   },
   "repository": {
     "type": "git",

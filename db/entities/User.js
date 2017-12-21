@@ -21,9 +21,7 @@ module.exports = (mongoose) => {
     next();
   });
 
-  userSchema.statics.toUserModel = function(user) {
-    return new UserModel(user.name, user.email, user.created, user['_id']);
-  };
+  userSchema.statics.toUserModel = userDoc => new UserModel(userDoc);
 
   userSchema.index({ name: 1 });
 

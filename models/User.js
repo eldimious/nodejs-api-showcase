@@ -3,11 +3,11 @@
   * the Entities used for the databse
 */
 class User {
-  constructor(name, email, created, id) {
-    this.name = name;
-    this.email = email;
-    this.created = created;
-    this.id = id;
+  constructor(userObj) {
+    this.id = userObj._id;
+    this.name = `${userObj.name} ${userObj.surname}`;
+    this.email = userObj.email;
+    this.created = userObj.created;
   }
 }
 

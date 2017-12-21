@@ -30,7 +30,7 @@ describe('user route test', function () {
         .get('/users')
         .expect(200)
         .then((res) => {
-          expect(res.body.usersList).to.eql(userData);
+          expect(res.body.data.length).to.eql(userData.length);
           return done();
         });
     });
@@ -61,10 +61,10 @@ describe('user route test', function () {
       userService.get.resolves(userData[0]);
 
       request(app)
-        .get('/users/Alex')
+        .get('/users/5a3b9a95e9f13308a30740a5')
         .expect(200)
         .then((res) => {
-          expect(res.body).to.eql(userData[0]);
+          expect(res.body.data.user.email).to.eql(userData[0].email);
           return done();
         });
     });

@@ -108,7 +108,7 @@ function init({ User }) {
       email: options.email,
     });
     return userDocument.save()
-      .then(userDoc => userDoc)
+      .then(userDoc => User.toUserModel(userDoc))
       .catch(error => Promise.reject(error));
   };
 

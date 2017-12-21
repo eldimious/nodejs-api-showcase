@@ -9,8 +9,8 @@ const db = sinon.stub();
 const userService = userServiceFactory.init(db);
 
 function createUsers() {
-  const alex = new User('Alex', 'alex@gmail.com', '2017-08-30T08:17:50.460Z', 'testId1');
-  const aris = new User('Aris', 'aris@gmail.com', '2017-08-30T08:17:50.460Z', 'testId2');
+  const alex = new User({ name: 'Alex', surname: 'Koufa', email: 'alex@gmail.com', created: '2017-08-30T08:17:50.460Z', _id: '5a3b9a95e9f13308a30740a5' });
+  const aris = new User({ name: 'Aris', surname: 'Goud', email: 'aris@gmail.com', created: '2017-08-30T08:17:50.460Z', _id: 'testid2' });
   return [alex, aris];
 }
 

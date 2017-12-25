@@ -32,12 +32,16 @@ This layer is being used in the express app and depends on the domain layer (ser
 The entry point for the applications is the server.js file. It does not depend on express.js or other node.js frameworks. It is responsible for instantiating the application layers, connecting to the db and  mounting the http server to the specified port.
 
 
-## Server
+### Use Docker ###
 
-To start the server run:
+You can use Docker to start the app locally. The Dockerfile and the docker-compose.yml are already provided for you. For this option you must specify following var in the .env file:
+
+DATABASE_URL
+
+then run the following command:
+
 ```shell
-npm install
-node index.js
+docker-compose up
 ```
 
 ## Data Store

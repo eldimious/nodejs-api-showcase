@@ -10,22 +10,9 @@ const debug = require('debug')('services:USER');
 function init({ userInterface }) {
   debug('------- INIT SERVICES:USER ---------');
 
-  const findProperGetListFunction = (options) => {
-    debug('findProperGetUserFunction called', options);
-    const queryParams = Object.keys(options);
-    if (queryParams.length > 3) {
-      return userInterface.getListGenericQuery(options);
-    } else if (options.name) {
-      return userInterface.getListByName(options);
-    } else if (options.email) {
-      return userInterface.getListByEmail(options);
-    }
-    return userInterface.getList(options);
-  };
-
   const getUsersList = (options) => {
     debug('getDriversList called');
-    return findProperGetListFunction(options)
+    return userInterface.getList(options)
       .then(userList => userList)
       .catch(error => Promise.reject(error));
   };

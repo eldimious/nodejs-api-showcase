@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/eldimious/nodejs-api-showcase#readme",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",
@@ -26,6 +27,7 @@
     "express-jsend": "^0.1.0",
     "express-validator": "^4.2.1",
     "helmet": "^3.9.0",
+    "jsonwebtoken": "^8.1.0",
     "moment": "^2.18.1",
     "mongodb": "^2.2.31",
     "mongoose": "^4.11.13",

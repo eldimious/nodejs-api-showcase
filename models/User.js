@@ -5,7 +5,7 @@
 class User {
   constructor(userObj) {
     this.id = userObj._id;
-    this.name = `${userObj.name} ${userObj.surname}`;
+    this.fullName = `${userObj.name} ${userObj.surname}`;
     this.email = userObj.email;
     this.created = userObj.created;
   }

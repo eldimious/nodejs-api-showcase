@@ -1,13 +1,13 @@
 // Register all the services here
-const userServiceFactory = require('./userService');
+const tweetServiceFactory = require('./tweetService');
 const authServiceFactory = require('./authService');
 
 module.exports = (interfaces) => {
-  const userService = userServiceFactory.init(interfaces);
+  const tweetService = tweetServiceFactory.init(interfaces);
   const authService = authServiceFactory.init(interfaces);
 
   return ({
     authService,
-    userService,
+    tweetService,
   });
 };

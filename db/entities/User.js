@@ -25,8 +25,6 @@ module.exports = (mongoose) => {
   });
 
   userSchema.pre('save', function (next) {
-    console.log('presaveeeeeeeeee')
-    console.log('this.password', this.password)
     bcrypt.genSalt(10, (err, salt) => {
       if (err) {
         return next(err);
@@ -45,8 +43,6 @@ module.exports = (mongoose) => {
   userSchema.statics.toUserModel = userDoc => new UserModel(userDoc);
 
   userSchema.statics.comparePassword = (pass, dbPass) => {
-    console.log('passpass', pass)
-    console.log('this.password', dbPass)
     return bcrypt.compare(pass, dbPass)
       .then(match => match)
       .catch(() => false);

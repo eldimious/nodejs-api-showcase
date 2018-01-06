@@ -6,8 +6,8 @@ const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
 
 
-function init({ userService }) {
-  debug(' ---------- Init routes-DRIVERS --------- ');
+function init({ tweetService }) {
+  debug(' ---------- Init routes-TWEETS --------- ');
 
   const DEFAULT_PAGINATION_LIMIT = 25;
   const MAX_PAGINATION_LIMIT = 100;
@@ -28,51 +28,52 @@ function init({ userService }) {
   };
 
 
-  const getListOfUsers = (req, res, next) => {
-    debug('get users list');
+  const getListOfTweets = (req, res, next) => {
+    debug('get tweets list');
     let options = {
-      name: req.query.name,
-      email: req.query.email,
+      type: req.query.type,
+      username: req.query.username,
       page: req.query.page ? parseInt(req.query.page, 10) : 1,
       limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
     };
     options = _handlePaginationInOptions(options);
     Object.keys(options).forEach(key => (!options[key]) && delete options[key]);
-    return userService.getList(options)
+    return tweetService.getList(options)
       .then(result => res.jsend(result))
       .catch(error => next(error));
   };
 
 
-  const addUser = (req, res, next) => {
-    debug('add new user');
+  const addTweet = (req, res, next) => {
+    debug('add new tweet');
     const options = {
-      name: req.body.name,
-      surname: req.body.surname,
-      email: req.body.email,
+      url: req.body.url,
+      image_url: req.body.image_url,
+      type: req.body.type,
+      username: req.body.username,
     };
-    return userService.create(options)
-      .then(result => res.jsend({ user: result }))
+    return tweetService.create(options)
+      .then(result => res.jsend({ tweet: result }))
       .catch(error => next(error));
   };
 
 
-  const getUser = (req, res, next) => {
-    debug('get specific user');
+  const getTweet = (req, res, next) => {
+    debug('get specific tweet');
     const options = {
       id: req.params.id,
     };
-    return userService.get(options)
-      .then(result => res.jsend({ user: result }))
+    return tweetService.get(options)
+      .then(result => res.jsend({ tweet: result }))
       .catch(error => next(error));
   };
 
 
-  router.get('/', getListOfUsers);
+  router.get('/', getListOfTweets);
 
-  router.post('/', endpointValidator.requireValidUserCreateBody, addUser);
+  router.post('/', addTweet);
 
-  router.get('/:id', endpointValidator.requireValidUserId, getUser);
+  router.get('/:id', endpointValidator.requireValidUserId, getTweet);
 
   return router;
 }

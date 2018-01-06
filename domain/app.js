@@ -7,7 +7,7 @@ const expressValidator = require('express-validator');
 const helmet = require('helmet');
 const EndpointValidator = require('../middlewares/endpointValidator');
 const authRouter = require('./routes/auth');
-const usersRouter = require('./routes/users');
+const tweetsRouter = require('./routes/tweets');
 const errorRoute = require('./routes/errors');
 const authentication = require('../middlewares/authentication');
 
@@ -23,11 +23,11 @@ app.use(logger('dev'));
 app.use(expressValidator(endpointValidator.settings));
 
 module.exports = (services) => {
-  const usersRoutes = usersRouter.init(services);
+  const tweetsRoutes = tweetsRouter.init(services);
   const authRoutes = authRouter.init(services);
 
   app.use('/auth', authRoutes);
-  app.use('/data', authentication, usersRoutes);
+  app.use('/tweets', authentication, tweetsRoutes);
 
   app.use(errorRoute);
 

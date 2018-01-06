@@ -5,6 +5,7 @@ const EndpointValidator = require('../../middlewares/endpointValidator');
 const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
 
+
 function init({ userService }) {
   debug(' ---------- Init routes-DRIVERS --------- ');
 

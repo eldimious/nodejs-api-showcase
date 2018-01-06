@@ -8,8 +8,8 @@ const helmet = require('helmet');
 const EndpointValidator = require('../middlewares/endpointValidator');
 const authRouter = require('./routes/auth');
 const usersRouter = require('./routes/users');
-
 const errorRoute = require('./routes/errors');
+const authentication = require('../middlewares/authentication');
 
 const endpointValidator = new EndpointValidator();
 const app = express();
@@ -27,7 +27,7 @@ module.exports = (services) => {
   const authRoutes = authRouter.init(services);
 
   app.use('/auth', authRoutes);
-  app.use('/data', usersRoutes);
+  app.use('/data', authentication, usersRoutes);
 
   app.use(errorRoute);
 

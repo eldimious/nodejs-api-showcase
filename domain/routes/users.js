@@ -1,11 +1,9 @@
 const express = require('express');
 const debug = require('debug')('routes-users');
 const EndpointValidator = require('../../middlewares/endpointValidator');
-const csrf = require('csurf');
 
 const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
-const csrfProtection = csrf({ cookie: true });
 
 function init({ userService }) {
   debug(' ---------- Init routes-DRIVERS --------- ');
@@ -69,11 +67,11 @@ function init({ userService }) {
   };
 
 
-  router.get('/', csrfProtection, getListOfUsers);
+  router.get('/', getListOfUsers);
 
-  router.post('/', csrfProtection, endpointValidator.requireValidUserCreateBody, addUser);
+  router.post('/', endpointValidator.requireValidUserCreateBody, addUser);
 
-  router.get('/:id', csrfProtection, endpointValidator.requireValidUserId, getUser);
+  router.get('/:id', endpointValidator.requireValidUserId, getUser);
 
   return router;
 }

@@ -2,7 +2,6 @@ require('express-jsend');
 const express = require('express');
 const compress = require('compression')();
 const bodyParser = require('body-parser');
-const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const expressValidator = require('express-validator');
 const helmet = require('helmet');
@@ -15,7 +14,6 @@ const app = express();
 
 app.disable('x-powered-by');
 app.use(helmet());
-app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(compress);

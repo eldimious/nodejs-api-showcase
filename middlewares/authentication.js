@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('../configuration');
 
-module.exports = (req, res, next) => {
+module.exports = function(req, res, next) {
   let token = req.headers['authorization'];
   if (token) {
     token = token.includes('Bearer') ? token.split(' ').pop() : token;

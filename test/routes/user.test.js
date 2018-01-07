@@ -1,30 +1,34 @@
 'use strict';
 
+require('dotenv').config();
 const request = require('supertest');
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
 const interfaces = sinon.stub();
 const services = require('../../services')(interfaces);
-
-const tweetService = services.tweetService;
-const authService = services.authService;
-
 const app = require('../../domain/app')(services);
-
-
-
+const jwt = require('jsonwebtoken');
 const tweetData = require('../data/tweet').tweets;
 
+const tweetService = services.tweetService;
+const jwtSecret = process.env.JWT_SECRET;
+const testEmail = process.env.TEST_EMAIL;
+const testFullname = process.env.TEST_FULL_NAME;
+const testID = process.env.TEST_ID;
+
+let testToken;
 
 /*eslint-disable */
 describe('tweet route test', function () {
   describe('GET /tweet test', function () {
-    let token;
+
+    var auth = {};
+    //before(loginUser(auth));
 
     beforeEach((done) => {
       sinon.stub(tweetService, 'getList');
-      sinon.stub(authService, 'login');
+      testToken = jwt.sign({ email: testEmail, fullName: testFullname, _id: testID }, jwtSecret, { expiresIn: 120 })
       return done();
     });
 
@@ -35,29 +39,27 @@ describe('tweet route test', function () {
 
     it('should return 200 an array of tweets', function (done) {
       tweetService.getList.resolves(tweetData);
-      return request(app)
+      request(app)
         .get('/tweets')
-        .set('Authorization', token)
+        .set('Authorization', `Bearer ${testToken}`)
         .expect(200)
         .then((res) => {
           expect(res.body.data.length).to.eql(tweetData.length);
           return done();
         })
-        .catch((error) => {
-          console.log('error', error)
-        })
     });
 
-    it('should return 500 when the service rejects with an error', function () {
-      const dbError = new Error('Database error');
-      tweetService.getList.rejects(dbError);
-
+    it('should return 403 when no token send', function () {
       return request(app)
         .get('/tweets')
-        .expect(500)
-        .catch((error) => {
-          expect(error).to.be.equal(dbError);
-        });
+        .expect(403)
+    });
+
+    it('should return 401 when we send invalid token', function () {
+      return request(app)
+        .get('/tweets')
+        .set('Authorization', `Bearer ${testToken}test`)
+        .expect(401)
     });
   });
 
@@ -74,12 +76,12 @@ describe('tweet route test', function () {
       tweetService.get.resolves(tweetData[0]);
 
       request(app)
-        .get('/tweet/5a3b9a95e9f13308a30740a5')
+        .get('/tweets/5a511ff1568c490f9e0e4b4d')
+        .set('Authorization', `Bearer ${testToken}`)
         .expect(200)
         .then((res) => {
-          expect(res.body.data.user.email).to.eql(tweetData[0].email);
           return done();
-        });
+        })
     });
   });
 });

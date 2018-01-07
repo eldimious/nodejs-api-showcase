@@ -8,7 +8,6 @@
 
 const debug = require('debug')('interfaces:AUTH');
 const errors = require('../common/errors');
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('../configuration');
 

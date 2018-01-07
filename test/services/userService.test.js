@@ -2,32 +2,32 @@
 
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const User = require('../../models/User');
-const userServiceFactory = require('../../services/userService');
+const Tweet = require('../../models/Tweet');
+const tweetServiceFactory = require('../../services/tweetService');
 
 const db = sinon.stub();
-const userService = userServiceFactory.init(db);
+const tweetService = tweetServiceFactory.init(db);
 
 function createUsers() {
-  const alex = new User({ name: 'Alex', surname: 'Koufa', email: 'alex@gmail.com', created: '2017-08-30T08:17:50.460Z', _id: '5a3b9a95e9f13308a30740a5' });
-  const aris = new User({ name: 'Aris', surname: 'Goud', email: 'aris@gmail.com', created: '2017-08-30T08:17:50.460Z', _id: 'testid2' });
+  const alex = new Tweet({ url: 'www.test.com', surname: 'www.testimage.com', type: 'image', username: 'Aris', created: '2017-08-30T08:17:50.460Z', _id: '5a3b9a95e9f13308a30740a5' });
+  const aris = new Tweet({ name: 'www.test.com', surname: 'www.testimage.com', type: 'image', username: 'Alex', created: '2017-08-30T08:17:50.460Z', _id: 'testid2' });
   return [alex, aris];
 }
 
-describe('user service test', function () {
+describe('tweet service test', function () {
   beforeEach(() => {
-    sinon.stub(userService, 'getList');
-    sinon.stub(userService, 'get');
+    sinon.stub(tweetService, 'getList');
+    sinon.stub(tweetService, 'get');
   });
 
   afterEach(() => {
-    userService.getList.restore();
-    userService.get.restore();
+    tweetService.getList.restore();
+    tweetService.get.restore();
   });
 
-  it('should call the repository to fetch the users using getList function', function (done) {
-    userService.getList.resolves(createUsers());
-    userService.getList()
+  it('should call the repository to fetch the tweet using getList function', function (done) {
+    tweetService.getList.resolves(createUsers());
+    tweetService.getList()
       .then((users) => {
         expect(users).to.have.lengthOf(2);
         expect(users).to.eql(createUsers());

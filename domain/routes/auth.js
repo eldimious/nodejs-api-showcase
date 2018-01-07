@@ -26,10 +26,9 @@ function init({ authService }) {
   const loginUser = (req, res, next) => {
     debug('login user');
     const options = {
-      email: req.query.email,
-      password: req.query.password,
+      email: req.body.email,
+      password: req.body.password,
     };
-    console.log('')
     return authService.login(options)
       .then(result => res.jsend(result))
       .catch(error => next(error));
@@ -38,7 +37,7 @@ function init({ authService }) {
 
   router.post('/register', endpointValidator.requireValidUserBody, registerNewUser);
 
-  router.get('/login', endpointValidator.requireParamsForLogin, loginUser);
+  router.post('/login', endpointValidator.requireBodyParamsForLogin, loginUser);
 
   return router;
 }

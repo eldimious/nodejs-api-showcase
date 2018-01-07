@@ -1,10 +1,10 @@
-const errors = require('../common/errors');
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('../configuration');
 
-module.exports = function(req, res, next) {
-  const token = req.headers['authorization'];
+module.exports = (req, res, next) => {
+  let token = req.headers['authorization'];
   if (token) {
+    token = token.includes('Bearer') ? token.split(' ').pop() : token;
     jwt.verify(token, jwtSecret, (err, decoded) => {
       if (err) {
         return res.status(401).jerror(401, 'Failed to authenticate token.');

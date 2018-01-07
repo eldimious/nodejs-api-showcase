@@ -45,7 +45,10 @@ function init({ User }) {
         if (!isMatch) {
           return Promise.reject(new errors.unauthorized('Wrong password.'));
         }
-        return { token: jwt.sign({ email: userDoc.email, fullName: userDoc.fullName, _id: userDoc.id }, jwtSecret), user: userDoc };
+        return {
+          token: jwt.sign({ email: userDoc.email, fullName: userDoc.fullName, _id: userDoc.id }, jwtSecret, { expiresIn: 86400 }),
+          user: userDoc,
+        };
       })
       .catch(error => errors.genericErrorHandler(error, 'Internal error in login func in authInterface.'));
   };

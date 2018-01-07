@@ -7,40 +7,53 @@ const sinon = require('sinon');
 const interfaces = sinon.stub();
 const services = require('../../services')(interfaces);
 
-const userService = services.userService;
+const tweetService = services.tweetService;
+const authService = services.authService;
 
 const app = require('../../domain/app')(services);
 
-const userData = require('../data/user').users;
+
+
+const tweetData = require('../data/tweet').tweets;
+
 
 /*eslint-disable */
-describe('user route test', function () {
-  describe('GET /users test', function () {
-    beforeEach(() => {
-      sinon.stub(userService, 'getList');
+describe('tweet route test', function () {
+  describe('GET /tweet test', function () {
+    let token;
+
+    beforeEach((done) => {
+      sinon.stub(tweetService, 'getList');
+      sinon.stub(authService, 'login');
+      return done();
     });
+
     afterEach(() => {
-      userService.getList.restore();
+      tweetService.getList.restore();
     });
 
-    it('should return 200 an array of users', function (done) {
-      userService.getList.resolves(userData);
 
-      request(app)
-        .get('/users')
+    it('should return 200 an array of tweets', function (done) {
+      tweetService.getList.resolves(tweetData);
+      return request(app)
+        .get('/tweets')
+        .set('Authorization', token)
         .expect(200)
         .then((res) => {
-          expect(res.body.data.length).to.eql(userData.length);
+          expect(res.body.data.length).to.eql(tweetData.length);
           return done();
-        });
+        })
+        .catch((error) => {
+          console.log('error', error)
+        })
     });
 
     it('should return 500 when the service rejects with an error', function () {
       const dbError = new Error('Database error');
-      userService.getList.rejects(dbError);
+      tweetService.getList.rejects(dbError);
 
       return request(app)
-        .get('/users')
+        .get('/tweets')
         .expect(500)
         .catch((error) => {
           expect(error).to.be.equal(dbError);
@@ -49,22 +62,22 @@ describe('user route test', function () {
   });
 
 
-  describe('GET /users/:id test', function () {
+  describe('GET /tweets/:id test', function () {
     beforeEach(() => {
-      sinon.stub(userService, 'get');
+      sinon.stub(tweetService, 'get');
     });
     afterEach(() => {
-      userService.get.restore();
+      tweetService.get.restore();
     });
 
-    it('should return a user', function (done) {
-      userService.get.resolves(userData[0]);
+    it('should return a tweet', function (done) {
+      tweetService.get.resolves(tweetData[0]);
 
       request(app)
-        .get('/users/5a3b9a95e9f13308a30740a5')
+        .get('/tweet/5a3b9a95e9f13308a30740a5')
         .expect(200)
         .then((res) => {
-          expect(res.body.data.user.email).to.eql(userData[0].email);
+          expect(res.body.data.user.email).to.eql(tweetData[0].email);
           return done();
         });
     });

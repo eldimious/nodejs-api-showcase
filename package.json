@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/eldimious/nodejs-api-showcase#readme",
   "dependencies": {
-    "bcrypt": "^1.0.3",
+    "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",

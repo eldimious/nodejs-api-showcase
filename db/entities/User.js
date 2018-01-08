@@ -1,7 +1,7 @@
 const moment = require('moment');
 const mongoosePaginate = require('mongoose-paginate');
 const UserModel = require('../../models/User');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 module.exports = (mongoose) => {
   const userSchema = mongoose.Schema({

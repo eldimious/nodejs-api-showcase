@@ -54,7 +54,61 @@ npm run test
 for running tests.
 
 
-## Packages and Tools
+# Endpoints #
+
+## Auth Routes ##
+  
+### Register ###
+
+```shell
+POST /auth/register
+```
+
+Body Params:
+```shell
+{ 
+  name,
+  surname,
+  email,
+  password
+}
+```
+
+Description: creates a new user. Password is stored in bcrypt format.
+
+
+### Login ###
+
+```shell
+POST /auth/login
+```
+
+Body Params:
+```shell
+{ 
+  email,
+  password
+}
+```
+
+Description: logs in to the server. Server will return a JWT token and user's info as:
+
+```shell
+{
+    "status": "success",
+    "data": {
+        "token": "eyJhbGciOiJIUzxxxxxxx.eyJlbWFpbCI6ImRpbW9zdGhlbxxxxxxxxxxxxx.axxxxxxxxxx",
+        "user": {
+            "id": "mongoID",
+            "fullName": "clark kent",
+            "email": "clarkkent@test.com",
+            "created": "2018-01-08T14:43:32.480Z"
+        }
+    }
+}
+```
+
+# Packages and Tools #
 
   - [Node.js](https://nodejs.org/en/)
   - [Express](https://www.npmjs.com/package/express)

@@ -52,7 +52,7 @@ describe('tweet route test', function () {
     it('should return 403 when no token send', function () {
       return request(app)
         .get('/tweets')
-        .expect(403)
+        .expect(401)
     });
 
     it('should return 401 when we send invalid token', function () {

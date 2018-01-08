@@ -91,7 +91,7 @@ Body Params:
 }
 ```
 
-Description: logs in to the server. Server will return a JWT token and user's info as:
+**Description**: logs in to the server. Server will return a JWT token and user's info as:
 
 ```shell
 {
@@ -107,6 +107,25 @@ Description: logs in to the server. Server will return a JWT token and user's in
     }
 }
 ```
+
+## Tweets Routes ##
+
+In order to be able to retrieve tweets list, user should send a Bearer token using Authorization header, otherwise server will answer with 401.
+
+### Tweets List ###
+
+```shell
+Get /tweets
+```
+
+Query Params:
+```shell
+{ 
+  type,
+  username
+}
+```
+**Description**: retrieves all DB's tweets docs
 
 # Packages and Tools #
 

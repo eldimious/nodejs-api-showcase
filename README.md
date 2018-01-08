@@ -1,5 +1,5 @@
 # What is this repository for? #
-Node.js app architecture showcase using [Express](https://www.npmjs.com/package/express), [MongoDB](https://www.mongodb.com/) and [Mongoose](http://mongoosejs.com/) as ORM.. You can start your Node.js projects building on this boilerplate.
+Node.js app architecture showcase using [Express](https://www.npmjs.com/package/express), [MongoDB](https://www.mongodb.com/) and [Mongoose](http://mongoosejs.com/) as ORM. The project has an  implementation of an authentication system that uses JSON Web Token to manage users' login data in Node.js web server. You can start your Node.js projects building on this boilerplate.
 
 # Architecture Overview #
 The app is designed to use a layered architecture. The architecture is heavily influenced by the Clean Architecture and Hexagonal Architecture. Clean Architecture is an architecture where “the business rules can be tested without the UI, database, web server, or any external element.”[clean architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html). Also, in entry point(server.js), i use Dependency Injection(DI) instead of node DI(require). There are many reasons using Dependency Injection as: Decoupling, Easier unit testing, Faster development. Also Dependency injection is really helpful when it comes to testing. You can easily mock your modules' dependencies using this pattern. You can take a look at this tutorial: `https://blog.risingstack.com/dependency-injection-in-node-js/`.
@@ -62,6 +62,8 @@ for running tests.
   - [Mongoose-Pagination](https://github.com/edwardhotchkiss/mongoose-paginate)
   - [Express-jsend](https://www.npmjs.com/package/express-jsend)
   - [Express-validator](https://github.com/ctavan/express-validator)
+  - [Bcrypt](https://github.com/dcodeIO/bcrypt.js)
+  - [Jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
   - [Mocha](https://www.npmjs.com/package/mocha)
   - [Chai](https://www.npmjs.com/package/chai)
   - [Sinon](https://www.npmjs.com/package/sinon)

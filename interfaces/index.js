@@ -1,9 +1,12 @@
 // Register all the interfaces here
-const userInterfaceFactory = require('./userInterface');
+const tweetInterfaceFactory = require('./tweetInterface');
+const authInterfaceFactory = require('./authInterface');
 
 module.exports = (db) => {
-  const userInterface = userInterfaceFactory.init(db);
+  const authInterface = authInterfaceFactory.init(db);
+  const tweetInterface = tweetInterfaceFactory.init(db);
   return ({
-    userInterface,
+    authInterface,
+    tweetInterface,
   });
 };

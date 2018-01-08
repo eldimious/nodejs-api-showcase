@@ -27,6 +27,32 @@ module.exports = class EndpointValidator {
   }
 
 
+  requireValidUserBody(req, res, next) {
+    req.checkBody('email', 'add a valid email.').notEmpty().isEmail();
+    req.checkBody('name', 'name in body required.').notEmpty();
+    req.checkBody('surname', 'surname in body required.').notEmpty();
+    req.checkBody('password', 'password in body required.').notEmpty();
+    req.getValidationResult().then((result) => {
+      if (!result.isEmpty()) {
+        return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);
+      }
+      return next();
+    });
+  }
+
+
+  requireBodyParamsForLogin(req, res, next) {
+    req.checkBody('email', 'add a valid email.').notEmpty().isEmail();
+    req.checkBody('password', 'password in query required.').notEmpty();
+    req.getValidationResult().then((result) => {
+      if (!result.isEmpty()) {
+        return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);
+      }
+      return next();
+    });
+  }
+
+
   requireValidUserId(req, res, next) {
     req.checkParams('id', 'add a valid user id.').isMongoObjectID();
     req.getValidationResult().then((result) => {

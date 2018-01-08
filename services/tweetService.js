@@ -7,35 +7,35 @@
 const debug = require('debug')('services:USER');
 
 
-function init({ userInterface }) {
+function init({ tweetInterface }) {
   debug('------- INIT SERVICES:USER ---------');
 
-  const getUsersList = (options) => {
+  const getTweetsList = (options) => {
     debug('getDriversList called');
-    return userInterface.getList(options)
-      .then(userList => userList)
+    return tweetInterface.getList(options)
+      .then(tweetsList => tweetsList)
       .catch(error => Promise.reject(error));
   };
 
-  const createUser = (options) => {
-    debug('createDriver called');
-    return userInterface.create(options)
-      .then(user => user)
+  const createTweet = (options) => {
+    debug('createTweet called');
+    return tweetInterface.create(options)
+      .then(tweet => tweet)
       .catch(error => Promise.reject(error));
   };
 
-  const getUser = (options) => {
-    debug('createDriver called');
-    return userInterface.get(options)
-      .then(user => user)
+  const getTweet = (options) => {
+    debug('getTweet called');
+    return tweetInterface.get(options)
+      .then(tweet => tweet)
       .catch(error => Promise.reject(error));
   };
 
 
   return {
-    getList: getUsersList,
-    create: createUser,
-    get: getUser,
+    getList: getTweetsList,
+    create: createTweet,
+    get: getTweet,
   };
 }
 

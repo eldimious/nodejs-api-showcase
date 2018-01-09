@@ -9,7 +9,8 @@ const EndpointValidator = require('../middlewares/endpointValidator');
 const authRouter = require('./routes/auth');
 const tweetsRouter = require('./routes/tweets');
 const errorRoute = require('./routes/errors');
-const authentication = require('../middlewares/authentication');
+const { jwtSecret } = require('../configuration');
+const expressJwt = require('express-jwt');
 
 const endpointValidator = new EndpointValidator();
 const app = express();
@@ -27,7 +28,7 @@ module.exports = (services) => {
   const authRoutes = authRouter.init(services);
 
   app.use('/auth', authRoutes);
-  app.use('/tweets', authentication, tweetsRoutes);
+  app.use('/tweets', expressJwt({ secret: jwtSecret }), tweetsRoutes);
 
   app.use(errorRoute);
 

@@ -45,13 +45,18 @@ function init({ Tweet }) {
 
 
   const _constructQueryObject = (options) => {
-    const queries = {};
+    const queries = {
+      userId: options.userId,
+    };
     if (options.type) {
       queries.type = options.type;
     }
-    if (options.username) {
-      queries.username = {
-        $regex: new RegExp(options.username),
+    if (options.source) {
+      queries.source = options.source;
+    }
+    if (options.publisher) {
+      queries.publisher = {
+        $regex: new RegExp(options.publisher),
         $options: 'i',
       };
     }
@@ -71,10 +76,11 @@ function init({ Tweet }) {
 
   const createTweet = (options) => {
     const tweetDocument = Tweet({
+      userId: options.userId,
       url: options.url,
-      image_url: options.image_url,
+      source: options.source,
       type: options.type,
-      username: options.username,
+      publisher: options.publisher,
     });
     return tweetDocument.save()
       .then(tweetDoc => Tweet.toModel(tweetDoc))
@@ -82,10 +88,10 @@ function init({ Tweet }) {
   };
 
 
-  const getTweet = options => Tweet.findById(options.id).exec()
+  const getTweet = options => Tweet.findOne({ userId: options.userId, _id: options.tweetId }).lean().exec()
     .then((tweetDoc) => {
       if (!tweetDoc) {
-        return Promise.reject(new errors.not_found(`Tweet with id ${options.id} not found.`));
+        return Promise.reject(new errors.not_found(`Tweet with id ${options.tweetId} not found.`));
       }
       return Tweet.toModel(tweetDoc);
     })

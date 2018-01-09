@@ -64,7 +64,8 @@ function init({ tweetService }) {
   const getTweet = (req, res, next) => {
     debug('get specific tweet');
     const options = {
-      id: req.params.id,
+      userId: req.user._id,
+      tweetId: req.params.tweetId,
     };
     return tweetService.get(options)
       .then(result => res.jsend({ tweet: result }))
@@ -76,7 +77,7 @@ function init({ tweetService }) {
 
   router.post('/', addTweet);
 
-  router.get('/:id', endpointValidator.requireValidUserId, getTweet);
+  router.get('/:tweetId', endpointValidator.requireValidTweetId, getTweet);
 
   return router;
 }

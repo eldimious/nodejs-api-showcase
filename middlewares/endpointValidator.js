@@ -53,8 +53,8 @@ module.exports = class EndpointValidator {
   }
 
 
-  requireValidUserId(req, res, next) {
-    req.checkParams('id', 'add a valid user id.').isMongoObjectID();
+  requireValidTweetId(req, res, next) {
+    req.checkParams('tweetId', 'add a valid tweet id.').isMongoObjectID();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
         return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);

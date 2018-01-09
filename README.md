@@ -115,17 +115,40 @@ In order to be able to retrieve tweets list, user should send a Bearer token usi
 ### Tweets List ###
 
 ```shell
-Get /tweets
+GET /tweets
 ```
 
 Query Params:
 ```shell
 { 
-  type,
-  username
+  publisher, {String} (optional)
+  source, {String} (optional)
+  type, {String} (optional)
 }
 ```
-**Description**: retrieves all DB's tweets docs
+**Description**: retrieves user's tweets docs, based on his token and his id.
+
+
+```shell
+POST /tweets
+```
+
+Body Params:
+```shell
+{ 
+  url, {String}
+  publisher, {String} (optional)
+  source, {String} (optional)
+  type, {String} (optional)
+}
+```
+**Description**: creates a new tweet doc in DB for user.
+
+```shell
+GET /tweets/:tweetId
+```
+
+**Description**: Gets specific user's tweet.
 
 # Packages and Tools #
 

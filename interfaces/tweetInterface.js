@@ -88,10 +88,10 @@ function init({ Tweet }) {
   };
 
 
-  const getTweet = options => Tweet.findById(options.id).exec()
+  const getTweet = options => Tweet.findOne({ userId: options.userId, _id: options.tweetId }).lean().exec()
     .then((tweetDoc) => {
       if (!tweetDoc) {
-        return Promise.reject(new errors.not_found(`Tweet with id ${options.id} not found.`));
+        return Promise.reject(new errors.not_found(`Tweet with id ${options.tweetId} not found.`));
       }
       return Tweet.toModel(tweetDoc);
     })

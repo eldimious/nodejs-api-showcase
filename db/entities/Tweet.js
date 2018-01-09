@@ -4,13 +4,14 @@ const TweetModel = require('../../models/Tweet');
 
 module.exports = (mongoose) => {
   const tweetSchema = mongoose.Schema({
+    userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     url: {
       type: String,
       required: true,
     },
-    image_url: String,
+    source: String,
     type: String,
-    username: String,
+    publisher: String,
     created: Date,
   });
 

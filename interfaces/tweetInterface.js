@@ -45,13 +45,18 @@ function init({ Tweet }) {
 
 
   const _constructQueryObject = (options) => {
-    const queries = {};
+    const queries = {
+      userId: options.userId,
+    };
     if (options.type) {
       queries.type = options.type;
     }
-    if (options.username) {
-      queries.username = {
-        $regex: new RegExp(options.username),
+    if (options.source) {
+      queries.source = options.source;
+    }
+    if (options.publisher) {
+      queries.publisher = {
+        $regex: new RegExp(options.publisher),
         $options: 'i',
       };
     }
@@ -71,10 +76,11 @@ function init({ Tweet }) {
 
   const createTweet = (options) => {
     const tweetDocument = Tweet({
+      userId: options.userId,
       url: options.url,
-      image_url: options.image_url,
+      source: options.source,
       type: options.type,
-      username: options.username,
+      publisher: options.publisher,
     });
     return tweetDocument.save()
       .then(tweetDoc => Tweet.toModel(tweetDoc))

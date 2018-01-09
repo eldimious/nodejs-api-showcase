@@ -31,8 +31,10 @@ function init({ tweetService }) {
   const getListOfTweets = (req, res, next) => {
     debug('get tweets list');
     let options = {
+      userId: req.user._id,
+      source: req.query.source,
       type: req.query.type,
-      username: req.query.username,
+      publisher: req.query.publisher,
       page: req.query.page ? parseInt(req.query.page, 10) : 1,
       limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
     };
@@ -47,10 +49,11 @@ function init({ tweetService }) {
   const addTweet = (req, res, next) => {
     debug('add new tweet');
     const options = {
+      userId: req.user._id,
       url: req.body.url,
-      image_url: req.body.image_url,
+      source: req.body.source,
       type: req.body.type,
-      username: req.body.username,
+      publisher: req.body.publisher,
     };
     return tweetService.create(options)
       .then(result => res.jsend({ tweet: result }))

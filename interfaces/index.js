@@ -3,11 +3,8 @@ const tweetInterfaceFactory = require('./tweetInterface');
 const authInterfaceFactory = require('./authInterface');
 
 module.exports = (db) => {
-  console.log('db.entities', db.entities)
-  const authInterface = authInterfaceFactory.init(db.entities);
-  const tweetInterface = tweetInterfaceFactory.init(db.entities);
   return ({
-    authInterface,
-    tweetInterface,
+    authInterface: authInterfaceFactory.init(db.entities),
+    tweetInterface: tweetInterfaceFactory.init(db.entities),
   });
 };

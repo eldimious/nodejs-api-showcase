@@ -10,20 +10,17 @@ const debug = require('debug')('services:AUTH');
 function init({ authInterface }) {
   debug('------- INIT SERVICES:AUTH ---------');
 
-  const register = (options) => {
+  async function register(options) {
     debug('register func called', options);
-    return authInterface.register(options)
-      .then(user => user)
-      .catch(error => Promise.reject(error));
-  };
+    const userDoc = await authInterface.register(options);
+    return userDoc;
+  }
 
-
-  const login = (options) => {
+  async function login(options) {
     debug('login func called', options);
-    return authInterface.login(options)
-      .then(user => user)
-      .catch(error => Promise.reject(error));
-  };
+    const userDoc = await authInterface.login(options);
+    return userDoc;
+  }
 
   return {
     register,

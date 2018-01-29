@@ -1,6 +1,7 @@
 const express = require('express');
 const debug = require('debug')('routes-auth');
 const EndpointValidator = require('../../middlewares/endpointValidator');
+const asyncWrapper = require('../utils/asyncWrapper');
 
 const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
@@ -8,8 +9,7 @@ const router = express.Router({ mergeParams: true });
 function init({ authService }) {
   debug(' ---------- Init routes-AUTH --------- ');
 
-
-  const registerNewUser = (req, res, next) => {
+  async function registerNewUser(req, res, next) {
     debug('register new user');
     const options = {
       name: req.body.name,
@@ -17,27 +17,25 @@ function init({ authService }) {
       email: req.body.email,
       password: req.body.password,
     };
-    return authService.register(options)
-      .then(result => res.jsend(result))
-      .catch(error => next(error));
-  };
+    const result = await authService.register(options);
+    return res.jsend(result);
+  }
 
 
-  const loginUser = (req, res, next) => {
+  async function loginUser(req, res, next) {
     debug('login user');
     const options = {
       email: req.body.email,
       password: req.body.password,
     };
-    return authService.login(options)
-      .then(result => res.jsend(result))
-      .catch(error => next(error));
-  };
+    const result = await authService.login(options);
+    return res.jsend(result);
+  }
 
 
-  router.post('/register', endpointValidator.requireValidUserBody, registerNewUser);
+  router.post('/register', endpointValidator.requireValidUserBody, asyncWrapper(registerNewUser));
 
-  router.post('/login', endpointValidator.requireBodyParamsForLogin, loginUser);
+  router.post('/login', endpointValidator.requireBodyParamsForLogin, asyncWrapper(loginUser));
 
   return router;
 }

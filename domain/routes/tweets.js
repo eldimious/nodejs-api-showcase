@@ -14,7 +14,7 @@ function init({ tweetService }) {
   const MAX_PAGINATION_LIMIT = 100;
   const DEFAULT_PAGINATION_PAGE = 1;
 
-  const _handlePaginationInOptions = (options) => {
+  const handlePagination = (options) => {
     const populateOptionsWithPagination = Object.assign({}, options);
     if (isNaN(populateOptionsWithPagination.limit)) {
       populateOptionsWithPagination.limit = DEFAULT_PAGINATION_LIMIT;
@@ -39,7 +39,7 @@ function init({ tweetService }) {
       page: req.query.page ? parseInt(req.query.page, 10) : 1,
       limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
     };
-    const queryOptions = Object.assign({}, _handlePaginationInOptions(options));
+    const queryOptions = Object.assign({}, handlePagination(options));
     const tweetsList = await tweetService.getList(queryOptions);
     return res.jsend(tweetsList);
   }

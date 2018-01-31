@@ -19,7 +19,7 @@ function init({ Tweet }) {
   };
 
 
-  const _createPaginationOptions = options => ({
+  const createPaginationOptions = options => ({
     lean: true,
     page: options.page,
     limit: options.limit,
@@ -44,7 +44,7 @@ function init({ Tweet }) {
   };
 
 
-  const _constructQueryObject = (options) => {
+  const getQueryObject = (options) => {
     const queries = {
       userId: options.userId,
     };
@@ -66,8 +66,8 @@ function init({ Tweet }) {
 
   const getList = async (options) => {
     debug('get tweets from DB', options);
-    const paginationOptions = _createPaginationOptions(options);
-    const queryOptions = _constructQueryObject(options);
+    const paginationOptions = createPaginationOptions(options);
+    const queryOptions = getQueryObject(options);
     try {
       const tweetsDocs = await Tweet.paginate(queryOptions, paginationOptions);
       return handleUsersPaginationResponse(tweetsDocs);

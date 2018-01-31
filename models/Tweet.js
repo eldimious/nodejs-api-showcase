@@ -3,14 +3,14 @@
   * the Entities used for the databse
 */
 class Tweet {
-  constructor(tweetObj) {
-    this.id = tweetObj._id;
-    this.userId = tweetObj.userId;
-    this.url = tweetObj.url;
-    this.source = tweetObj.source;
-    this.type = tweetObj.type;
-    this.publisher = tweetObj.publisher;
-    this.created = tweetObj.created;
+  constructor({ _id, userId, url, source, type, publisher, created } = {}) {
+    this.id = _id;
+    this.userId = userId;
+    this.url = url;
+    this.source = source;
+    this.type = type;
+    this.publisher = publisher;
+    this.created = created;
   }
 }
 

@@ -14,6 +14,15 @@ const { jwtSecret } = require('../configuration');
 function init({ User }) {
   debug('------- INIT INTERFACES:AUTH ---------');
 
+  const mapperToUserModel = userDoc => User.toUserModel({
+    _id: userDoc._id,
+    name: userDoc.name,
+    surname: userDoc.surname,
+    email: userDoc.email,
+    created: userDoc.created,
+  });
+
+
   async function register(options) {
     debug('register new user', options);
     const newUser = new User({
@@ -24,7 +33,7 @@ function init({ User }) {
     });
     try {
       const userDoc = await newUser.save();
-      return userDoc;
+      return mapperToUserModel(userDoc);
     } catch (error) {
       return errors.genericErrorHandler(error, 'Internal error in register func in authInterface.');
     }
@@ -38,7 +47,7 @@ function init({ User }) {
       if (!userDBDoc) {
         throw new errors.unauthorized(`UserDoc with email: ${options.email} not found.`);
       }
-      const userDoc = User.toUserModel(userDBDoc);
+      const userDoc = mapperToUserModel(userDBDoc);
       const userPass = await User.comparePassword(options.password, userDBDoc.password);
       if (!userPass) {
         throw new errors.unauthorized('Wrong password.');

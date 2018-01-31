@@ -27,12 +27,23 @@ function init({ Tweet }) {
   });
 
 
+  const mapperToTweetModel = tweetDoc => Tweet.toModel({
+    _id: tweetDoc._id,
+    userId: tweetDoc.userId,
+    url: tweetDoc.url,
+    source: tweetDoc.source,
+    type: tweetDoc.type,
+    publisher: tweetDoc.publisher,
+    created: tweetDoc.created,
+  });
+
+
   const handleUsersPaginationResponse = (response) => {
     if (!response.docs || response.docs.length <= 0) {
       return DEFAULT_PAGINATION_CONTENT;
     }
     const tweetsList = {
-      tweets: response.docs.map(tweet => Tweet.toModel(tweet)),
+      tweets: response.docs.map(tweet => mapperToTweetModel(tweet)),
       pagination: {
         total: response.total,
         limit: response.limit,
@@ -87,7 +98,7 @@ function init({ Tweet }) {
     });
     try {
       const tweetDoc = await tweetDocument.save();
-      return Tweet.toModel(tweetDoc);
+      return mapperToTweetModel(tweetDoc);
     } catch (error) {
       return errors.genericErrorHandler(error, 'Internal error in createTweet func in tweetInterface.');
     }
@@ -100,7 +111,7 @@ function init({ Tweet }) {
       if (!tweetDoc) {
         throw new errors.not_found(`Tweet with id ${options.tweetId} not found.`);
       }
-      return Tweet.toModel(tweetDoc);
+      return mapperToTweetModel(tweetDoc);
     } catch (error) {
       return errors.genericErrorHandler(error, 'Internal error in getTweet func in tweetInterface.');
     }

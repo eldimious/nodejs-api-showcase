@@ -4,6 +4,6 @@ const entities = require('./entities');
 module.exports = ({
   dbConnectionString,
 }) => ({
-  connector: connectorFactory.init(dbConnectionString),
+  connector: connectorFactory(dbConnectionString),
   entities,
 });

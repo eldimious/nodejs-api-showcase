@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 const logger = require('../../libs/logger');
 
-module.exports.init = (dbConnectionString) => {
+module.exports = (dbConnectionString) => {
   if (!dbConnectionString) {
     throw new Error('add correct format of config with dbConnectionString');
   }

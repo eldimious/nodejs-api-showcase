@@ -19,7 +19,7 @@ function init({ Tweet }) {
   };
 
 
-  const _createPaginationOptions = options => ({
+  const createPaginationOptions = options => ({
     lean: true,
     page: options.page,
     limit: options.limit,
@@ -27,11 +27,11 @@ function init({ Tweet }) {
   });
 
 
-  const _handleUsersPaginationResponse = (response) => {
+  const handleUsersPaginationResponse = (response) => {
     if (!response.docs || response.docs.length <= 0) {
       return DEFAULT_PAGINATION_CONTENT;
     }
-    const usersList = {
+    const tweetsList = {
       tweets: response.docs.map(tweet => Tweet.toModel(tweet)),
       pagination: {
         total: response.total,
@@ -40,11 +40,11 @@ function init({ Tweet }) {
         pages: response.pages,
       },
     };
-    return usersList;
+    return tweetsList;
   };
 
 
-  const _constructQueryObject = (options) => {
+  const getQueryObject = (options) => {
     const queries = {
       userId: options.userId,
     };
@@ -64,17 +64,20 @@ function init({ Tweet }) {
   };
 
 
-  const getList = (options) => {
+  const getList = async (options) => {
     debug('get tweets from DB', options);
-    const paginationOptions = _createPaginationOptions(options);
-    const queryOptions = _constructQueryObject(options);
-    return Tweet.paginate(queryOptions, paginationOptions)
-      .then(paginatedRequests => _handleUsersPaginationResponse(paginatedRequests))
-      .catch(error => errors.genericErrorHandler(error, 'Internal error in getList func in tweetInterface.'));
+    const paginationOptions = createPaginationOptions(options);
+    const queryOptions = getQueryObject(options);
+    try {
+      const tweetsDocs = await Tweet.paginate(queryOptions, paginationOptions);
+      return handleUsersPaginationResponse(tweetsDocs);
+    } catch (error) {
+      return errors.genericErrorHandler(error, 'Internal error in getList func in tweetInterface.');
+    }
   };
 
 
-  const createTweet = (options) => {
+  const createTweet = async (options) => {
     const tweetDocument = Tweet({
       userId: options.userId,
       url: options.url,
@@ -82,20 +85,26 @@ function init({ Tweet }) {
       type: options.type,
       publisher: options.publisher,
     });
-    return tweetDocument.save()
-      .then(tweetDoc => Tweet.toModel(tweetDoc))
-      .catch(error => errors.genericErrorHandler(error, 'Internal error in createTweet func in tweetInterface.'));
+    try {
+      const tweetDoc = await tweetDocument.save();
+      return Tweet.toModel(tweetDoc);
+    } catch (error) {
+      return errors.genericErrorHandler(error, 'Internal error in createTweet func in tweetInterface.');
+    }
   };
 
 
-  const getTweet = options => Tweet.findOne({ userId: options.userId, _id: options.tweetId }).lean().exec()
-    .then((tweetDoc) => {
+  const getTweet = async (options) => {
+    try {
+      const tweetDoc = await Tweet.findOne({ userId: options.userId, _id: options.tweetId }).lean().exec();
       if (!tweetDoc) {
-        return Promise.reject(new errors.not_found(`Tweet with id ${options.tweetId} not found.`));
+        throw new errors.not_found(`Tweet with id ${options.tweetId} not found.`);
       }
       return Tweet.toModel(tweetDoc);
-    })
-    .catch(error => errors.genericErrorHandler(error, 'Internal error in getTweet func in tweetInterface.'));
+    } catch (error) {
+      return errors.genericErrorHandler(error, 'Internal error in getTweet func in tweetInterface.');
+    }
+  };
 
 
   return {

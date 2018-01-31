@@ -1,39 +1,36 @@
 // DOMAIN LAYER
-// Has the userInterface as a dependency. The UserService does not know
-// nor does it care where the user models came from. This is abstracted away
+// Has the tweetInterface as a dependency. The TweetService does not know
+// nor does it care where the tweet models came from. This is abstracted away
 // by the implementation of the interfaces. It just calls the needed interfaces
 // gets the results and usually applies some business logic on them.
 
-const debug = require('debug')('services:USER');
+const debug = require('debug')('services:TWEET');
 
 
 function init({ tweetInterface }) {
-  debug('------- INIT SERVICES:USER ---------');
+  debug('------- INIT SERVICES:TWEET ---------');
 
-  const getTweetsList = (options) => {
-    debug('getDriversList called');
-    return tweetInterface.getList(options)
-      .then(tweetsList => tweetsList)
-      .catch(error => Promise.reject(error));
+  const getList = async (options) => {
+    debug('getList called');
+    const tweetsList = await tweetInterface.getList(options);
+    return tweetsList;
   };
 
-  const createTweet = (options) => {
+  const createTweet = async (options) => {
     debug('createTweet called');
-    return tweetInterface.create(options)
-      .then(tweet => tweet)
-      .catch(error => Promise.reject(error));
+    const tweetDoc = await tweetInterface.create(options);
+    return tweetDoc;
   };
 
-  const getTweet = (options) => {
+  const getTweet = async (options) => {
     debug('getTweet called');
-    return tweetInterface.get(options)
-      .then(tweet => tweet)
-      .catch(error => Promise.reject(error));
+    const tweetDoc = await tweetInterface.get(options);
+    return tweetDoc;
   };
 
 
   return {
-    getList: getTweetsList,
+    getList,
     create: createTweet,
     get: getTweet,
   };

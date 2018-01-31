@@ -1,7 +1,9 @@
-const connector = require('./connector');
+const connectorFactory = require('./connector');
 const entities = require('./entities');
 
-module.exports = {
-  connector,
+module.exports = ({
+  dbConnectionString,
+}) => ({
+  connector: connectorFactory.init(dbConnectionString),
   entities,
-};
+});

@@ -20,13 +20,13 @@ const tweetServiceProto = {
     return tweetsList;
   },
 
-  async createTweet(options) {
+  async create(options) {
     debug('createTweet called');
     const tweetDoc = await this.tweetInterface.create(options);
     return tweetDoc;
   },
 
-  async getTweet(options) {
+  async get(options) {
     debug('getTweet called');
     const tweetDoc = await this.tweetInterface.get(options);
     return tweetDoc;

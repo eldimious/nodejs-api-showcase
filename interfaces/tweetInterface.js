@@ -83,7 +83,7 @@ const init = ({ Tweet }) => {
         return errors.genericErrorHandler(error, 'Internal error in getList func in tweetInterface.');
       }
     },
-    async createTweet(options) {
+    async create(options) {
       const tweetDocument = this.Tweet({
         userId: options.userId,
         url: options.url,
@@ -98,7 +98,7 @@ const init = ({ Tweet }) => {
         return errors.genericErrorHandler(error, 'Internal error in createTweet func in tweetInterface.');
       }
     },
-    async getTweet(options) {
+    async get(options) {
       try {
         const tweetDoc = await this.Tweet.findOne({ userId: options.userId, _id: options.tweetId }).lean().exec();
         if (!tweetDoc) {

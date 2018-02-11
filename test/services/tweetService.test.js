@@ -7,7 +7,6 @@ const tweetServiceFactory = require('../../services/tweetService');
 
 const db = sinon.stub();
 const tweetService = tweetServiceFactory.init(db);
-console.log('tweetServicetweetServicetweetService', tweetService)
 
 function createUsers() {
   const alex = new Tweet({ url: 'www.test.com', type: 'image', source: 'twitter', publisher: 'Aris', created: '2017-08-30T08:17:50.460Z', _id: '5a3b9a95e9f13308a30740a5' });

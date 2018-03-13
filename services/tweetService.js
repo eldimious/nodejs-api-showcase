@@ -34,32 +34,4 @@ function init({ tweetInterface }) {
   return Object.assign(Object.create(tweetServiceProto), { tweetInterface });
 }
 
-// function init({ tweetInterface }) {
-//   debug('------- INIT SERVICES:TWEET ---------');
-
-//   const getList = async (options) => {
-//     debug('getList called');
-//     const tweetsList = await tweetInterface.getList(options);
-//     return tweetsList;
-//   };
-
-//   const createTweet = async (options) => {
-//     debug('createTweet called');
-//     const tweetDoc = await tweetInterface.create(options);
-//     return tweetDoc;
-//   };
-
-//   const getTweet = async (options) => {
-//     debug('getTweet called');
-//     const tweetDoc = await tweetInterface.get(options);
-//     return tweetDoc;
-//   };
-
-
-//   return Object.create({
-//     getList,
-//     create: createTweet,
-//     get: getTweet,
-//   });
-// }
 module.exports.init = init;

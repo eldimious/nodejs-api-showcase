@@ -35,7 +35,7 @@ function init({ User }) {
       const userDoc = await newUser.save();
       return mapperToUserModel(userDoc);
     } catch (error) {
-      return errors.genericErrorHandler(error, 'Internal error in register func in authInterface.');
+      throw error;
     }
   }
 
@@ -45,19 +45,19 @@ function init({ User }) {
     try {
       const userDBDoc = await User.findOne({ email: options.email }).exec();
       if (!userDBDoc) {
-        throw new errors.unauthorized(`UserDoc with email: ${options.email} not found.`);
+        throw new errors.Unauthorized(`UserDoc with email: ${options.email} not found.`);
       }
       const userDoc = mapperToUserModel(userDBDoc);
       const userPass = await User.comparePassword(options.password, userDBDoc.password);
       if (!userPass) {
-        throw new errors.unauthorized('Wrong password.');
+        throw new errors.Unauthorized('Wrong password.');
       }
       return {
         token: jwt.sign({ email: userDoc.email, fullName: userDoc.fullName, _id: userDoc.id }, jwtSecret, { expiresIn: 86400 }),
         user: userDoc,
       };
     } catch (error) {
-      return errors.genericErrorHandler(error, 'Internal error in login func in authInterface.');
+      throw error;
     }
   }
 

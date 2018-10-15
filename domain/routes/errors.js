@@ -1,37 +1,26 @@
 const debug = require('debug')('routes:errors');
-const errors = require('../../common/errors');
 
-function sendError(error, req, res, next) { //eslint-disable-line
-  debug('send error');
+const createResponseError = (err, status = 500, code = 'INTERNAL_SERVER_ERROR', defaultMsg = 'Internal Server Error') => ({
+  status,
+  data: {
+    code: err.code || code,
+    message: err.message || defaultMsg,
+  },
+});
+
+function errorHandler(err, req, res, next) { //eslint-disable-line
   const generic4xxError = /^[4][0-9][0-9]$/;
-  if (error.constructor === errors.invalid_argument) {
-    res.status(400).jerror(400, error.message);
-  } else if (error.constructor === errors.unauthorized) {
-    res.status(401).jerror(401, error.message);
-  } else if (error.constructor === errors.forbidden) {
-    res.status(403).jerror(403, error.message);
-  } else if (error.constructor === errors.duplicate) {
-    res.status(409).jerror(409, error.message);
-  } else if (error.constructor === errors.not_found) {
-    res.status(404).jerror(404, error.message);
-  } else if (error.constructor === errors.json_parse) {
-    res.status(404).jerror(404, error.message);
-  } else if (generic4xxError.test(error.status)) {
-    res.status(error.status).send({
-      status: 'error',
-      code: error.status,
-      message: error.message || 'Client Error',
-      stack: error.stack,
-    });
-  } else {
-    res.status(500).send({
-      status: 'error',
-      code: 500,
-      message: 'Internal Server Error',
-      error: error.message,
-      stack: error.stack,
-    });
+  if (err.status === 401) {
+    return res.status(err.status).send(createResponseError(err, 401, 'UNAUTHORIZED', 'Not authorized'));
+  } else if (err.status === 400) {
+    return res.status(err.status).send(createResponseError(err, 400, 'BAD_REQUEST', 'Bad request'));
+  } else if (err.status === 404) {
+    return res.status(err.status).send(createResponseError(err, 404, 'RESOURCE_NOT_FOUND', 'The resource was not found'));
+  } else if (generic4xxError.test(err.status)) {
+    return res.status(err.status).send(createResponseError(err, err.status, err.status, 'Client Error'));
   }
+  return res.status(500).send(createResponseError(err, 500, 'INTERNAL_SERVER_ERROR', 'Internal Server Error'));
 }
 
-module.exports = sendError;
+module.exports = errorHandler;
+

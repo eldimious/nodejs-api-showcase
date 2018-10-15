@@ -81,7 +81,7 @@ const tweetInterfaceProto = {
       const tweetsDocs = await tweetSchema.paginate(queryOptions, paginationOptions);
       return handleUsersPaginationResponse(tweetsDocs, tweetSchema);
     } catch (error) {
-      return errors.genericErrorHandler(error, 'Internal error in getList func in tweetInterface.');
+      throw error;
     }
   },
   async create(options) {
@@ -98,7 +98,7 @@ const tweetInterfaceProto = {
       const tweetDoc = await tweetDocument.save();
       return mapperToTweetModel(tweetDoc, tweetSchema);
     } catch (error) {
-      return errors.genericErrorHandler(error, 'Internal error in createTweet func in tweetInterface.');
+      throw error;
     }
   },
   async get(options) {
@@ -107,11 +107,11 @@ const tweetInterfaceProto = {
     try {
       const tweetDoc = await tweetSchema.findOne({ userId: options.userId, _id: options.tweetId }).lean().exec();
       if (!tweetDoc) {
-        throw new errors.not_found(`Tweet with id ${options.tweetId} not found.`);
+        throw new errors.NotFound(`Tweet with id ${options.tweetId} not found.`);
       }
       return mapperToTweetModel(tweetDoc, tweetSchema);
     } catch (error) {
-      return errors.genericErrorHandler(error, 'Internal error in getTweet func in tweetInterface.');
+      throw error;
     }
   },
 };

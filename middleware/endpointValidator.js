@@ -1,6 +1,8 @@
 'use strict';
 
 const debug = require('debug')('EndpointValidator class');
+const errorHandler = require('../domain/routes/errors');
+const errors = require('../common/errors');
 
 module.exports = class EndpointValidator {
   constructor() {
@@ -34,7 +36,7 @@ module.exports = class EndpointValidator {
     req.checkBody('password', 'password in body required.').notEmpty();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
-        return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);
+        return errorHandler(new errors.BadRequest(`${result.array({ onlyFirstError: true })[0].msg}`), req, res, next);
       }
       return next();
     });
@@ -46,7 +48,7 @@ module.exports = class EndpointValidator {
     req.checkBody('password', 'password in query required.').notEmpty();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
-        return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);
+        return errorHandler(new errors.BadRequest(result.array({ onlyFirstError: true })[0].msg), req, res, next);
       }
       return next();
     });
@@ -57,7 +59,7 @@ module.exports = class EndpointValidator {
     req.checkParams('tweetId', 'add a valid tweet id.').isMongoObjectID();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
-        return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);
+        return errorHandler(new errors.BadRequest(result.array({ onlyFirstError: true })[0].msg), req, res, next);
       }
       return next();
     });
@@ -70,7 +72,7 @@ module.exports = class EndpointValidator {
     req.checkBody('surname', 'surname in body required.').notEmpty();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
-        return res.status(400).jerror(400, `${result.array({ onlyFirstError: true })[0].msg}`);
+        return errorHandler(new errors.BadRequest(result.array({ onlyFirstError: true })[0].msg), req, res, next);
       }
       return next();
     });

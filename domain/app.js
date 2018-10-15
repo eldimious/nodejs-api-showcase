@@ -6,6 +6,7 @@ const logger = require('morgan');
 const expressValidator = require('express-validator');
 const helmet = require('helmet');
 const EndpointValidator = require('../middleware/endpointValidator');
+const authenticateEndpoint = require('../middleware/authentication');
 const authRouter = require('./routes/auth');
 const tweetsRouter = require('./routes/tweets');
 const errorRoute = require('./routes/errors');
@@ -28,7 +29,7 @@ module.exports = (services) => {
   const authRoutes = authRouter.init(services);
 
   app.use('/auth', authRoutes);
-  app.use('/tweets', expressJwt({ secret: jwtSecret }), tweetsRoutes);
+  app.use('/tweets', authenticateEndpoint, expressJwt({ secret: jwtSecret }), tweetsRoutes);
 
   app.use(errorRoute);
 

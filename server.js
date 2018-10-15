@@ -7,7 +7,6 @@ const signals = require('./signals');
 const db = require('./db')({ dbConnectionString });
 
 db.connector.connect();
-console.log('logginglogging', logging)
 const interfaces = require('./interfaces')(db);
 const services = require('./services')(interfaces);
 const app = require('./domain/app')(services);

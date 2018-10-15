@@ -1,7 +1,7 @@
 /*  Mongoose connection module. */
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-const logger = require('../../libs/logger');
+const logging = require('../../common/logging');
 
 module.exports = (dbConnectionString) => {
   if (!dbConnectionString) {
@@ -14,18 +14,18 @@ module.exports = (dbConnectionString) => {
 
   // Check for errors on connecting to Mongo DB
   mongoose.connection.on('error', (err) => {
-    logger.error(`Error! DB Connection failed. Error: ${err}`);
+    logging.error(`Error! DB Connection failed. Error: ${err}`);
     return err;
   });
 
   // Connection opened successfully
   mongoose.connection.once('open', () => {
-    logger.info('Connection to MongoDB established');
+    logging.info('Connection to MongoDB established');
   });
 
   mongoose.connection.on('disconnected', () => {
-    logger.info('Connection to MongoDB closed');
-    logger.info('-------------------');
+    logging.info('Connection to MongoDB closed');
+    logging.info('-------------------');
   });
 
   return {

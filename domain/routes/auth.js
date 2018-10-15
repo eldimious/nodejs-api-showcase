@@ -1,6 +1,6 @@
 const express = require('express');
 const debug = require('debug')('routes-auth');
-const EndpointValidator = require('../../middlewares/endpointValidator');
+const EndpointValidator = require('../../middleware/endpointValidator');
 const asyncWrapper = require('../utils/asyncWrapper');
 
 const endpointValidator = new EndpointValidator();

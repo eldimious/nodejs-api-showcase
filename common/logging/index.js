@@ -34,7 +34,7 @@ const errorLogger = expressWinston.errorLogger({
 
 
 const logger = new Logger({
-  level: 'debug',
+  level: process.env.NODE_ENV !== 'production' ? 'verbose' : 'info',
   transports: getTransports(),
 });
 

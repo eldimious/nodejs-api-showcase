@@ -6,14 +6,11 @@
 // It is possible to fetch the entities from different sources like inmemory cache,
 // network or the db without the need to alter the consumers code.
 
-const debug = require('debug')('interfaces:AUTH');
 const errors = require('../common/errors');
 const jwt = require('jsonwebtoken');
 const { jwtSecret } = require('../configuration');
 
 function init({ User }) {
-  debug('------- INIT INTERFACES:AUTH ---------');
-
   const mapperToUserModel = userDoc => User.toUserModel({
     _id: userDoc._id,
     name: userDoc.name,
@@ -24,7 +21,6 @@ function init({ User }) {
 
 
   async function register(options) {
-    debug('register new user', options);
     const newUser = new User({
       name: options.name,
       surname: options.surname,
@@ -41,7 +37,6 @@ function init({ User }) {
 
 
   async function login(options) {
-    debug('login', options);
     try {
       const userDBDoc = await User.findOne({ email: options.email }).exec();
       if (!userDBDoc) {
@@ -68,4 +63,4 @@ function init({ User }) {
   };
 }
 
-module.exports.init = init;
+module.exports = init;

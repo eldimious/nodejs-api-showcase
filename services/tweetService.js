@@ -7,7 +7,7 @@
 // With factory functions(closures) we can have data privacy.
 // I am not using just closures like on authService/authInterface in order to pass methods on prototype chain
 
-function tweetService({
+function init({
   tweetInterface,
 }) {
   const list = async function list(options) {

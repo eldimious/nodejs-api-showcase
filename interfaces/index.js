@@ -1,4 +1,3 @@
-// Register all the interfaces here
 const tweetInterface = require('./tweetInterface');
 const authInterface = require('./authInterface');
 

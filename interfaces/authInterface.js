@@ -43,7 +43,8 @@ const authInterface = {
   },
 
   async login({
-    email
+    password,
+    email,
   }) {
     try {
       const {
@@ -51,10 +52,10 @@ const authInterface = {
       } = this.getSchemas();
       const userDBDoc = await userSchema.findOne({ email }).exec();
       if (!userDBDoc) {
-        throw new errors.Unauthorized(`UserDoc with email: ${options.email} not found.`);
+        throw new errors.Unauthorized(`UserDoc with email: ${email} not found.`);
       }
       const userDoc = mapperToUserModel(userSchema, userDBDoc);
-      const userPass = await userSchema.comparePassword(options.password, userDBDoc.password);
+      const userPass = await userSchema.comparePassword(password, userDBDoc.password);
       if (!userPass) {
         throw new errors.Unauthorized('Wrong password.');
       }
@@ -70,10 +71,9 @@ const authInterface = {
 
 
 module.exports = function init({
-  cartItem,
-  cart,
+  User,
 }) {
-  return Object.assign(Object.create(cartItemRepository), {
+  return Object.assign(Object.create(authInterface), {
     getSchemas () {
       return { 
         User,
@@ -81,5 +81,3 @@ module.exports = function init({
     },
   });
 };
-
-module.exports = init;

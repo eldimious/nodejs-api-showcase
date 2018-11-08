@@ -7,31 +7,26 @@
 // With factory functions(closures) we can have data privacy.
 // I am not using just closures like on authService/authInterface in order to pass methods on prototype chain
 
+function init({
+  tweetInterface,
+}) {
+  const list = async function list(options) {
+    return tweetInterface.list(options);
+  };
 
-const debug = require('debug')('services:TWEET');
+  const create = async function create(options) {
+    return tweetInterface.create(options);
+  };
 
-const tweetServiceProto = {
-  async getList(options) {
-    debug('getList called');
-    const tweetsList = await this.tweetInterface.getList(options);
-    return tweetsList;
-  },
+  const get = async function get(options) {
+    return tweetInterface.get(options);
+  };
 
-  async create(options) {
-    debug('createTweet called');
-    const tweetDoc = await this.tweetInterface.create(options);
-    return tweetDoc;
-  },
-
-  async get(options) {
-    debug('getTweet called');
-    const tweetDoc = await this.tweetInterface.get(options);
-    return tweetDoc;
-  },
-};
-
-function init({ tweetInterface }) {
-  return Object.assign(Object.create(tweetServiceProto), { tweetInterface });
+  return {
+    list,
+    create,
+    get,
+  };
 }
 
-module.exports.init = init;
+module.exports = init;

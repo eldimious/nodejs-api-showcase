@@ -10,7 +10,9 @@ const authenticateEndpoint = require('../middleware/authentication');
 const authRouter = require('./routes/auth');
 const tweetsRouter = require('./routes/tweets');
 const errorRoute = require('./routes/errors');
-const { jwtSecret } = require('../configuration');
+const { 
+  jwtSecret,
+} = require('../configuration');
 const expressJwt = require('express-jwt');
 
 const endpointValidator = new EndpointValidator();

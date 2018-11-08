@@ -1,19 +1,16 @@
 const httpErrors = require('throw-http-errors');
 
 const isCustomError = (error) => {
-  if (httpErrors.includes(error.name)) {
+  if (Object.keys(httpErrors).includes(error.name) || (error.status && Object.keys(httpErrors).includes(error.status.toString()))) {
     return true;
   }
   return false;
 };
-
-const createErrorMessage = (error, defaultMsg) => error && error.message ? error.message : defaultMsg;
-
 
 module.exports = Object.assign(
   {},
   httpErrors,
   {
     isCustomError,
-  },
+  }
 );

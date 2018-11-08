@@ -6,7 +6,6 @@
 // It is possible to fetch the entities from different sources like inmemory cache,
 // network or the db without the need to alter the consumers code.
 
-const debug = require('debug')('interfaces:USER');
 const errors = require('../common/errors');
 
 const DEFAULT_PAGINATION_CONTENT = {
@@ -72,8 +71,7 @@ const getQueryObject = (options) => {
 
 
 const tweetInterfaceProto = {
-  async getList(options) {
-    debug('get tweets from DB', options);
+  async list(options) {
     const { Tweet: tweetSchema } = this.getSchemas();
     const paginationOptions = createPaginationOptions(options);
     const queryOptions = getQueryObject(options);
@@ -85,7 +83,6 @@ const tweetInterfaceProto = {
     }
   },
   async create(options) {
-    debug('create tweet', options);
     const { Tweet: tweetSchema } = this.getSchemas();
     const tweetDocument = tweetSchema({
       userId: options.userId,
@@ -102,7 +99,6 @@ const tweetInterfaceProto = {
     }
   },
   async get(options) {
-    debug('get specific tweet', options);
     const { Tweet: tweetSchema } = this.getSchemas();
     try {
       const tweetDoc = await tweetSchema.findOne({ userId: options.userId, _id: options.tweetId }).lean().exec();
@@ -120,9 +116,11 @@ const tweetInterfaceProto = {
 const init = ({ Tweet }) => {
   return Object.assign(Object.create(tweetInterfaceProto), {
     getSchemas () {
-      return { Tweet };
+      return { 
+        Tweet,
+      };
     }
   }) 
 };
 
-module.exports.init = init;
+module.exports = init;

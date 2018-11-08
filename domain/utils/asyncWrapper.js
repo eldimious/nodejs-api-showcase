@@ -1,12 +1,6 @@
-function asyncWrapper(fn) {
-  return async (req, res, next) => {
-    try {
-      await fn(req, res);
-      return;
-    } catch (err) {
-      next(err);
-    }
-  };
-}
+const asyncWrapper = fn =>
+  (req, res, next, ...args) =>
+    fn(req, res, next, ...args)
+      .catch(error => next(error));
 
 module.exports = asyncWrapper;

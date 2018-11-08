@@ -4,22 +4,13 @@
 // by the implementation of the interfaces. It just calls the needed interfaces
 // gets the results and usually applies some business logic on them.
 
-const debug = require('debug')('services:AUTH');
-
-
 function init({ authInterface }) {
-  debug('------- INIT SERVICES:AUTH ---------');
-
   async function register(options) {
-    debug('register func called', options);
-    const userDoc = await authInterface.register(options);
-    return userDoc;
+    return authInterface.register(options);
   }
 
   async function login(options) {
-    debug('login func called', options);
-    const userDoc = await authInterface.login(options);
-    return userDoc;
+    return authInterface.login(options);
   }
 
   return {
@@ -28,4 +19,4 @@ function init({ authInterface }) {
   };
 }
 
-module.exports.init = init;
+module.exports = init;

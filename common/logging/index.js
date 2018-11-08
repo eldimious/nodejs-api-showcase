@@ -3,9 +3,6 @@ const expressWinston = require('express-winston');
 
 const { Logger } = winston;
 
-expressWinston.requestWhitelist.push('body');
-expressWinston.responseWhitelist.push('body');
-
 
 const getTransports = () => {
   const transports = [

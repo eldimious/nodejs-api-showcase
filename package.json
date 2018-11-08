@@ -21,7 +21,6 @@
     "bluebird": "^3.5.0",
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",
-    "debug": "^3.1.0",
     "dotenv": "^4.0.0",
     "express": "^4.16.1",
     "express-jsend": "^0.1.0",
@@ -35,7 +34,7 @@
     "mongoose": "^4.11.13",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.0",
-    "throw-http-errors": "^1.0.17",
+    "throw-http-errors": "^2.0.0",
     "winston": "2.4.3"
   },
   "devDependencies": {

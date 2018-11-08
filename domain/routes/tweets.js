@@ -1,5 +1,4 @@
 const express = require('express');
-const debug = require('debug')('routes-users');
 const EndpointValidator = require('../../middleware/endpointValidator');
 const asyncWrapper = require('../utils/asyncWrapper');
 
@@ -8,8 +7,6 @@ const router = express.Router({ mergeParams: true });
 
 
 function init({ tweetService }) {
-  debug(' ---------- Init routes-TWEETS --------- ');
-
   const DEFAULT_PAGINATION_LIMIT = 25;
   const MAX_PAGINATION_LIMIT = 100;
   const DEFAULT_PAGINATION_PAGE = 1;
@@ -28,53 +25,39 @@ function init({ tweetService }) {
     return populateOptionsWithPagination;
   };
 
-
-  async function getListOfTweets(req, res, next) {
-    debug('get tweets list');
-    const options = {
-      userId: req.user._id,
-      source: req.query.source,
-      type: req.query.type,
-      publisher: req.query.publisher,
-      page: req.query.page ? parseInt(req.query.page, 10) : 1,
-      limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
-    };
-    const queryOptions = Object.assign({}, handlePagination(options));
-    const tweetsList = await tweetService.getList(queryOptions);
+  router.get('/', asyncWrapper(async (req, res) => {
+    const tweetsList = await tweetService.list(Object.assign(
+      {}, 
+      handlePagination({
+        userId: req.user._id,
+        source: req.query.source,
+        type: req.query.type,
+        publisher: req.query.publisher,
+        page: req.query.page ? parseInt(req.query.page, 10) : 1,
+        limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
+      }),
+    ));
     return res.jsend(tweetsList);
-  }
+  }));
 
-
-  async function addTweet(req, res, next) {
-    debug('add new tweet');
-    const options = {
+  router.post('/', asyncWrapper(async (req, res) => {
+    const newTweet = await tweetService.create({
       userId: req.user._id,
       url: req.body.url,
       source: req.body.source,
       type: req.body.type,
       publisher: req.body.publisher,
-    };
-    const newTweet = await tweetService.create(options);
+    });
     return res.jsend({ tweet: newTweet });
-  }
+  }));
 
-
-  async function getTweet(req, res, next) {
-    debug('get specific tweet');
-    const options = {
+  router.get('/:tweetId', endpointValidator.requireValidTweetId, asyncWrapper(async (req, res) => {
+    const tweetDoc = await tweetService.get({
       userId: req.user._id,
       tweetId: req.params.tweetId,
-    };
-    const tweetDoc = await tweetService.get(options);
+    });
     return res.jsend({ tweet: tweetDoc });
-  }
-
-
-  router.get('/', asyncWrapper(getListOfTweets));
-
-  router.post('/', asyncWrapper(addTweet));
-
-  router.get('/:tweetId', endpointValidator.requireValidTweetId, asyncWrapper(getTweet));
+  }));
 
   return router;
 }

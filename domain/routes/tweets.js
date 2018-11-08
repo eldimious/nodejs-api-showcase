@@ -26,7 +26,7 @@ function init({ tweetService }) {
   };
 
   router.get('/', asyncWrapper(async (req, res) => {
-    const tweetsList = await tweetService.getList(Object.assign(
+    const tweetsList = await tweetService.list(Object.assign(
       {}, 
       handlePagination({
         userId: req.user._id,

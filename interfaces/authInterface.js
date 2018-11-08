@@ -8,7 +8,9 @@
 
 const errors = require('../common/errors');
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../configuration');
+const {
+  jwtSecret,
+} = require('../configuration');
 
 const mapperToUserModel = (UserSchema, userDoc) => UserSchema.toUserModel({
   _id: userDoc._id,

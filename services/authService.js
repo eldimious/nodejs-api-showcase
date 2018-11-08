@@ -10,7 +10,6 @@ function init({ authInterface }) {
   }
 
   async function login(options) {
-    console.log('111111', options)
     return authInterface.login(options);
   }
 

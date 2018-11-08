@@ -11,6 +11,6 @@ module.exports = Object.assign(
   {},
   httpErrors,
   {
-  	isCustomError,
+    isCustomError,
   }
 );

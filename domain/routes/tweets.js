@@ -1,5 +1,4 @@
 const express = require('express');
-const debug = require('debug')('routes-users');
 const EndpointValidator = require('../../middleware/endpointValidator');
 const asyncWrapper = require('../utils/asyncWrapper');
 
@@ -8,8 +7,6 @@ const router = express.Router({ mergeParams: true });
 
 
 function init({ tweetService }) {
-  debug(' ---------- Init routes-TWEETS --------- ');
-
   const DEFAULT_PAGINATION_LIMIT = 25;
   const MAX_PAGINATION_LIMIT = 100;
   const DEFAULT_PAGINATION_PAGE = 1;

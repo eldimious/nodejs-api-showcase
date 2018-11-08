@@ -1,12 +1,8 @@
-'use strict';
-
-const debug = require('debug')('EndpointValidator class');
 const errorHandler = require('../domain/routes/errors');
 const errors = require('../common/errors');
 
 module.exports = class EndpointValidator {
   constructor() {
-    debug('constract EndpointValidator starts');
     this._settings = {
       customValidators: {
         isInArray(item, array) {
@@ -17,7 +13,6 @@ module.exports = class EndpointValidator {
         },
       },
     };
-    debug('constract EndpointValidator ends');
   }
 
   get settings() {

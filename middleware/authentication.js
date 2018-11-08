@@ -1,5 +1,7 @@
 const jwt = require('jsonwebtoken');
-const { jwtSecret } = require('../configuration');
+const {
+  jwtSecret,
+} = require('../configuration');
 const errors = require('../common/errors');
 
 const authenticationError = new errors.Unauthorized('Invalid user token', 'INVALID_TOKEN');
@@ -17,7 +19,6 @@ module.exports = function(req, res, next) {
             message: err.message ? err.message : 'Authentication error',
           },
         });
-        return new errors.Unauthorized('Invalid user token', 'INVALID_TOKEN');
       }
       return next();
     });

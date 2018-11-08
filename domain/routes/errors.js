@@ -1,5 +1,3 @@
-const debug = require('debug')('routes:errors');
-
 const createResponseError = err => ({
   status: err.status,
   data: {

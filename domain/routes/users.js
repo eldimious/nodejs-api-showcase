@@ -7,9 +7,9 @@ const router = express.Router({ mergeParams: true });
 
 
 function init({ userService }) {
-  router.get('/:userId', endpointValidator.requireValidTweetId, asyncWrapper(async (req, res) => {
+  router.get('/:userId', endpointValidator.requireSameUser, asyncWrapper(async (req, res) => {
     const userDoc = await userService.get({
-      userId: req.query.userId,
+      userId: req.params.userId,
     });
     return res.send({
       data: userDoc,

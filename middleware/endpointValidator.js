@@ -11,6 +11,9 @@ module.exports = class EndpointValidator {
         isMongoObjectID(param) {
           return new RegExp('^[0-9a-fA-F]{24}$').test(param);
         },
+        isTheSameUser(param, jwtUser) {
+          return param === jwtUser._id;
+        },
       },
     };
   }
@@ -23,6 +26,15 @@ module.exports = class EndpointValidator {
     this._settings = newSettings;
   }
 
+  requireSameUser(req, res, next) {
+    req.checkParams('userId', 'You can manage a user doc for your own user;)').isTheSameUser(req.user);
+    req.getValidationResult().then((result) => {
+      if (!result.isEmpty()) {
+        return errorHandler(new errors.Forbidden(`${result.array({ onlyFirstError: true })[0].msg}`), req, res, next);
+      }
+      return next();
+    });
+  }
 
   requireValidUserBody(req, res, next) {
     req.checkBody('email', 'add a valid email.').notEmpty().isEmail();

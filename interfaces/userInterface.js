@@ -15,7 +15,7 @@ const tweetInterfaceProto = {
     const { User: userSchema } = this.getSchemas();
     try {
       const userDoc = await userSchema.findOne({
-        userId: options.userId,
+        _id: options.userId,
       })
         .lean()
         .exec();

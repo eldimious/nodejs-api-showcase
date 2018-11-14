@@ -12,6 +12,8 @@ const {
   jwtSecret,
 } = require('../configuration');
 
+const TOKEN_EXPIRATION = 86400;
+
 const mapperToUserModel = (UserSchema, userDoc) => UserSchema.toUserModel({
   _id: userDoc._id,
   name: userDoc.name,
@@ -19,6 +21,7 @@ const mapperToUserModel = (UserSchema, userDoc) => UserSchema.toUserModel({
   email: userDoc.email,
   created: userDoc.created,
 });
+
 
 const authInterface = {
   async register({
@@ -62,7 +65,8 @@ const authInterface = {
         throw new errors.Unauthorized('Wrong password.');
       }
       return {
-        token: jwt.sign({ email: userDoc.email, fullName: userDoc.fullName, _id: userDoc.id }, jwtSecret, { expiresIn: 86400 }),
+        token: jwt.sign({ email: userDoc.email, fullName: userDoc.fullName, _id: userDoc.id }, jwtSecret, { expiresIn: TOKEN_EXPIRATION }),
+        expiresIn: TOKEN_EXPIRATION,
         user: userDoc,
       };
     } catch (error) {
@@ -76,8 +80,8 @@ module.exports = function init({
   User,
 }) {
   return Object.assign(Object.create(authInterface), {
-    getSchemas () {
-      return { 
+    getSchemas() {
+      return {
         User,
       };
     },

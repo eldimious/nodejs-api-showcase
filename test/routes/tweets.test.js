@@ -27,18 +27,18 @@ describe('tweet route test', function () {
     //before(loginUser(auth));
 
     beforeEach((done) => {
-      sinon.stub(tweetService, 'getList');
+      sinon.stub(tweetService, 'list');
       testToken = jwt.sign({ email: testEmail, fullName: testFullname, _id: testID }, jwtSecret, { expiresIn: 120 })
       return done();
     });
 
     afterEach(() => {
-      tweetService.getList.restore();
+      tweetService.list.restore();
     });
 
 
     it('should return 200 an array of tweets', function (done) {
-      tweetService.getList.resolves(tweetData);
+      tweetService.list.resolves(tweetData);
       request(app)
         .get('/tweets')
         .set('Authorization', `Bearer ${testToken}`)
@@ -62,7 +62,6 @@ describe('tweet route test', function () {
         .expect(401)
     });
   });
-
 
   describe('GET /tweets/:id test', function () {
     beforeEach(() => {

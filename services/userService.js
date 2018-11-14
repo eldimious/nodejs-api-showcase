@@ -1,6 +1,6 @@
 function init({ userInterface }) {
   async function get(options) {
-    return userInterface.register(options);
+    return userInterface.get(options);
   }
 
   return {

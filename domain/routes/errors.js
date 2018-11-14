@@ -15,6 +15,6 @@ function errorHandler(err, req, res, next) { //eslint-disable-line
 
   const internalError = new errors.InternalServerError(err.message);
   return res.status(internalError.status).send(createResponseError(internalError));
-};
+}
 
 module.exports = errorHandler;

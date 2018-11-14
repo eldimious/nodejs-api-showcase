@@ -1,5 +1,5 @@
-require('express-jsend');
 const express = require('express');
+const cors = require('cors');
 const compress = require('compression')();
 const bodyParser = require('body-parser');
 const logger = require('morgan');
@@ -25,6 +25,7 @@ app.use(bodyParser.json({ limit: '5mb' }));
 app.use(compress);
 app.use(logger('dev'));
 app.use(expressValidator(endpointValidator.settings));
+app.use(cors());
 
 module.exports = (services) => {
   const tweetsRoutes = tweetsRouter.init(services);

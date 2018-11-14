@@ -27,7 +27,7 @@ function init({ tweetService }) {
 
   router.get('/', asyncWrapper(async (req, res) => {
     const tweetsList = await tweetService.list(Object.assign(
-      {}, 
+      {},
       handlePagination({
         userId: req.user._id,
         source: req.query.source,
@@ -37,7 +37,9 @@ function init({ tweetService }) {
         limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
       }),
     ));
-    return res.jsend(tweetsList);
+    return res.send({
+      data: tweetsList,
+    });
   }));
 
   router.post('/', asyncWrapper(async (req, res) => {
@@ -48,7 +50,9 @@ function init({ tweetService }) {
       type: req.body.type,
       publisher: req.body.publisher,
     });
-    return res.jsend({ tweet: newTweet });
+    return res.send({
+      data: newTweet,
+    });
   }));
 
   router.get('/:tweetId', endpointValidator.requireValidTweetId, asyncWrapper(async (req, res) => {
@@ -56,7 +60,9 @@ function init({ tweetService }) {
       userId: req.user._id,
       tweetId: req.params.tweetId,
     });
-    return res.jsend({ tweet: tweetDoc });
+    return res.send({
+      data: tweetDoc,
+    });
   }));
 
   return router;

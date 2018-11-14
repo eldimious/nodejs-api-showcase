@@ -13,7 +13,9 @@ function init({ authService }) {
       email: req.body.email,
       password: req.body.password,
     });
-    return res.jsend(result);
+    return res.send({
+      data: result,
+    });
   }));
 
   router.post('/login', endpointValidator.requireBodyParamsForLogin, asyncWrapper(async (req, res) => {
@@ -21,7 +23,9 @@ function init({ authService }) {
       email: req.body.email,
       password: req.body.password,
     });
-    return res.jsend(result);
+    return res.send({
+      data: result,
+    });
   }));
 
   return router;

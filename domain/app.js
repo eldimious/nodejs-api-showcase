@@ -7,8 +7,9 @@ const expressValidator = require('express-validator');
 const helmet = require('helmet');
 const EndpointValidator = require('../middleware/endpointValidator');
 const authenticateEndpoint = require('../middleware/authentication');
-const authRouter = require('./routes/auth');
-const tweetsRouter = require('./routes/tweets');
+const authRoutes = require('./routes/auth');
+const tweetsRoutes = require('./routes/tweets');
+const usersRoutes = require('./routes/users');
 const errorRoute = require('./routes/errors');
 const {
   jwtSecret,
@@ -28,12 +29,9 @@ app.use(expressValidator(endpointValidator.settings));
 app.use(cors());
 
 module.exports = (services) => {
-  const tweetsRoutes = tweetsRouter.init(services);
-  const authRoutes = authRouter.init(services);
-
-  app.use('/auth', authRoutes);
-  app.use('/tweets', authenticateEndpoint, expressJwt({ secret: jwtSecret }), tweetsRoutes);
-
+  app.use('/auth', authRoutes.init(services));
+  app.use('/tweets', authenticateEndpoint, expressJwt({ secret: jwtSecret }), tweetsRoutes.init(services));
+  app.use('/users', authenticateEndpoint, expressJwt({ secret: jwtSecret }), usersRoutes.init(services));
   app.use(errorRoute);
 
   return app;

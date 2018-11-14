@@ -24,7 +24,7 @@ tweetSchema.pre('save', function (next) {
 
 tweetSchema.statics.toModel = tweetDoc => new TweetModel(tweetDoc);
 
-tweetSchema.index({ ncreated: -1 });
+tweetSchema.index({ created: -1 });
 
 tweetSchema.plugin(mongoosePaginate);
 

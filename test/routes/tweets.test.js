@@ -1,12 +1,10 @@
-'use strict';
-
 require('dotenv').config();
 const request = require('supertest');
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const interfaces = sinon.stub();
-const services = require('../../services')(interfaces);
+const repositories = sinon.stub();
+const services = require('../../services')(repositories);
 const app = require('../../domain/app')(services);
 const jwt = require('jsonwebtoken');
 const tweetData = require('../data/tweet').tweets;

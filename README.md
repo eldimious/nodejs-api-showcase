@@ -13,11 +13,11 @@ The code style being used is based on the airbnb js style guide.
 
 ## Data Layer ##
 
-The data layer is implemented using interfaces, that hide the underlying data sources (database, network, cache, etc), and provides an abstraction over them so other parts of the application that make use of the interfaces, don't care about the origin of the data and are decoupled from the specific implementations used, like the Mongoose ORM that is used by this app. Furthermore, the interfaces are responsible to map the entities they fetch from the data sources to the models used in the applications. This is important to enable the decoupling.
+The data layer is implemented using repositories, that hide the underlying data sources (database, network, cache, etc), and provides an abstraction over them so other parts of the application that make use of the repositories, don't care about the origin of the data and are decoupled from the specific implementations used, like the Mongoose ORM that is used by this app. Furthermore, the repositories are responsible to map the entities they fetch from the data sources to the models used in the applications. This is important to enable the decoupling.
 
 ## Domain Layer ##
 
-The domain layer is implemented using services. They depend on the interface interfaces to get the app models and apply the business rules on them. They are not coupled to a specific database implementation and can be reused if we add more data sources to the app or even if we change the database for example from MongoDB to Couchbase Server.
+The domain layer is implemented using services. They depend on the repositories to get the app models and apply the business rules on them. They are not coupled to a specific database implementation and can be reused if we add more data sources to the app or even if we change the database for example from MongoDB to Couchbase Server.
 
 ## Routes/Controller Layer ##
 

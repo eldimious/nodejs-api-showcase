@@ -7,8 +7,8 @@ const signals = require('./signals');
 const db = require('./db')({ dbConnectionString });
 
 db.connector.connect();
-const interfaces = require('./interfaces')(db);
-const services = require('./services')(interfaces);
+const repositories = require('./repositories')(db);
+const services = require('./services')(repositories);
 const app = require('./domain/app')(services);
 
 const server = app.listen(httpPort, () => {

@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const expressValidator = require('express-validator');
 const helmet = require('helmet');
+const path = require('path');
 const EndpointValidator = require('../middleware/endpointValidator');
 const authenticateEndpoint = require('../middleware/authentication');
 const authRoutes = require('./routes/auth');
@@ -29,9 +30,13 @@ app.use(expressValidator(endpointValidator.settings));
 app.use(cors());
 
 module.exports = (services) => {
+  app.use(express.static(path.join(__dirname, 'public')));
   app.use('/auth', authRoutes.init(services));
-  app.use('/tweets', authenticateEndpoint, expressJwt({ secret: jwtSecret }), tweetsRoutes.init(services));
-  app.use('/users', authenticateEndpoint, expressJwt({ secret: jwtSecret }), usersRoutes.init(services));
+  app.all('*', authenticateEndpoint, expressJwt({ secret: jwtSecret }), (req, res, next) => {
+    next();
+  });
+  app.use('/tweets', tweetsRoutes.init(services));
+  app.use('/users', usersRoutes.init(services));
   app.use(errorRoute);
 
   return app;

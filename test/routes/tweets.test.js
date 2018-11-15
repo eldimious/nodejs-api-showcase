@@ -26,7 +26,7 @@ describe('tweet route test', function () {
 
     beforeEach((done) => {
       sinon.stub(tweetService, 'list');
-      testToken = jwt.sign({ email: testEmail, fullName: testFullname, _id: testID }, jwtSecret, { expiresIn: 120 })
+      testToken = jwt.sign({ email: testEmail, fullName: testFullname, _id: testID }, jwtSecret, { expiresIn: 120 });
       return done();
     });
 

@@ -93,11 +93,14 @@ Body Params:
 
 **Description**: logs in to the server. Server will return a JWT token and user's info as:
 
-```shell
+```js
 {
     "status": "success",
     "data": {
-        "token": "eyJhbGciOiJIUzxxxxxxx.eyJlbWFpbCI6ImRpbW9zdGhlbxxxxxxxxxxxxx.axxxxxxxxxx",
+        "token": {
+          id: "eyJhbGciOiJIUzxxxxxxx.eyJlbWFpbCI6ImRpbW9zdGhlbxxxxxxxxxxxxx.axxxxxxxxxx",
+          expiresIn: 86400,
+        },
         "user": {
             "id": "mongoID",
             "fullName": "clark kent",

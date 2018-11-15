@@ -1,12 +1,10 @@
-'use strict';
-
 require('dotenv').config();
 const request = require('supertest');
 const expect = require('chai').expect;
 const sinon = require('sinon');
 
-const interfaces = sinon.stub();
-const services = require('../../services')(interfaces);
+const repositories = sinon.stub();
+const services = require('../../services')(repositories);
 const app = require('../../domain/app')(services);
 const jwt = require('jsonwebtoken');
 const tweetData = require('../data/tweet').tweets;
@@ -28,7 +26,7 @@ describe('tweet route test', function () {
 
     beforeEach((done) => {
       sinon.stub(tweetService, 'list');
-      testToken = jwt.sign({ email: testEmail, fullName: testFullname, _id: testID }, jwtSecret, { expiresIn: 120 })
+      testToken = jwt.sign({ email: testEmail, fullName: testFullname, _id: testID }, jwtSecret, { expiresIn: 120 });
       return done();
     });
 

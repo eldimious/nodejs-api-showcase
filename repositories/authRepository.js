@@ -1,5 +1,5 @@
 // DATA LAYER
-// authInterface:
+// authRepository:
 // is used to provide an abstraction on top of the database ( and possible other data sources)
 // so other parts of the application are decoupled from the specific database implementation.
 // Furthermore it can hide the origin of the data from it's consumers.
@@ -23,7 +23,7 @@ const mapperToUserModel = (UserSchema, userDoc) => UserSchema.toUserModel({
 });
 
 
-const authInterface = {
+const authRepository = {
   async register({
     name,
     surname,
@@ -65,8 +65,10 @@ const authInterface = {
         throw new errors.Unauthorized('Wrong password.');
       }
       return {
-        token: jwt.sign({ email: userDoc.email, fullName: userDoc.fullName, _id: userDoc.id }, jwtSecret, { expiresIn: TOKEN_EXPIRATION }),
-        expiresIn: TOKEN_EXPIRATION,
+        token: {
+          id: jwt.sign({ email: userDoc.email, fullName: userDoc.fullName, _id: userDoc.id }, jwtSecret, { expiresIn: TOKEN_EXPIRATION }),
+          expiresIn: TOKEN_EXPIRATION,
+        },
         user: userDoc,
       };
     } catch (error) {
@@ -79,7 +81,7 @@ const authInterface = {
 module.exports = function init({
   User,
 }) {
-  return Object.assign(Object.create(authInterface), {
+  return Object.assign(Object.create(authRepository), {
     getSchemas() {
       return {
         User,

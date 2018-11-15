@@ -10,7 +10,7 @@ const mapperToUserModel = (UserSchema, userDoc) => UserSchema.toUserModel({
 });
 
 
-const tweetInterfaceProto = {
+const userRepository = {
   async get(options) {
     const { User: userSchema } = this.getSchemas();
     try {
@@ -30,7 +30,7 @@ const tweetInterfaceProto = {
 };
 
 
-const init = ({ User }) => Object.assign(Object.create(tweetInterfaceProto), {
+const init = ({ User }) => Object.assign(Object.create(userRepository), {
   getSchemas() {
     return {
       User,

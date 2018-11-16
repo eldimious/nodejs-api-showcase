@@ -125,8 +125,6 @@ Query Params:
 ```shell
 { 
   publisher, {String} (optional)
-  source, {String} (optional)
-  type, {String} (optional)
 }
 ```
 **Description**: retrieves user's tweets docs, based on his token and his id.
@@ -139,10 +137,9 @@ POST /tweets
 Body Params:
 ```shell
 { 
-  url, {String}
-  publisher, {String} (optional)
-  source, {String} (optional)
-  type, {String} (optional)
+  imageUrl, {String}
+  publisher, {String}
+  text, {String} (optional)
 }
 ```
 **Description**: creates a new tweet doc in DB for user.

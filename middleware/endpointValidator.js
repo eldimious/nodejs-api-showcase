@@ -73,13 +73,12 @@ module.exports = class EndpointValidator {
   }
 
 
-  requireValidUserCreateBody(req, res, next) {
-    req.checkBody('email', 'add a valid email.').notEmpty().isEmail();
-    req.checkBody('name', 'name in body required.').notEmpty();
-    req.checkBody('surname', 'surname in body required.').notEmpty();
+  requireValidTweetBody(req, res, next) {
+    req.checkBody('imageUrl', 'imageUrl in body required.').notEmpty().isURL();
+    req.checkBody('publisher', 'publisher in body required.').notEmpty();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
-        return errorHandler(new errors.BadRequest(result.array({ onlyFirstError: true })[0].msg), req, res, next);
+        return errorHandler(new errors.BadRequest(`${result.array({ onlyFirstError: true })[0].msg}`), req, res, next);
       }
       return next();
     });

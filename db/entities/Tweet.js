@@ -6,18 +6,23 @@ const TweetModel = require('../../models/Tweet');
 const Schema = mongoose.Schema;
 
 const tweetSchema = mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  url: {
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  imageUrl: {
     type: String,
     required: true,
   },
-  source: String,
-  type: String,
-  publisher: String,
+  text: String,
+  publisher: {
+    type: String,
+    required: true,
+  },
   created: Date,
 });
 
-tweetSchema.pre('save', function (next) {
+tweetSchema.pre('save', (next) => {
   this.created = moment().toJSON();
   return next();
 });

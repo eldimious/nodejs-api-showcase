@@ -30,8 +30,6 @@ function init({ tweetService }) {
       {},
       handlePagination({
         userId: req.user._id,
-        source: req.query.source,
-        type: req.query.type,
         publisher: req.query.publisher,
         page: req.query.page ? parseInt(req.query.page, 10) : 1,
         limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
@@ -42,12 +40,11 @@ function init({ tweetService }) {
     });
   }));
 
-  router.post('/', asyncWrapper(async (req, res) => {
+  router.post('/', endpointValidator.requireValidTweetBody, asyncWrapper(async (req, res) => {
     const newTweet = await tweetService.create({
       userId: req.user._id,
-      url: req.body.url,
-      source: req.body.source,
-      type: req.body.type,
+      imageUrl: req.body.imageUrl,
+      text: req.body.text,
       publisher: req.body.publisher,
     });
     return res.send({

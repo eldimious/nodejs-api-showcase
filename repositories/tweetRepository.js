@@ -28,9 +28,8 @@ const createPaginationOptions = options => ({
 const mapperToTweetModel = (tweetDoc, Tweet) => Tweet.toModel({
   _id: tweetDoc._id,
   userId: tweetDoc.userId,
-  url: tweetDoc.url,
-  source: tweetDoc.source,
-  type: tweetDoc.type,
+  imageUrl: tweetDoc.imageUrl,
+  text: tweetDoc.text,
   publisher: tweetDoc.publisher,
   created: tweetDoc.created,
 });
@@ -57,12 +56,6 @@ const getQueryObject = (options) => {
   const queries = {
     userId: options.userId,
   };
-  if (options.type) {
-    queries.type = options.type;
-  }
-  if (options.source) {
-    queries.source = options.source;
-  }
   if (options.publisher) {
     queries.publisher = {
       $regex: new RegExp(options.publisher),
@@ -89,9 +82,8 @@ const tweetRepository = {
     const { Tweet: tweetSchema } = this.getSchemas();
     const tweetDocument = tweetSchema({
       userId: options.userId,
-      url: options.url,
-      source: options.source,
-      type: options.type,
+      imageUrl: options.imageUrl,
+      text: options.text,
       publisher: options.publisher,
     });
     try {

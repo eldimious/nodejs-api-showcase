@@ -4,7 +4,6 @@
 // by the implementation of the repositories. It just calls the needed repositories
 // gets the results and usually applies some business logic on them.
 
-
 function init({
   tweetRepository,
 }) {

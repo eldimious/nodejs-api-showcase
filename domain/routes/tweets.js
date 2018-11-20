@@ -1,6 +1,9 @@
 const express = require('express');
 const EndpointValidator = require('../../middleware/endpointValidator');
 const asyncWrapper = require('../utils/asyncWrapper');
+const {
+  getDefaultRequestParams,
+} = require('../utils/getRequestParams');
 
 const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
@@ -29,11 +32,11 @@ function init({ tweetService }) {
     const tweetsList = await tweetService.list(Object.assign(
       {},
       handlePagination({
-        userId: req.user._id,
         publisher: req.query.publisher,
         page: req.query.page ? parseInt(req.query.page, 10) : 1,
         limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
       }),
+      getDefaultRequestParams(req),
     ));
     return res.send({
       data: tweetsList,
@@ -41,22 +44,26 @@ function init({ tweetService }) {
   }));
 
   router.post('/', endpointValidator.requireValidTweetBody, asyncWrapper(async (req, res) => {
-    const newTweet = await tweetService.create({
-      userId: req.user._id,
-      imageUrl: req.body.imageUrl,
-      text: req.body.text,
-      publisher: req.body.publisher,
-    });
+    const newTweet = await tweetService.create(Object.assign(
+      {
+        imageUrl: req.body.imageUrl,
+        text: req.body.text,
+        publisher: req.body.publisher,
+      },
+      getDefaultRequestParams(req),
+    ));
     return res.send({
       data: newTweet,
     });
   }));
 
   router.get('/:tweetId', endpointValidator.requireValidTweetId, asyncWrapper(async (req, res) => {
-    const tweetDoc = await tweetService.get({
-      userId: req.user._id,
-      tweetId: req.params.tweetId,
-    });
+    const tweetDoc = await tweetService.get(Object.assign(
+      {
+        tweetId: req.params.tweetId,
+      },
+      getDefaultRequestParams(req),
+    ));
     return res.send({
       data: tweetDoc,
     });

@@ -1,12 +1,12 @@
-'use strict';
-
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const Tweet = require('../../models/Tweet');
 const tweetServiceFactory = require('../../services/tweetService');
+const tweetRepositoryFactory = require('../../repositories/tweetRepository');
 
 const db = sinon.stub();
-const tweetService = tweetServiceFactory(db);
+const tweetRepository = tweetRepositoryFactory(db);
+const tweetService = tweetServiceFactory(tweetRepository);
 
 function createTweets() {
   const alex = new Tweet({ imageUrl: 'www.test.com', text: 'test1', publisher: 'Aris', created: '2017-08-30T08:17:50.460Z', _id: '5a3b9a95e9f13308a30740a5' });

@@ -4,8 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "coverage": "nyc --reporter html --reporter text npm test",
-    "test": "mocha test --recursive"
+    "coverage": "nyc --reporter html --reporter text mocha test --recursive",
+    "test": "mocha test --recursive --timeout 15000"
   },
   "repository": {
     "type": "git",

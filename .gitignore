@@ -17,3 +17,12 @@ node_modules
 
 # dotenv environment variables file
 .env
+
+# Coverage directory used by tools like istanbul
+coverage
+
+# Compiled binary addons (http://nodejs.org/api/addons.html)
+build/Release
+
+# nyc test coverage
+.nyc_output

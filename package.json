@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
+    "coverage": "nyc --reporter html --reporter text npm test",
     "test": "mocha test --recursive"
   },
   "repository": {
@@ -34,6 +35,7 @@
     "mongoose": "^4.11.13",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.0",
+    "nyc": "^13.1.0",
     "throw-http-errors": "^2.0.0",
     "winston": "2.4.3"
   },

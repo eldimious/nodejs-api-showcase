@@ -139,7 +139,7 @@ Body Params:
 { 
   imageUrl, {String}
   publisher, {String}
-  text, {String} (optional)
+  description, {String} (optional)
 }
 ```
 **Description**: creates a new tweet doc in DB for user.

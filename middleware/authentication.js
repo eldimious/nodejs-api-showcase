@@ -6,7 +6,7 @@ const errors = require('../common/errors');
 
 const authenticationError = new errors.Unauthorized('Invalid user token', 'INVALID_TOKEN');
 
-module.exports = function(req, res, next) {
+module.exports = function authenticateEndpoint(req, res, next) {
   let token = req.headers['authorization'];
   if (token) {
     token = token.includes('Bearer') ? token.split(' ').pop() : token;

@@ -42,7 +42,7 @@ describe('tweet route test', function () {
         .set('Authorization', `Bearer ${testToken}`)
         .expect(200)
         .then((res) => {
-          expect(res.body.data.length).to.eql(tweetData.length);
+          expect(res.body.length).to.eql(tweetData.length);
           return done();
         })
     });

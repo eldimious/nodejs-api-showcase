@@ -38,9 +38,7 @@ function init({ tweetService }) {
       }),
       getDefaultRequestParams(req),
     ));
-    return res.send({
-      data: tweetsList,
-    });
+    return res.send(tweetsList);
   }));
 
   router.post('/', endpointValidator.requireValidTweetBody, asyncWrapper(async (req, res) => {

@@ -70,7 +70,7 @@ describe('tweet repository test', function () {
         page: 1,
         limit: 15,
       });
-      expect(response.tweets).to.have.lengthOf(3);
+      expect(response.data).to.have.lengthOf(3);
       expect(response.pagination.total).to.eql(3);
       expect(response.pagination.limit).to.eql(15);
       expect(response.pagination.page).to.eql(1);

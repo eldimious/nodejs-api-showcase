@@ -6,6 +6,8 @@ const logger = require('morgan');
 const expressValidator = require('express-validator');
 const helmet = require('helmet');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+const expressJwt = require('express-jwt');
 const EndpointValidator = require('../middleware/endpointValidator');
 const authenticateEndpoint = require('../middleware/authentication');
 const authRoutes = require('./routes/auth');
@@ -15,7 +17,7 @@ const errorRoute = require('./routes/errors');
 const {
   jwtSecret,
 } = require('../configuration');
-const expressJwt = require('express-jwt');
+const swaggerDocument = require('../swagger');
 
 const endpointValidator = new EndpointValidator();
 const app = express();
@@ -31,6 +33,10 @@ app.use(cors());
 
 module.exports = (services) => {
   app.use(express.static(path.join(__dirname, 'public')));
+
+  app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
+    explorer: true,
+  }));
   app.use('/auth', authRoutes.init(services));
   app.all('*', authenticateEndpoint, expressJwt({ secret: jwtSecret }), (req, res, next) => {
     next();

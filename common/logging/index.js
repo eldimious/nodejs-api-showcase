@@ -7,7 +7,6 @@ const { Logger } = winston;
 const getTransports = () => {
   const transports = [
     new winston.transports.Console({
-      json: true,
       colorize: true,
     }),
   ];

@@ -13,7 +13,7 @@ const errors = require('../common/errors');
 
 const DEFAULT_PAGINATION_CONTENT = {
   pagination: {},
-  tweets: [],
+  data: [],
 };
 
 
@@ -40,7 +40,7 @@ const handleUsersPaginationResponse = (response, Tweet) => {
     return DEFAULT_PAGINATION_CONTENT;
   }
   const tweetsList = {
-    tweets: response.docs.map(tweetDoc => mapToTweetModel(tweetDoc, Tweet)),
+    data: response.docs.map(tweetDoc => mapToTweetModel(tweetDoc, Tweet)),
     pagination: {
       total: response.total,
       limit: response.limit,
@@ -68,8 +68,8 @@ const getQueryObject = (options) => {
 
 const tweetRepository = {
   async list(options) {
-    const { Tweet: tweetSchema } = this.getSchemas();
     try {
+      const { Tweet: tweetSchema } = this.getSchemas();
       const tweetsDocs = await tweetSchema.paginate(getQueryObject(options), getPaginationOptions(options));
       return handleUsersPaginationResponse(tweetsDocs, tweetSchema);
     } catch (error) {
@@ -77,14 +77,14 @@ const tweetRepository = {
     }
   },
   async create(options) {
-    const { Tweet: tweetSchema } = this.getSchemas();
-    const tweetDocument = tweetSchema({
-      userId: options.userId,
-      imageUrl: options.imageUrl,
-      description: options.description,
-      publisher: options.publisher,
-    });
     try {
+      const { Tweet: tweetSchema } = this.getSchemas();
+      const tweetDocument = tweetSchema({
+        userId: options.userId,
+        imageUrl: options.imageUrl,
+        description: options.description,
+        publisher: options.publisher,
+      });
       const tweetDoc = await tweetDocument.save();
       return mapToTweetModel(tweetDoc, tweetSchema);
     } catch (error) {
@@ -92,8 +92,8 @@ const tweetRepository = {
     }
   },
   async get(options) {
-    const { Tweet: tweetSchema } = this.getSchemas();
     try {
+      const { Tweet: tweetSchema } = this.getSchemas();
       const tweetDoc = await tweetSchema.findOne({ userId: options.userId, _id: options.tweetId }).lean().exec();
       if (!tweetDoc) {
         throw new errors.NotFound(`Tweet with id ${options.tweetId} not found.`);

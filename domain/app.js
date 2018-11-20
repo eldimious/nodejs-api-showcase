@@ -33,7 +33,7 @@ app.use(cors());
 
 module.exports = (services) => {
   app.use(express.static(path.join(__dirname, 'public')));
-
+  // swagger API docs
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
     explorer: true,
   }));

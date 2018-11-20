@@ -47,7 +47,7 @@ function init({ tweetService }) {
     const newTweet = await tweetService.create(Object.assign(
       {
         imageUrl: req.body.imageUrl,
-        text: req.body.text,
+        description: req.body.description,
         publisher: req.body.publisher,
       },
       getDefaultRequestParams(req),

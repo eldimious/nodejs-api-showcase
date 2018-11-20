@@ -4,7 +4,6 @@ const mongoosePaginate = require('mongoose-paginate');
 const UserModel = require('../../models/User');
 const bcrypt = require('bcryptjs');
 
-const Schema = mongoose.Schema;
 
 const userSchema = mongoose.Schema({
   name: {
@@ -26,7 +25,7 @@ const userSchema = mongoose.Schema({
   created: Date,
 });
 
-userSchema.pre('save', function (next) {
+userSchema.pre('save', (next) => {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       return next(err);

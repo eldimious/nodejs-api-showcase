@@ -3,7 +3,6 @@ const moment = require('moment');
 const mongoosePaginate = require('mongoose-paginate');
 const TweetModel = require('../../models/Tweet');
 
-const Schema = mongoose.Schema;
 
 const tweetSchema = mongoose.Schema({
   userId: {
@@ -14,7 +13,7 @@ const tweetSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  text: String,
+  description: String,
   publisher: {
     type: String,
     required: true,

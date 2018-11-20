@@ -9,8 +9,8 @@ const tweetRepository = tweetRepositoryFactory(db);
 const tweetService = tweetServiceFactory(tweetRepository);
 
 function createTweets() {
-  const alex = new Tweet({ imageUrl: 'www.test.com', text: 'test1', publisher: 'Aris', created: '2017-08-30T08:17:50.460Z', _id: '5a3b9a95e9f13308a30740a5' });
-  const aris = new Tweet({ imageUrl: 'www.test1.com', text: 'test2', publisher: 'Alex', created: '2017-08-30T08:17:50.460Z', _id: 'testid2' });
+  const alex = new Tweet({ imageUrl: 'www.test.com', description: 'test1', publisher: 'Aris', created: '2017-08-30T08:17:50.460Z', _id: '5a3b9a95e9f13308a30740a5' });
+  const aris = new Tweet({ imageUrl: 'www.test1.com', description: 'test2', publisher: 'Alex', created: '2017-08-30T08:17:50.460Z', _id: 'testid2' });
   return [alex, aris];
 }
 

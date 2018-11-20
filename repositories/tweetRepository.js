@@ -17,7 +17,7 @@ const DEFAULT_PAGINATION_CONTENT = {
 };
 
 
-const createPaginationOptions = options => ({
+const getPaginationOptions = options => ({
   lean: true,
   page: options.page,
   limit: options.limit,
@@ -25,11 +25,11 @@ const createPaginationOptions = options => ({
 });
 
 
-const mapperToTweetModel = (tweetDoc, Tweet) => Tweet.toModel({
+const mapToTweetModel = (tweetDoc, Tweet) => Tweet.toModel({
   _id: tweetDoc._id,
   userId: tweetDoc.userId,
   imageUrl: tweetDoc.imageUrl,
-  text: tweetDoc.text,
+  description: tweetDoc.description,
   publisher: tweetDoc.publisher,
   created: tweetDoc.created,
 });
@@ -40,7 +40,7 @@ const handleUsersPaginationResponse = (response, Tweet) => {
     return DEFAULT_PAGINATION_CONTENT;
   }
   const tweetsList = {
-    tweets: response.docs.map(tweetDoc => mapperToTweetModel(tweetDoc, Tweet)),
+    tweets: response.docs.map(tweetDoc => mapToTweetModel(tweetDoc, Tweet)),
     pagination: {
       total: response.total,
       limit: response.limit,
@@ -69,10 +69,8 @@ const getQueryObject = (options) => {
 const tweetRepository = {
   async list(options) {
     const { Tweet: tweetSchema } = this.getSchemas();
-    const paginationOptions = createPaginationOptions(options);
-    const queryOptions = getQueryObject(options);
     try {
-      const tweetsDocs = await tweetSchema.paginate(queryOptions, paginationOptions);
+      const tweetsDocs = await tweetSchema.paginate(getQueryObject(options), getPaginationOptions(options));
       return handleUsersPaginationResponse(tweetsDocs, tweetSchema);
     } catch (error) {
       throw error;
@@ -83,12 +81,12 @@ const tweetRepository = {
     const tweetDocument = tweetSchema({
       userId: options.userId,
       imageUrl: options.imageUrl,
-      text: options.text,
+      description: options.description,
       publisher: options.publisher,
     });
     try {
       const tweetDoc = await tweetDocument.save();
-      return mapperToTweetModel(tweetDoc, tweetSchema);
+      return mapToTweetModel(tweetDoc, tweetSchema);
     } catch (error) {
       throw error;
     }
@@ -100,7 +98,7 @@ const tweetRepository = {
       if (!tweetDoc) {
         throw new errors.NotFound(`Tweet with id ${options.tweetId} not found.`);
       }
-      return mapperToTweetModel(tweetDoc, tweetSchema);
+      return mapToTweetModel(tweetDoc, tweetSchema);
     } catch (error) {
       throw error;
     }

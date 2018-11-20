@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "mocha test --recursive"
+    "coverage": "nyc --reporter html --reporter text mocha test --recursive",
+    "test": "mocha test --recursive --timeout 15000"
   },
   "repository": {
     "type": "git",
@@ -34,16 +35,19 @@
     "mongoose": "^4.11.13",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.9.0",
+    "nyc": "^13.1.0",
     "throw-http-errors": "^2.0.0",
     "winston": "2.4.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "coveralls": "^3.0.2",
     "eslint": "^4.7.2",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.3.0",
+    "istanbul": "^0.4.5",
     "mocha": "^3.5.3",
     "sinon": "^4.0.0",
     "supertest": "^3.0.0"

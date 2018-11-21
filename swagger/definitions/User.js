@@ -8,7 +8,10 @@ module.exports = {
       type: 'string',
     },
     surname: {
-      type: 'integer',
+      type: 'string',
+    },
+    username: {
+      type: 'string',
     },
     password: {
       type: 'string',

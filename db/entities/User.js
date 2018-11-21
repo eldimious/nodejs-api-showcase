@@ -29,7 +29,7 @@ const userSchema = mongoose.Schema({
   created: Date,
 });
 
-userSchema.pre('save', (next) => {
+userSchema.pre('save', function (next) {
   bcrypt.genSalt(10, (err, salt) => {
     if (err) {
       return next(err);

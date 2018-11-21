@@ -20,6 +20,7 @@ module.exports = {
             required: [
               'name',
               'surname',
+              'username',
               'email',
               'password',
             ],
@@ -28,6 +29,9 @@ module.exports = {
                 type: 'string',
               },
               surname: {
+                type: 'string',
+              },
+              username: {
                 type: 'string',
               },
               email: {

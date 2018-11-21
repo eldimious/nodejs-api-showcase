@@ -69,6 +69,7 @@ Body Params:
 { 
   name,
   surname,
+  username,
   email,
   password
 }
@@ -104,6 +105,7 @@ Body Params:
         "user": {
             "id": "mongoID",
             "fullName": "clark kent",
+            "username": "superman",
             "email": "clarkkent@test.com",
             "created": "2018-01-08T14:43:32.480Z"
         }

@@ -14,19 +14,14 @@ const {
 
 const TOKEN_EXPIRATION = 86400;
 
-const mapperToUserModel = (UserSchema, userDoc) => UserSchema.toUserModel({
-  _id: userDoc._id,
-  name: userDoc.name,
-  surname: userDoc.surname,
-  email: userDoc.email,
-  created: userDoc.created,
-});
+const mapperToUserModel = (UserSchema, userDoc) => UserSchema.toUserModel(userDoc);
 
 
 const authRepository = {
   async register({
     name,
     surname,
+    username,
     email,
     password,
   }) {
@@ -37,6 +32,7 @@ const authRepository = {
       const newUser = new userSchema({
         name,
         surname,
+        username,
         email,
         password,
       });

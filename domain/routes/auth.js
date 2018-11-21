@@ -10,6 +10,7 @@ function init({ authService }) {
     const result = await authService.register({
       name: req.body.name,
       surname: req.body.surname,
+      username: req.body.username,
       email: req.body.email,
       password: req.body.password,
     });

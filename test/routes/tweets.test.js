@@ -4,8 +4,8 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 
 const repositories = sinon.stub();
-const services = require('../../services')(repositories);
-const app = require('../../domain/app')(services);
+const services = require('../../domain')(repositories);
+const app = require('../../router/app')(services);
 const jwt = require('jsonwebtoken');
 const tweetData = require('../data/tweet').tweets;
 

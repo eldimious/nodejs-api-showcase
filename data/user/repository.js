@@ -1,4 +1,4 @@
-const errors = require('../common/errors');
+const errors = require('../../common/errors');
 
 
 const mapperToUserModel = (UserSchema, userDoc) => UserSchema.toUserModel({
@@ -37,5 +37,6 @@ const init = ({ User }) => Object.assign(Object.create(userRepository), {
     };
   },
 });
+
 
 module.exports = init;

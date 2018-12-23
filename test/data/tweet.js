@@ -1,4 +1,4 @@
-const Tweet = require('../../models/Tweet');
+const Tweet = require('../../domain/tweet/model');
 
 
 module.exports.tweets = [

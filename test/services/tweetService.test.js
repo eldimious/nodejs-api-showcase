@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const Tweet = require('../../models/Tweet');
-const tweetServiceFactory = require('../../services/tweetService');
-const tweetRepositoryFactory = require('../../repositories/tweetRepository');
+const Tweet = require('../../domain/tweet/model');
+const tweetServiceFactory = require('../../domain/tweet/service');
+const tweetRepositoryFactory = require('../../data/tweet/repository');
 
 const db = sinon.stub();
 const tweetRepository = tweetRepositoryFactory(db);
@@ -13,6 +13,7 @@ function createTweets() {
   const aris = new Tweet({ imageUrl: 'www.test1.com', description: 'test2', publisher: 'Alex', created: '2017-08-30T08:17:50.460Z', _id: 'testid2' });
   return [alex, aris];
 }
+
 
 describe('tweet service test', function () {
   beforeEach(() => {

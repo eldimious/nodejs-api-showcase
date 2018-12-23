@@ -1,7 +1,7 @@
 // Register all the services here
-const tweetService = require('./tweetService');
-const authService = require('./authService');
-const userService = require('./userService');
+const tweetService = require('./tweet/service');
+const authService = require('./auth/service');
+const userService = require('./user/service');
 
 module.exports = repositories => ({
   authService: authService(repositories),

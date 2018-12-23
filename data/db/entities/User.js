@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const mongoosePaginate = require('mongoose-paginate');
-const UserModel = require('../../models/User');
+const UserModel = require('../../../domain/user/model');
 const bcrypt = require('bcryptjs');
 
 

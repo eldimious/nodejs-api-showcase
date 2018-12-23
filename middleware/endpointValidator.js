@@ -1,4 +1,4 @@
-const errorHandler = require('../domain/routes/errors');
+const errorHandler = require('../router/routes/errors');
 const errors = require('../common/errors');
 
 module.exports = class EndpointValidator {

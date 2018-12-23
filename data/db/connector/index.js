@@ -1,7 +1,7 @@
 /*  Mongoose connection module. */
 const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
-const logging = require('../../common/logging');
+const logging = require('../../../common/logging');
 
 module.exports = (dbConnectionString) => {
   if (!dbConnectionString) {

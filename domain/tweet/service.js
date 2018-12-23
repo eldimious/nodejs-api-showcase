@@ -3,7 +3,6 @@
 // nor does it care where the tweet models came from. This is abstracted away
 // by the implementation of the repositories. It just calls the needed repositories
 // gets the results and usually applies some business logic on them.
-
 function init({
   tweetRepository,
 }) {

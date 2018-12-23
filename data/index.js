@@ -1,6 +1,6 @@
-const tweetRepository = require('./tweetRepository');
-const authRepository = require('./authRepository');
-const userRepository = require('./userRepository');
+const tweetRepository = require('./tweet/repository');
+const authRepository = require('./auth/repository');
+const userRepository = require('./user/repository');
 
 module.exports = db => ({
   authRepository: authRepository(db.entities),

@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const mongoosePaginate = require('mongoose-paginate');
-const TweetModel = require('../../models/Tweet');
+const TweetModel = require('../../../domain/tweet/model');
 
 
 const tweetSchema = mongoose.Schema({
@@ -20,6 +20,7 @@ const tweetSchema = mongoose.Schema({
   },
   created: Date,
 });
+
 
 tweetSchema.pre('save', (next) => {
   this.created = moment().toJSON();

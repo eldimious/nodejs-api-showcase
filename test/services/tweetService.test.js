@@ -2,7 +2,7 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const Tweet = require('../../domain/tweet/model');
 const tweetServiceFactory = require('../../domain/tweet/service');
-const tweetRepositoryFactory = require('../../data/tweet/repository');
+const tweetRepositoryFactory = require('../../data/repositories/tweet/repository');
 
 const db = sinon.stub();
 const tweetRepository = tweetRepositoryFactory(db);

@@ -9,7 +9,7 @@
 // With factory functions(closures) we can have data privacy.
 
 
-const errors = require('../../common/errors');
+const errors = require('../../../common/errors');
 
 const DEFAULT_PAGINATION_CONTENT = {
   pagination: {},

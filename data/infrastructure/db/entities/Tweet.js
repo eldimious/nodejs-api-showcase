@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const mongoosePaginate = require('mongoose-paginate');
-const TweetModel = require('../../../domain/tweet/model');
+const TweetModel = require('../../../../domain/tweet/model');
 
 
 const tweetSchema = mongoose.Schema({

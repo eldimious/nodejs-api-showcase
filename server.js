@@ -4,10 +4,10 @@ const {
 } = require('./configuration');
 const logging = require('./common/logging');
 const signals = require('./signals');
-const db = require('./data/db')({ dbConnectionString });
+const db = require('./data/infrastructure/db')({ dbConnectionString });
 
 db.connector.connect();
-const repositories = require('./data')(db);
+const repositories = require('./data/repositories')(db);
 const services = require('./domain')(repositories);
 const app = require('./router/app')(services);
 

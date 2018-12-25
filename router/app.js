@@ -7,17 +7,14 @@ const expressValidator = require('express-validator');
 const helmet = require('helmet');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
-const expressJwt = require('express-jwt');
 const EndpointValidator = require('../middleware/endpointValidator');
-const authenticateEndpoint = require('../middleware/authentication');
+const authenticateEndpoint = require('./middleware/authentication');
 const authRoutes = require('./routes/auth');
 const tweetsRoutes = require('./routes/tweets');
 const usersRoutes = require('./routes/users');
 const errorRoute = require('./routes/errors');
-const {
-  jwtSecret,
-} = require('../configuration');
 const swaggerDocument = require('../swagger');
+const asyncWrapper = require('./utils/asyncWrapper');
 
 const endpointValidator = new EndpointValidator();
 const app = express();
@@ -38,7 +35,7 @@ module.exports = (services) => {
     explorer: true,
   }));
   app.use('/auth', authRoutes.init(services));
-  app.all('*', authenticateEndpoint, expressJwt({ secret: jwtSecret }), (req, res, next) => {
+  app.all('*', asyncWrapper(authenticateEndpoint(services)), (req, res, next) => {
     next();
   });
   app.use('/tweets', tweetsRoutes.init(services));

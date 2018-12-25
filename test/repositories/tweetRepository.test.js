@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const TweetModel = require('../../domain/tweet/model');
-const Tweet = require('../../data/db/entities/Tweet');
+const Tweet = require('../../data/infrastructure/db/entities/Tweet');
 
 const db = {
   entities: {
@@ -11,7 +11,7 @@ const db = {
 
 const {
   tweetRepository,
-} = require('../../data')(db);
+} = require('../../data/repositories')(db);
 
 const tweetDocs = [
   {

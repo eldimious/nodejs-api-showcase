@@ -162,7 +162,6 @@ GET /tweets/:tweetId
   - [Express-validator](https://github.com/ctavan/express-validator)
   - [Bcrypt](https://github.com/dcodeIO/bcrypt.js)
   - [Jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
-  - [Express-jwt](https://github.com/auth0/express-jwt)
   - [Mocha](https://www.npmjs.com/package/mocha)
   - [Chai](https://www.npmjs.com/package/chai)
   - [Sinon](https://www.npmjs.com/package/sinon)

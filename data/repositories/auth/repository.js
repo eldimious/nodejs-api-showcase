@@ -6,11 +6,11 @@
 // It is possible to fetch the entities from different sources like inmemory cache,
 // network or the db without the need to alter the consumers code.
 
-const errors = require('../../common/errors');
+const errors = require('../../../common/errors');
 const jwt = require('jsonwebtoken');
 const {
   jwtSecret,
-} = require('../../configuration');
+} = require('../../../configuration');
 
 const TOKEN_EXPIRATION = 86400;
 

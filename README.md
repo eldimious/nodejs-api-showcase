@@ -2,7 +2,23 @@
 Node.js app architecture showcase using [Express](https://www.npmjs.com/package/express), [MongoDB](https://www.mongodb.com/) and [Mongoose](http://mongoosejs.com/) as ORM. The project has an  implementation of an authentication system that uses JSON Web Token to manage users' login data in Node.js web server. You can start your Node.js projects building on this boilerplate.
 
 # Architecture Overview #
-The app is designed to use a layered architecture. The architecture is heavily influenced by the Clean Architecture and Hexagonal Architecture. Clean Architecture is an architecture where “the business rules can be tested without the UI, database, web server, or any external element.”[clean architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html). Also, in entry point(server.js), i use Dependency Injection(DI) instead of node DI(require). There are many reasons using Dependency Injection as: Decoupling, Easier unit testing, Faster development. Also Dependency injection is really helpful when it comes to testing. You can easily mock your modules' dependencies using this pattern. You can take a look at this tutorial: `https://blog.risingstack.com/dependency-injection-in-node-js/`.
+The app is designed to use a layered architecture. The architecture is heavily influenced by the Clean Architecture and Hexagonal Architecture. [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) is an architecture where `the business rules can be tested without the UI, database, web server, or any external element`. 
+
+<p float="left">
+  <img src="https://cdn-images-1.medium.com/max/719/1*ZNT5apOxDzGrTKUJQAIcvg.png"/>
+  <img src="https://cdn-images-1.medium.com/max/900/0*R7uuhFwZbhcqZSvn"/> 
+</p>
+
+<p float="left">
+  <img src="https://cdn-images-1.medium.com/max/1200/0*rFs1UtU4sRns5vCJ.png"/>
+  <img src="https://cdn-images-1.medium.com/max/1200/0*C-snK7L4sMn7b6CW.png"/> 
+</p>
+
+Also, in entry point(server.js), I use Dependency Injection(DI). There are many reasons using Dependency Injection as: 
+  1.Decoupling, 
+  2.Easier unit testing,
+  3.Faster development. 
+  4.Dependency injection is really helpful when it comes to testing. You can easily mock your modules' dependencies using this pattern. You can take a look at this tutorial: `https://blog.risingstack.com/dependency-injection-in-node-js/`.
 According to DI:
   A. High-level modules should not depend on low-level modules. Both should depend on abstractions.
   B. Abstractions should not depend on details.

@@ -4,25 +4,26 @@ Node.js app architecture showcase using [Express](https://www.npmjs.com/package/
 # Architecture Overview #
 The app is designed to use a layered architecture. The architecture is heavily influenced by the Clean Architecture and Hexagonal Architecture. [Clean Architecture](https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html) is an architecture where `the business rules can be tested without the UI, database, web server, or any external element`. 
 
-<p float="left">
-  <img src="https://cdn-images-1.medium.com/max/719/1*ZNT5apOxDzGrTKUJQAIcvg.png"/>
-  <img src="https://cdn-images-1.medium.com/max/900/0*R7uuhFwZbhcqZSvn"/> 
+<p align="center">
+  <img src="https://cdn-images-1.medium.com/max/719/1*ZNT5apOxDzGrTKUJQAIcvg.png" width="350"/>
+  <img src="https://cdn-images-1.medium.com/max/900/0*R7uuhFwZbhcqZSvn" width="350" /> 
 </p>
 
-<p float="left">
-  <img src="https://cdn-images-1.medium.com/max/1200/0*rFs1UtU4sRns5vCJ.png"/>
-  <img src="https://cdn-images-1.medium.com/max/1200/0*C-snK7L4sMn7b6CW.png"/> 
+<p align="center">
+  <img src="https://cdn-images-1.medium.com/max/1200/0*rFs1UtU4sRns5vCJ.png" width="350" />
+  <img src="https://cdn-images-1.medium.com/max/1200/0*C-snK7L4sMn7b6CW.png" width="350" /> 
 </p>
 
-Also, in entry point(server.js), I use Dependency Injection(DI). There are many reasons using Dependency Injection as: 
-  1.Decoupling, 
-  2.Easier unit testing,
-  3.Faster development. 
-  4.Dependency injection is really helpful when it comes to testing. You can easily mock your modules' dependencies using this pattern. You can take a look at this tutorial: `https://blog.risingstack.com/dependency-injection-in-node-js/`.
+Also, in entry point(server.js), I use Dependency Injection(DI). There are many reasons using Dependency Injection as:
+1. Decoupling
+2. Easier unit testing
+3. Faster development
+4. Dependency injection is really helpful when it comes to testing. You can easily mock your modules' dependencies using this pattern.
+
+You can take a look at this tutorial: `https://blog.risingstack.com/dependency-injection-in-node-js/`.
 According to DI:
   A. High-level modules should not depend on low-level modules. Both should depend on abstractions.
   B. Abstractions should not depend on details.
-![alt text](https://en.wikipedia.org/wiki/Dependency_inversion_principle#/media/File:Dependency_inversion.png)
 
 The code style being used is based on the airbnb js style guide.
 

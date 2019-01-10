@@ -63,8 +63,8 @@ module.exports = class EndpointValidator {
   }
 
 
-  requireValidTweetId(req, res, next) {
-    req.checkParams('tweetId', 'add a valid tweet id.').isMongoObjectID();
+  requireValidPostId(req, res, next) {
+    req.checkParams('postId', 'add a valid post id.').isMongoObjectID();
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
         return errorHandler(new errors.BadRequest(result.array({ onlyFirstError: true })[0].msg), req, res, next);
@@ -74,7 +74,7 @@ module.exports = class EndpointValidator {
   }
 
 
-  requireValidTweetBody(req, res, next) {
+  requireValidPostBody(req, res, next) {
     req.checkBody('imageUrl', 'imageUrl in body required.').notEmpty().isURL();
     req.checkBody('publisher', 'publisher in body required.').notEmpty();
     req.getValidationResult().then((result) => {

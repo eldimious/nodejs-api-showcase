@@ -1,10 +1,10 @@
 const auth = require('./auth');
-const tweets = require('./tweets');
+const posts = require('./posts');
 const users = require('./users');
 
 
 module.exports = {
   auth,
-  tweets,
+  posts,
   users,
 };

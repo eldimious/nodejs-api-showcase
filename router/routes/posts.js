@@ -9,7 +9,9 @@ const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
 
 
-function init({ tweetService }) {
+function init({
+  postService,
+}) {
   const DEFAULT_PAGINATION_LIMIT = 25;
   const MAX_PAGINATION_LIMIT = 100;
   const DEFAULT_PAGINATION_PAGE = 1;
@@ -29,7 +31,7 @@ function init({ tweetService }) {
   };
 
   router.get('/', asyncWrapper(async (req, res) => {
-    const tweetsList = await tweetService.list(Object.assign(
+    const postsList = await postService.list(Object.assign(
       {},
       handlePagination({
         publisher: req.query.publisher,
@@ -38,11 +40,11 @@ function init({ tweetService }) {
       }),
       getDefaultRequestParams(req),
     ));
-    return res.send(tweetsList);
+    return res.send(postsList);
   }));
 
-  router.post('/', endpointValidator.requireValidTweetBody, asyncWrapper(async (req, res) => {
-    const newTweet = await tweetService.create(Object.assign(
+  router.post('/', endpointValidator.requireValidPostBody, asyncWrapper(async (req, res) => {
+    const newPost = await postService.create(Object.assign(
       {
         imageUrl: req.body.imageUrl,
         description: req.body.description,
@@ -51,23 +53,24 @@ function init({ tweetService }) {
       getDefaultRequestParams(req),
     ));
     return res.send({
-      data: newTweet,
+      data: newPost,
     });
   }));
 
-  router.get('/:tweetId', endpointValidator.requireValidTweetId, asyncWrapper(async (req, res) => {
-    const tweetDoc = await tweetService.get(Object.assign(
+  router.get('/:postId', endpointValidator.requireValidPostId, asyncWrapper(async (req, res) => {
+    const postDoc = await postService.get(Object.assign(
       {
-        tweetId: req.params.tweetId,
+        postId: req.params.postId,
       },
       getDefaultRequestParams(req),
     ));
     return res.send({
-      data: tweetDoc,
+      data: postDoc,
     });
   }));
 
   return router;
 }
+
 
 module.exports.init = init;

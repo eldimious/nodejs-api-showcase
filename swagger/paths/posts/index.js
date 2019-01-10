@@ -1,11 +1,11 @@
 module.exports = {
-  'list-tweets': {
+  'list-posts': {
     parameters: [
       {
         name: 'publisher',
         in: 'query',
         required: false,
-        description: 'Optional: publisher to get his tweets docs',
+        description: 'Optional: publisher to get his posts docs',
         type: 'string',
       },
       {
@@ -25,24 +25,24 @@ module.exports = {
     ],
     get: {
       tags: [
-        'Tweets',
+        'Posts',
       ],
       security: [
         {
           Bearer: [],
         },
       ],
-      summary: 'Get list of tweets based on query params otherwise gets all tweets docs that user added',
+      summary: 'Get list of posts based on query params otherwise gets all posts docs that user added',
       responses: {
         200: {
-          description: 'List of tweets found',
+          description: 'List of posts found',
           schema: {
             type: 'object',
             properties: {
               data: {
                 type: 'array',
                 items: {
-                  $ref: '#/definitions/Tweet',
+                  $ref: '#/definitions/Post',
                 },
               },
               pagination: {
@@ -67,12 +67,12 @@ module.exports = {
       },
     },
   },
-  'post-tweets': {
+  'post-posts': {
     parameters: [
       {
         name: 'body',
         in: 'body',
-        description: 'Body for creating new tweet',
+        description: 'Body for creating new post',
         schema: {
           type: 'object',
           required: [
@@ -95,23 +95,23 @@ module.exports = {
     ],
     post: {
       tags: [
-        'Tweets',
+        'Post',
       ],
       security: [
         {
           Bearer: [],
         },
       ],
-      summary: 'Create new tweet mannualy',
+      summary: 'Create new post mannualy',
       responses: {
         200: {
-          description: 'Tweet created',
+          description: 'Post created',
           schema: {
             type: 'object',
             properties: {
               data: {
                 type: 'object',
-                $ref: '#/definitions/Tweet',
+                $ref: '#/definitions/Post',
               },
             },
           },
@@ -131,35 +131,35 @@ module.exports = {
       },
     },
   },
-  'get-tweets': {
+  'get-posts': {
     parameters: [
       {
-        name: 'tweetId',
+        name: 'postId',
         in: 'path',
         required: true,
-        description: 'Id of tweet doc',
+        description: 'Id of post doc',
         type: 'string',
       },
     ],
     get: {
       tags: [
-        'Tweets',
+        'Posts',
       ],
       security: [
         {
           Bearer: [],
         },
       ],
-      summary: 'Get specific tweet based on tweetId',
+      summary: 'Get specific post based on postId',
       responses: {
         200: {
-          description: 'Tweet found',
+          description: 'Post found',
           schema: {
             type: 'object',
             properties: {
               data: {
                 type: 'object',
-                $ref: '#/definitions/Tweet',
+                $ref: '#/definitions/Post',
               },
             },
           },

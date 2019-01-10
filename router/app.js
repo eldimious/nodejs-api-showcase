@@ -10,7 +10,7 @@ const swaggerUi = require('swagger-ui-express');
 const EndpointValidator = require('./middleware/endpointValidator');
 const authenticateEndpoint = require('./middleware/authentication');
 const authRoutes = require('./routes/auth');
-const tweetsRoutes = require('./routes/tweets');
+const postsRoutes = require('./routes/posts');
 const usersRoutes = require('./routes/users');
 const errorRoute = require('./routes/errors');
 const swaggerDocument = require('../swagger');
@@ -38,7 +38,7 @@ module.exports = (services) => {
   app.all('*', asyncWrapper(authenticateEndpoint(services)), (req, res, next) => {
     next();
   });
-  app.use('/tweets', tweetsRoutes.init(services));
+  app.use('/posts', postsRoutes.init(services));
   app.use('/users', usersRoutes.init(services));
   app.use(errorRoute);
 

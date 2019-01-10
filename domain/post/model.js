@@ -2,7 +2,7 @@
   * This is the app Model it is decoupled from
   * the Entities used for the databse
 */
-class Tweet {
+class Post {
   constructor({ _id, userId, imageUrl, description, publisher, created } = {}) {
     this.id = _id;
     this.userId = userId;
@@ -13,4 +13,4 @@ class Tweet {
   }
 }
 
-module.exports = Tweet;
+module.exports = Post;

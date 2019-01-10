@@ -24,8 +24,8 @@ module.exports = {
       description: 'Endpoints for register/login',
     },
     {
-      name: 'Tweets',
-      description: 'Endpoints for tweets',
+      name: 'Posts',
+      description: 'Endpoints for posts',
     },
   ],
   schemes: [
@@ -57,16 +57,16 @@ module.exports = {
   paths: {
     '/register/': paths.auth.register,
     '/login': paths.auth.login,
-    '/tweets': paths.tweets['list-tweets'],
-    '/tweets/': paths.tweets['post-tweets'],
-    '/tweets/{tweetsId}/': paths.tweets['get-tweets'],
+    '/posts': paths.posts['list-posts'],
+    '/posts/': paths.posts['post-posts'],
+    '/posts/{postId}/': paths.posts['get-posts'],
     '/users/{userId}': paths.users['get-users'],
   },
   components,
   definitions: {
     Pagination: definitions.Pagination,
     Token: definitions.Token,
-    Tweet: definitions.Tweet,
+    Post: definitions.Post,
     User: definitions.User,
     401: definitions.Errors[401],
     400: definitions.Errors[400],

@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
 const mongoosePaginate = require('mongoose-paginate');
-const TweetModel = require('../../../../domain/tweet/model');
+const PostModel = require('../../../../domain/post/model');
 
 
-const tweetSchema = mongoose.Schema({
+const postSchema = mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
@@ -22,17 +22,17 @@ const tweetSchema = mongoose.Schema({
 });
 
 
-tweetSchema.pre('save', (next) => {
+postSchema.pre('save', (next) => {
   this.created = moment().toJSON();
   return next();
 });
 
-tweetSchema.statics.toModel = tweetDoc => new TweetModel(tweetDoc);
+postSchema.statics.toModel = post => new PostModel(post);
 
-tweetSchema.index({ created: -1 });
+postSchema.index({ created: -1 });
 
-tweetSchema.plugin(mongoosePaginate);
+postSchema.plugin(mongoosePaginate);
 
-const Tweet = mongoose.model('Tweet', tweetSchema);
+const Post = mongoose.model('Post', postSchema);
 
-module.exports = Tweet;
+module.exports = Post;

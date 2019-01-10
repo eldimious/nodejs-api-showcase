@@ -7,7 +7,6 @@ const setupWorkerProcesses = require('./common/utils/workerProcesses');
 const logging = require('./common/logging');
 const signals = require('./signals');
 const db = require('./data/infrastructure/db')({ dbConnectionString });
-
 db.connector.connect();
 const repositories = require('./data/repositories')(db);
 const services = require('./domain')(repositories);

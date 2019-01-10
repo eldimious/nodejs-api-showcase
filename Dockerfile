@@ -1,20 +1,16 @@
-FROM node:carbon
+FROM node:11.5.0-alpine
+
+# Run the image as a non-root user
+RUN adduser -S api
+USER api
 
 # Create app directory
-WORKDIR /usr/src/api
+RUN mkdir -p /home/api/app
+WORKDIR /home/api/app
 
 # Install app dependencies
-# COPY package.json .
-
-# For npm@5 or later, copy package-lock.json as well
-COPY package.json package-lock.json ./
-
+COPY --chown=api:nogroup package.json package-lock.json /home/api/app
 RUN npm install
-# If you are building your code for production
-# RUN npm install --only=production
-
-# Bundle app source
-COPY . .
 
 EXPOSE 5555
 CMD [ "npm", "start" ]

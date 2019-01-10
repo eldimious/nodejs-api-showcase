@@ -3,6 +3,7 @@ const {
   httpPort,
   dbConnectionString,
 } = require('./configuration');
+
 const setupWorkerProcesses = require('./common/utils/workerProcesses');
 const logging = require('./common/logging');
 const signals = require('./signals');

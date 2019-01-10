@@ -1,5 +1,4 @@
 {
-	"watch": ["src/**/*.js"],
   "ignore": ["src/test/**"],
   "ext": "js,json"
 }

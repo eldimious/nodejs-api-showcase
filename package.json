@@ -4,10 +4,10 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "coverage": "nyc --reporter html --reporter text mocha src/test --recursive",
-    "debug": "nodemon src/server.js",
-    "start": "node src/server.js",
-    "test": "mocha src/test --recursive --timeout 15000"
+    "coverage": "nyc --reporter html --reporter text mocha test --recursive",
+    "debug": "nodemon server.js",
+    "start": "node server.js",
+    "test": "mocha test --recursive --timeout 15000"
   },
   "repository": {
     "type": "git",

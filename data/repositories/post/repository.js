@@ -1,5 +1,5 @@
 // DATA LAYER
-// tweetRepository:
+// postRepository:
 // is used to provide an abstraction on top of the database ( and possible other data sources)
 // so other parts of the application are decoupled from the specific database implementation.
 // Furthermore it can hide the origin of the data from it's consumers.
@@ -25,22 +25,22 @@ const getPaginationOptions = options => ({
 });
 
 
-const mapToTweetModel = (tweetDoc, Tweet) => Tweet.toModel({
-  _id: tweetDoc._id,
-  userId: tweetDoc.userId,
-  imageUrl: tweetDoc.imageUrl,
-  description: tweetDoc.description,
-  publisher: tweetDoc.publisher,
-  created: tweetDoc.created,
+const mapToPostModel = (postDoc, Post) => Post.toModel({
+  _id: postDoc._id,
+  userId: postDoc.userId,
+  imageUrl: postDoc.imageUrl,
+  description: postDoc.description,
+  publisher: postDoc.publisher,
+  created: postDoc.created,
 });
 
 
-const handleUsersPaginationResponse = (response, Tweet) => {
+const handleUsersPaginationResponse = (response, Post) => {
   if (!response.docs || response.docs.length <= 0) {
     return DEFAULT_PAGINATION_CONTENT;
   }
-  const tweetsList = {
-    data: response.docs.map(tweetDoc => mapToTweetModel(tweetDoc, Tweet)),
+  const postsList = {
+    data: response.docs.map(doc => mapToPostModel(doc, Post)),
     pagination: {
       total: response.total,
       limit: response.limit,
@@ -48,7 +48,7 @@ const handleUsersPaginationResponse = (response, Tweet) => {
       pages: response.pages,
     },
   };
-  return tweetsList;
+  return postsList;
 };
 
 
@@ -66,39 +66,38 @@ const getQueryObject = (options) => {
 };
 
 
-const tweetRepository = {
+const postRepository = {
   async list(options) {
     try {
-      const { Tweet: tweetSchema } = this.getSchemas();
-      const tweetsDocs = await tweetSchema.paginate(getQueryObject(options), getPaginationOptions(options));
-      return handleUsersPaginationResponse(tweetsDocs, tweetSchema);
+      const { Post: postSchema } = this.getSchemas();
+      const docs = await postSchema.paginate(getQueryObject(options), getPaginationOptions(options));
+      return handleUsersPaginationResponse(docs, postSchema);
     } catch (error) {
       throw error;
     }
   },
   async create(options) {
     try {
-      const { Tweet: tweetSchema } = this.getSchemas();
-      const tweetDocument = tweetSchema({
+      const { Post: postSchema } = this.getSchemas();
+      const doc = await postSchema({
         userId: options.userId,
         imageUrl: options.imageUrl,
         description: options.description,
         publisher: options.publisher,
-      });
-      const tweetDoc = await tweetDocument.save();
-      return mapToTweetModel(tweetDoc, tweetSchema);
+      }).save();
+      return mapToPostModel(doc, postSchema);
     } catch (error) {
       throw error;
     }
   },
   async get(options) {
     try {
-      const { Tweet: tweetSchema } = this.getSchemas();
-      const tweetDoc = await tweetSchema.findOne({ userId: options.userId, _id: options.tweetId }).lean().exec();
-      if (!tweetDoc) {
-        throw new errors.NotFound(`Tweet with id ${options.tweetId} not found.`);
+      const { Post: postSchema } = this.getSchemas();
+      const doc = await postSchema.findOne({ userId: options.userId, _id: options.postId }).lean().exec();
+      if (!doc) {
+        throw new errors.NotFound(`Post with id ${options.postId} not found.`);
       }
-      return mapToTweetModel(tweetDoc, tweetSchema);
+      return mapToPostModel(doc, postSchema);
     } catch (error) {
       throw error;
     }
@@ -106,10 +105,10 @@ const tweetRepository = {
 };
 
 
-const init = ({ Tweet }) => Object.assign(Object.create(tweetRepository), {
+const init = ({ Post }) => Object.assign(Object.create(postRepository), {
   getSchemas() {
     return {
-      Tweet,
+      Post,
     };
   },
 });

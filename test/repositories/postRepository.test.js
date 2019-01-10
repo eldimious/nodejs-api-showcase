@@ -1,19 +1,19 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const TweetModel = require('../../domain/tweet/model');
-const Tweet = require('../../data/infrastructure/db/entities/Tweet');
+const PostModel = require('../../domain/post/model');
+const Post = require('../../data/infrastructure/db/entities/Post');
 
 const db = {
   entities: {
-    Tweet,
+    Post,
   },
 };
 
 const {
-  tweetRepository,
+  postRepository,
 } = require('../../data/repositories')(db);
 
-const tweetDocs = [
+const postDocs = [
   {
     userId: '5a510cf183fd9d0c74898e74',
     imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpeF6dmyApzNtT4UsGGtztb6ioOspen7pM8SAMRMIbY8gIeDh3', 
@@ -32,40 +32,40 @@ const tweetDocs = [
 ];
 
 
-function createDbTweets(total = []) {
+function createDbPosts(total = []) {
   return () => {
-    const doc = new db.entities.Tweet(tweetDocs.pop());
+    const doc = new db.entities.Post(postDocs.pop());
     total.push(doc);
-    if (tweetDocs.length > 0) {
-      return createDbTweets(total)();
+    if (postDocs.length > 0) {
+      return createDbPosts(total)();
     }
     return total;
   };
 }
 
-describe('tweet repository test', function () {
+describe('post repository test', function () {
   beforeEach(() => {
-    sinon.stub(db.entities.Tweet, 'paginate');
-    sinon.stub(db.entities.Tweet, 'findOne');
+    sinon.stub(db.entities.Post, 'paginate');
+    sinon.stub(db.entities.Post, 'findOne');
   });
 
   afterEach(() => {
-    db.entities.Tweet.paginate.restore();
-    db.entities.Tweet.findOne.restore();
+    db.entities.Post.paginate.restore();
+    db.entities.Post.findOne.restore();
   });
 
 
-  describe('tweet list method', function () {
-    it('should call the db and return list of tweets', async function () {
-      const tweets = createDbTweets([])();
-      db.entities.Tweet.paginate.resolves({
-        docs: tweets,
+  describe('post list method', function () {
+    it('should call the db and return list of posts', async function () {
+      const posts = createDbPosts([])();
+      db.entities.Post.paginate.resolves({
+        docs: posts,
         page: 1,
         limit: 15,
         pages: 1,
         total: 3,
       });
-      const response = await tweetRepository.list({
+      const response = await postRepository.list({
         page: 1,
         limit: 15,
       });

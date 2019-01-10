@@ -1,7 +1,7 @@
-const Tweet = require('./Tweet');
+const Post = require('./Post');
 const User = require('./User');
 
 module.exports = {
-  Tweet,
+  Post,
   User,
 };

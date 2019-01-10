@@ -5,6 +5,8 @@
   "main": "server.js",
   "scripts": {
     "coverage": "nyc --reporter html --reporter text mocha test --recursive",
+    "debug": "nodemon server.js",
+    "start": "node server.js",
     "test": "mocha test --recursive --timeout 15000"
   },
   "repository": {
@@ -49,6 +51,7 @@
     "eslint-plugin-react": "^7.3.0",
     "istanbul": "^0.4.5",
     "mocha": "^3.5.3",
+    "nodemon": "^1.18.9",
     "sinon": "^4.0.0",
     "supertest": "^3.0.0"
   }

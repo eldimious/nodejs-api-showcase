@@ -1,3 +1,5 @@
+[![Build Status](https://api.travis-ci.org/eldimious/nodejs-api-showcase.svg?branch=master)](https://api.travis-ci.org/eldimious/nodejs-api-showcase)
+
 # What is this repository for? #
 Node.js app architecture showcase using [Express](https://www.npmjs.com/package/express), [MongoDB](https://www.mongodb.com/) and [Mongoose](http://mongoosejs.com/) as ORM. The project has an  implementation of an authentication system that uses JSON Web Token to manage users' login data in Node.js web server. You can start your Node.js projects building on this boilerplate.
 

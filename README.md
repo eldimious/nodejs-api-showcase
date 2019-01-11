@@ -132,14 +132,14 @@ Body Params:
 }
 ```
 
-## Tweets Routes ##
+## Posts Routes ##
 
-In order to be able to retrieve tweets list, user should send a Bearer token using Authorization header, otherwise server will answer with 401.
+In order to be able to retrieve posts list, user should send a Bearer token using Authorization header, otherwise server will answer with 401.
 
-### Tweets List ###
+### Posts List ###
 
 ```shell
-GET /tweets
+GET /posts
 ```
 
 Query Params:
@@ -148,11 +148,11 @@ Query Params:
   publisher, {String} (optional)
 }
 ```
-**Description**: retrieves user's tweets docs, based on his token and his id.
+**Description**: retrieves user's posts docs, based on his token and his id.
 
 
 ```shell
-POST /tweets
+POST /posts
 ```
 
 Body Params:
@@ -163,13 +163,13 @@ Body Params:
   description, {String} (optional)
 }
 ```
-**Description**: creates a new tweet doc in DB for user.
+**Description**: creates a new post doc in DB for user.
 
 ```shell
-GET /tweets/:tweetId
+GET /posts/:postId
 ```
 
-**Description**: Gets specific user's tweet.
+**Description**: Gets specific user's post.
 
 # Packages and Tools #
 

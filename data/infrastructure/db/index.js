@@ -1,9 +1,57 @@
-const connectorFactory = require('./connector');
-const entities = require('./entities');
+/*
+  It can be published as private npm module shared among all team's projects.
+*/
 
-module.exports = ({
-  dbConnectionString,
-}) => ({
-  connector: connectorFactory(dbConnectionString),
-  entities,
-});
+const mongoose = require('mongoose');
+const schemasFactory = require('./schemas');
+const storesFactory = require('./dataStores');
+const logging = require('../../../common/logging');
+mongoose.Promise = require('bluebird');
+
+module.exports = ({ dbConnectionString }) => {
+  if (!dbConnectionString) {
+    throw new Error('add correct format of config with dbConnectionString');
+  }
+  const options = {
+    useMongoClient: true,
+    promiseLibrary: require('bluebird'),
+  };
+
+  // Check for errors on connecting to Mongo DB
+  mongoose.connection.on('error', (err) => {
+    logging.error(`Error! DB Connection failed. Error: ${err}`);
+    return err;
+  });
+
+  // Connection opened successfully
+  mongoose.connection.once('open', () => {
+    logging.info('Connection to MongoDB established');
+  });
+
+  mongoose.connection.on('disconnected', () => {
+    logging.info('Connection to MongoDB closed');
+    logging.info('-------------------');
+  });
+
+  const schemas = schemasFactory.create(mongoose);
+  const dataStores = storesFactory.create(schemas);
+  return Object.assign(
+    {
+      getConnection() {
+        return mongoose.connection;
+      },
+
+      connect() {
+        // Open Connection to Mongo DB
+        return mongoose.connect(dbConnectionString, options);
+      },
+      close() {
+        return mongoose.connection.close();
+      },
+    },
+    {
+      schemas,
+      dataStores,
+    },
+  );
+};

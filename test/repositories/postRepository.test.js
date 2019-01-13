@@ -1,14 +1,15 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const PostModel = require('../../domain/post/model');
-const Post = require('../../data/infrastructure/db/entities/Post');
+const mongoose = require('mongoose');
+const schemasFactory = require('../../data/infrastructure/db/schemas');
+const dataStoresFactory = require('../../data/infrastructure/db/dataStores');
 
+const schemas = schemasFactory.create(mongoose);
+const dataStores = dataStoresFactory.create(schemas);
 const db = {
-  entities: {
-    Post,
-  },
+  schemas,
+  dataStores,
 };
-
 const {
   postRepository,
 } = require('../../data/repositories')(db);
@@ -34,7 +35,7 @@ const postDocs = [
 
 function createDbPosts(total = []) {
   return () => {
-    const doc = new db.entities.Post(postDocs.pop());
+    const doc = new db.schemas.Post(postDocs.pop());
     total.push(doc);
     if (postDocs.length > 0) {
       return createDbPosts(total)();
@@ -45,20 +46,20 @@ function createDbPosts(total = []) {
 
 describe('post repository test', function () {
   beforeEach(() => {
-    sinon.stub(db.entities.Post, 'paginate');
-    sinon.stub(db.entities.Post, 'findOne');
+    sinon.stub(db.schemas.Post, 'paginate');
+    sinon.stub(db.schemas.Post, 'findOne');
   });
 
   afterEach(() => {
-    db.entities.Post.paginate.restore();
-    db.entities.Post.findOne.restore();
+    db.schemas.Post.paginate.restore();
+    db.schemas.Post.findOne.restore();
   });
 
 
   describe('post list method', function () {
     it('should call the db and return list of posts', async function () {
       const posts = createDbPosts([])();
-      db.entities.Post.paginate.resolves({
+      db.schemas.Post.paginate.resolves({
         docs: posts,
         page: 1,
         limit: 15,

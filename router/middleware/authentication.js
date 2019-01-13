@@ -1,7 +1,4 @@
 const errors = require('../../common/errors');
-const {
-  jwtSecret,
-} = require('../../configuration');
 
 
 const getJWTFromAuthHeader = function getJWTFromAuthHeader(req) {
@@ -16,7 +13,7 @@ module.exports = function authenticateEndpoint(services) {
   return async (req, res, next) => {
     try {
       const jwt = getJWTFromAuthHeader(req);
-      const decoded = await services.authService.verifyToken(jwt, jwtSecret);
+      const decoded = await services.authService.verifyToken(jwt);
       req.user = decoded;
       return next();
     } catch (error) {

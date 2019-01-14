@@ -1,5 +1,5 @@
-const postRepository = require('./post/repository');
-const userRepository = require('./user/repository');
+const postRepository = require('./posts/repository');
+const userRepository = require('./users/repository');
 
 
 module.exports = db => ({

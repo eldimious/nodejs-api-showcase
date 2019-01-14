@@ -1,7 +1,7 @@
 // Register all the services here
-const postService = require('./post/service');
+const postService = require('./posts/service');
 const authService = require('./auth/service');
-const userService = require('./user/service');
+const userService = require('./users/service');
 
 module.exports = repositories => ({
   authService: authService(repositories),

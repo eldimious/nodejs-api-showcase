@@ -1,4 +1,4 @@
-const User = require('../../domain/user/model');
+const User = require('../../domain/users/model');
 
 
 module.exports.users = [

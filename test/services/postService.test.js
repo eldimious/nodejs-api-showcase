@@ -1,8 +1,8 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const Post = require('../../domain/post/model');
-const postServiceFactory = require('../../domain/post/service');
-const postRepositoryFactory = require('../../data/repositories/post/repository');
+const Post = require('../../domain/posts/model');
+const postServiceFactory = require('../../domain/posts/service');
+const postRepositoryFactory = require('../../data/repositories/posts/repository');
 
 const db = sinon.stub();
 const postRepository = postRepositoryFactory(db);

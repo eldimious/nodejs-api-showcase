@@ -1,4 +1,4 @@
-const PostModel = require('../../../domain/post/model');
+const PostModel = require('../../../domain/posts/model');
 
 const toDatabase = function toDatabase(doc) {
   // TODO

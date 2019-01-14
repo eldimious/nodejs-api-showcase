@@ -9,10 +9,10 @@ const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const EndpointValidator = require('./middleware/endpointValidator');
 const authenticateEndpoint = require('./middleware/authentication');
-const authRoutes = require('./routes/auth');
-const postsRoutes = require('./routes/posts');
-const usersRoutes = require('./routes/users');
-const errorRoute = require('./routes/errors');
+const authRoutes = require('./auth/routes');
+const postsRoutes = require('./posts/routes');
+const usersRoutes = require('./users/routes');
+const errorRoute = require('./errors');
 const swaggerDocument = require('../swagger');
 const asyncWrapper = require('./utils/asyncWrapper');
 

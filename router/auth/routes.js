@@ -1,5 +1,5 @@
 const express = require('express');
-const EndpointValidator = require('./../middleware/endpointValidator');
+const EndpointValidator = require('../middleware/endpointValidator');
 const asyncWrapper = require('../utils/asyncWrapper');
 
 const endpointValidator = new EndpointValidator();
@@ -31,5 +31,6 @@ function init({ authService }) {
 
   return router;
 }
+
 
 module.exports.init = init;

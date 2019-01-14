@@ -1,4 +1,4 @@
-const UserModel = require('../../../domain/user/model');
+const UserModel = require('../../../domain/users/model');
 
 const toDatabase = function toDatabase(doc) {
   // TODO

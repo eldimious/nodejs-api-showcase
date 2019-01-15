@@ -1,9 +1,9 @@
 const express = require('express');
-const EndpointValidator = require('../middleware/endpointValidator');
-const asyncWrapper = require('../utils/asyncWrapper');
+const EndpointValidator = require('../../middleware/endpointValidator');
+const asyncWrapper = require('../../utils/asyncWrapper');
 const {
   getDefaultRequestParams,
-} = require('../utils/getRequestParams');
+} = require('../../utils/getRequestParams');
 
 const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });

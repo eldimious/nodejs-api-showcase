@@ -9,6 +9,7 @@ const {
   jwtSecret,
 } = require('../../configuration');
 
+// expiration in seconds
 const TOKEN_EXPIRATION = 86400;
 
 

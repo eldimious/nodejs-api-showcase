@@ -5,7 +5,7 @@ const sinon = require('sinon');
 
 const repositories = sinon.stub();
 const services = require('../../domain')(repositories);
-const app = require('../../router/app')(services);
+const app = require('../../router/http/app')(services);
 const jwt = require('jsonwebtoken');
 const postData = require('../data/post').posts;
 

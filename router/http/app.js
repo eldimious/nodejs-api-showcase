@@ -1,3 +1,4 @@
+const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const compress = require('compression')();
@@ -9,11 +10,11 @@ const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const EndpointValidator = require('./middleware/endpointValidator');
 const authenticateEndpoint = require('./middleware/authentication');
-const authRoutes = require('./auth/routes');
-const postsRoutes = require('./posts/routes');
-const usersRoutes = require('./users/routes');
-const errorRoute = require('./errors');
-const swaggerDocument = require('../swagger');
+const authRoutes = require('./routes/auth/routes');
+const postsRoutes = require('./routes/posts/routes');
+const usersRoutes = require('./routes/users/routes');
+const errorRoute = require('./routes/errors');
+const swaggerDocument = require('../../swagger');
 const asyncWrapper = require('./utils/asyncWrapper');
 
 const endpointValidator = new EndpointValidator();
@@ -42,5 +43,6 @@ module.exports = (services) => {
   app.use('/users', usersRoutes.init(services));
   app.use(errorRoute);
 
-  return app;
+  const httpServer = http.createServer(app);
+  return httpServer;
 };

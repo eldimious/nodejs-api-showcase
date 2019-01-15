@@ -7,10 +7,11 @@ const setupWorkerProcesses = require('./common/utils/workerProcesses');
 const logging = require('./common/logging');
 const signals = require('./signals');
 const db = require('./data/infrastructure/db')({ dbConnectionString });
-db.connect();
 const repositories = require('./data/repositories')(db);
 const services = require('./domain')(repositories);
-const app = require('./router/app')(services);
+const app = require('./router/http/app')(services);
+const websockets = require('./router/websockets')(app);
+
 let server;
 
 ((isClusterRequired) => {
@@ -25,10 +26,19 @@ let server;
   }
 })(true);
 
+
 const shutdown = signals.init(async () => {
   await db.close();
   await server.close();
 });
+
+(async () => {
+  try {
+    await db.connect();
+  } catch (error) {
+    await shutdown();
+  }
+})();
 
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);

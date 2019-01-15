@@ -1,4 +1,4 @@
-const errors = require('../../common/errors');
+const errors = require('../../../common/errors');
 
 
 const getJWTFromAuthHeader = function getJWTFromAuthHeader(req) {

@@ -1,3 +1,4 @@
+const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const compress = require('compression')();
@@ -42,5 +43,6 @@ module.exports = (services) => {
   app.use('/users', usersRoutes.init(services));
   app.use(errorRoute);
 
-  return app;
+  const httpServer = http.createServer(app);
+  return httpServer;
 };

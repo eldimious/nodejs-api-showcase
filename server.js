@@ -7,12 +7,14 @@ const setupWorkerProcesses = require('./common/utils/workerProcesses');
 const logging = require('./common/logging');
 const signals = require('./signals');
 const db = require('./data/infrastructure/db')({ dbConnectionString });
-db.connect();
 const repositories = require('./data/repositories')(db);
 const services = require('./domain')(repositories);
 const app = require('./router/http/app')(services);
+const websockets = require('./router/websockets')(app);
+
 let server;
 
+db.connect();
 ((isClusterRequired) => {
   // if it is a master process then call setting up worker process
   if (isClusterRequired && cluster.isMaster) {

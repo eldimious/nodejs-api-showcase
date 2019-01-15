@@ -14,7 +14,6 @@ const websockets = require('./router/websockets')(app);
 
 let server;
 
-db.connect();
 ((isClusterRequired) => {
   // if it is a master process then call setting up worker process
   if (isClusterRequired && cluster.isMaster) {
@@ -27,10 +26,19 @@ db.connect();
   }
 })(true);
 
+
 const shutdown = signals.init(async () => {
   await db.close();
   await server.close();
 });
+
+(async () => {
+  try {
+    await db.connect();
+  } catch (error) {
+    await shutdown();
+  }
+})();
 
 process.on('SIGINT', shutdown);
 process.on('SIGTERM', shutdown);

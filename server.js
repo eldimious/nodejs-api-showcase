@@ -10,7 +10,7 @@ const db = require('./data/infrastructure/db')({ dbConnectionString });
 db.connect();
 const repositories = require('./data/repositories')(db);
 const services = require('./domain')(repositories);
-const app = require('./router/app')(services);
+const app = require('./router/http/app')(services);
 let server;
 
 ((isClusterRequired) => {

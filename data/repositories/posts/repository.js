@@ -52,7 +52,7 @@ const postRepository = {
       const {
         postStore,
       } = this.getStores();
-      const doc = await postStore.create(options).save();
+      const doc = await postStore.create(options);
       return mapper.toDomainModel(doc);
     } catch (error) {
       throw error;

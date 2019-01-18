@@ -18,10 +18,7 @@ function init({ authService }) {
       password: req.body.password,
     });
     return res.send({
-      data: {
-        token: result.token,
-        user: toResponseModel(result.user),
-      },
+      data: toResponseModel(result),
     });
   }));
 
@@ -40,5 +37,6 @@ function init({ authService }) {
 
   return router;
 }
+
 
 module.exports.init = init;

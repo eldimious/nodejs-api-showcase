@@ -14,7 +14,9 @@ function init({ userService }) {
       userId: req.params.userId,
     });
     return res.send({
-      data: toResponseModel(result),
+      data: Object.assign({},
+        toResponseModel(result.user),
+        { posts: result.posts }),
     });
   }));
 

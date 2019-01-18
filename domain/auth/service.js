@@ -21,7 +21,6 @@ const comparePassword = async (password, dbPassword) => {
     }
     return match;
   } catch (error) {
-    console.log('sdadad');
     throw new errors.Unauthorized('Wrong password.');
   }
 };
@@ -58,5 +57,6 @@ function init({ userRepository }) {
     verifyToken,
   };
 }
+
 
 module.exports = init;

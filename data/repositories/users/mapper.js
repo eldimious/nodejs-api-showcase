@@ -5,7 +5,7 @@ const toDatabase = function toDatabase(doc) {
 };
 
 const toDomainModel = function toDomainModel(userDoc) {
-  return new UserModel({ ...userDoc });
+  return new UserModel(userDoc);
 };
 
 module.exports = {

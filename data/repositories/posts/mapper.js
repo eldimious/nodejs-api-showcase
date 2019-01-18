@@ -5,7 +5,7 @@ const toDatabase = function toDatabase(doc) {
 };
 
 const toDomainModel = function toDomainModel(postDoc) {
-  return new PostModel({ ...postDoc });
+  return new PostModel(postDoc);
 };
 
 module.exports = {

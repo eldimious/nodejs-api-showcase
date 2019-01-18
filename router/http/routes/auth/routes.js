@@ -1,6 +1,9 @@
 const express = require('express');
 const EndpointValidator = require('../../middleware/endpointValidator');
 const asyncWrapper = require('../../utils/asyncWrapper');
+const {
+  toResponseModel,
+} = require('../users/mapper');
 
 const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
@@ -15,7 +18,7 @@ function init({ authService }) {
       password: req.body.password,
     });
     return res.send({
-      data: result,
+      data: toResponseModel(result),
     });
   }));
 
@@ -25,7 +28,10 @@ function init({ authService }) {
       password: req.body.password,
     });
     return res.send({
-      data: result,
+      data: {
+        token: result.token,
+        user: toResponseModel(result.user),
+      },
     });
   }));
 

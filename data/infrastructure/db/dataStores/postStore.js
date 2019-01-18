@@ -1,7 +1,7 @@
 const getPaginationOptions = options => ({
   lean: true,
-  page: options.page,
-  limit: options.limit,
+  page: options.page || 1,
+  limit: options.limit || 25,
   sort: { created: -1 },
 });
 
@@ -27,12 +27,13 @@ const postStore = {
   },
   async create(options) {
     const { Post: postSchema } = this.getSchemas();
-    return postSchema({
+    const newPost = new postSchema({
       userId: options.userId,
       imageUrl: options.imageUrl,
       description: options.description,
       publisher: options.publisher,
-    }).save();
+    });
+    return newPost.save();
   },
   async get(options) {
     const { Post: postSchema } = this.getSchemas();

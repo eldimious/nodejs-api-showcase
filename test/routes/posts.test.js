@@ -11,9 +11,9 @@ const postData = require('../data/post').posts;
 
 const postService = services.postService;
 const jwtSecret = process.env.JWT_SECRET;
-const testEmail = process.env.TEST_EMAIL;
-const testFullname = process.env.TEST_FULL_NAME;
-const testID = process.env.TEST_ID;
+const testEmail = 'kent@gmail.com';
+const testFullname = 'klark kent';
+const testID = '111111';
 
 let testToken;
 

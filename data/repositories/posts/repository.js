@@ -34,14 +34,33 @@ const handleUsersPaginationResponse = (response) => {
   return postsList;
 };
 
+const getPaginationOptions = options => ({
+  lean: true,
+  page: options.page || 1,
+  limit: options.limit || 25,
+  sort: { created: -1 },
+});
 
-const postRepository = {
+
+const getQueryObject = (options) => {
+  const queries = {
+    userId: options.userId,
+  };
+  if (options.publisher) {
+    queries.publisher = {
+      $regex: new RegExp(options.publisher),
+      $options: 'i',
+    };
+  }
+  return queries;
+};
+
+
+const postStore = {
   async list(options) {
     try {
-      const {
-        postStore,
-      } = this.getStores();
-      const docs = await postStore.list(options);
+      const { Post: postSchema } = this.getSchemas();
+      const docs = await postSchema.paginate(getQueryObject(options), getPaginationOptions(options));
       return handleUsersPaginationResponse(docs);
     } catch (error) {
       throw error;
@@ -49,10 +68,14 @@ const postRepository = {
   },
   async create(options) {
     try {
-      const {
-        postStore,
-      } = this.getStores();
-      const doc = await postStore.create(options);
+      const { Post: postSchema } = this.getSchemas();
+      const newPost = new postSchema({
+        userId: options.userId,
+        imageUrl: options.imageUrl,
+        description: options.description,
+        publisher: options.publisher,
+      });
+      const doc = await newPost.save();
       return mapper.toDomainModel(doc);
     } catch (error) {
       throw error;
@@ -60,10 +83,8 @@ const postRepository = {
   },
   async get(options) {
     try {
-      const {
-        postStore,
-      } = this.getStores();
-      const doc = await postStore.get(options);
+      const { Post: postSchema } = this.getSchemas();
+      const doc = await postSchema.findOne({ userId: options.userId, _id: options.postId }).lean().exec();
       if (!doc) {
         throw new errors.NotFound(`Post with id ${options.postId} not found.`);
       }
@@ -75,16 +96,11 @@ const postRepository = {
 };
 
 
-module.exports = function init({
-  schemas,
-  stores,
-}) {
-  return Object.assign(Object.create(postRepository), {
-    getSchemas() {
-      return schemas;
-    },
-    getStores() {
-      return stores;
-    },
-  });
-};
+module.exports = ({ Post }) => Object.assign(Object.create(postStore), {
+  getSchemas() {
+    return {
+      Post,
+    };
+  },
+});
+

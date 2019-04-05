@@ -4,7 +4,6 @@
 
 const mongoose = require('mongoose');
 const schemasFactory = require('./schemas');
-const storesFactory = require('./dataStores');
 const logging = require('../../../common/logging');
 mongoose.Promise = require('bluebird');
 
@@ -34,7 +33,6 @@ module.exports = ({ dbConnectionString }) => {
   });
 
   const schemas = schemasFactory.create(mongoose);
-  const dataStores = storesFactory.create(schemas);
   return Object.assign(
     {
       getConnection() {
@@ -51,7 +49,6 @@ module.exports = ({ dbConnectionString }) => {
     },
     {
       schemas,
-      dataStores,
     },
   );
 };

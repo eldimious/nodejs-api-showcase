@@ -2,13 +2,10 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const mongoose = require('mongoose');
 const schemasFactory = require('../../data/infrastructure/db/schemas');
-const dataStoresFactory = require('../../data/infrastructure/db/dataStores');
 
 const schemas = schemasFactory.create(mongoose);
-const dataStores = dataStoresFactory.create(schemas);
 const db = {
   schemas,
-  dataStores,
 };
 const {
   postRepository,

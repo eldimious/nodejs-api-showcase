@@ -1,6 +1,7 @@
 const moment = require('moment');
 const mongoosePaginate = require('mongoose-paginate');
 const bcrypt = require('bcryptjs');
+const uniqueValidator = require('mongoose-unique-validator');
 
 function create(mongoose) {
   const userSchema = mongoose.Schema({
@@ -23,6 +24,7 @@ function create(mongoose) {
     email: {
       type: String,
       required: true,
+      unique: true,
     },
     created: Date,
   });
@@ -48,6 +50,8 @@ function create(mongoose) {
   userSchema.index({ name: 1, created: -1 });
 
   userSchema.plugin(mongoosePaginate);
+
+  userSchema.plugin(uniqueValidator);
 
   return mongoose.model('User', userSchema);
 }

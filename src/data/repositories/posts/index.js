@@ -9,7 +9,7 @@
 // With factory functions(closures) we can have data privacy.
 
 const errors = require('../../../common/errors');
-const mapper = require('../mapper');
+const mapper = require('../../mapper');
 const PostDomainModel = require('../../../domain/posts/model');
 
 const DEFAULT_PAGINATION_CONTENT = {

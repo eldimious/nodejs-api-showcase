@@ -1,5 +1,5 @@
 const errors = require('../../../common/errors');
-const mapper = require('../mapper');
+const mapper = require('../../mapper');
 const UserDomainModel = require('../../../domain/users/model');
 
 const queryForGetUser = ({ email, userId }) => {

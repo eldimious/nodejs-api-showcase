@@ -1,7 +1,6 @@
 /*
   It can be published as private npm module shared among all team's projects.
 */
-
 const mongoose = require('mongoose');
 const schemasFactory = require('./schemas');
 const logging = require('../../../common/logging');
@@ -25,6 +24,7 @@ module.exports = ({ dbConnectionString }) => {
   // Connection opened successfully
   mongoose.connection.once('open', () => {
     logging.info('Connection to MongoDB established');
+    // mongoose.connection.db.dropDatabase()
   });
 
   mongoose.connection.on('disconnected', () => {

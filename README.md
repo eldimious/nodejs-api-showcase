@@ -56,6 +56,8 @@ The entry point for the applications is the server.js file. It does not depend o
 
 Create an .env file in project root to register the following required environment variables:
   - `DATABASE_URL` - MongoDB connection URL
+  - `HTTP_PORT` - port of server
+  - `JWT_SECRET` - we will use secret to generate our JSON web tokens
 
 ### Use Docker: ###
 

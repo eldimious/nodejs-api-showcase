@@ -7,7 +7,7 @@
     "coverage": "nyc --reporter html --reporter text mocha test --recursive",
     "debug": "nodemon server.js",
     "start": "node server.js",
-    "test": "mocha test --recursive --timeout 15000"
+    "test": "mocha tests --recursive --timeout 15000 --exit"
   },
   "repository": {
     "type": "git",

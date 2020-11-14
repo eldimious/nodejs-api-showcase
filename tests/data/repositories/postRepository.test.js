@@ -2,33 +2,17 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const mongoose = require('mongoose');
 const schemasFactory = require('../../../src/data/infrastructure/db/schemas');
+const {
+  posts: postDocs,
+} = require('../../mockedData');
 
 const schemas = schemasFactory.create(mongoose);
 const db = {
   schemas,
 };
-const {
-  postRepository,
-} = require('../../../src/data/repositories')(db);
+const postRepositoryContainer = require('../../../src/data/repositories/posts');
 
-const postDocs = [
-  {
-    userId: '5a510cf183fd9d0c74898e74',
-    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpeF6dmyApzNtT4UsGGtztb6ioOspen7pM8SAMRMIbY8gIeDh3', 
-    publisher: 'fb',
-  },
-  {
-    userId: '5a510cf183fd9d0c74898e74',
-    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpeF6dmyApzNtT4UsGGtztb6ioOspen7pM8SAMRMIbY8gIeDh3', 
-    publisher: 'fb',
-  },
-  {
-    userId: '5a5381ce26a3a8259070ae0f',
-    imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpeF6dmyApzNtT4UsGGtztb6ioOspen7pM8SAMRMIbY8gIeDh3', 
-    publisher: 'twitter',
-  },
-];
-
+const postRepository = postRepositoryContainer.init(db.schemas);
 
 function createDbPosts(total = []) {
   return () => {
@@ -54,7 +38,7 @@ describe('post repository test', () => {
     db.schemas.Post.findOne.restore();
   });
   // eslint-disable-next-line no-undef
-  describe('post list method', () => {
+  describe('post listUserPosts method', () => {
     // eslint-disable-next-line no-undef
     it('should call the db and return list of posts', async () => {
       const posts = createDbPosts([])();
@@ -65,7 +49,7 @@ describe('post repository test', () => {
         pages: 1,
         total: 3,
       });
-      const response = await postRepository.list({
+      const response = await postRepository.listUserPosts({
         page: 1,
         limit: 15,
       });

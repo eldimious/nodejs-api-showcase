@@ -9,8 +9,8 @@
 // With factory functions(closures) we can have data privacy.
 
 const errors = require('../../../common/errors');
-const mapper = require('./mapper');
-
+const mapper = require('../../mapper');
+const PostDomainModel = require('../../../domain/posts/model');
 
 const DEFAULT_PAGINATION_CONTENT = {
   pagination: {},
@@ -23,7 +23,7 @@ const handleUsersPaginationResponse = (response) => {
     return DEFAULT_PAGINATION_CONTENT;
   }
   const postsList = {
-    data: response.docs.map(doc => mapper.toDomainModel(doc)),
+    data: response.docs.map(doc => mapper.toDomainModel(doc, PostDomainModel)),
     pagination: {
       total: response.total,
       limit: response.limit,
@@ -57,7 +57,7 @@ const getQueryObject = (options) => {
 
 
 const postStore = {
-  async list(options) {
+  async listUserPosts(options) {
     try {
       const { Post: postSchema } = this.getSchemas();
       const docs = await postSchema.paginate(getQueryObject(options), getPaginationOptions(options));
@@ -66,7 +66,7 @@ const postStore = {
       throw error;
     }
   },
-  async create(options) {
+  async createUserPost(options) {
     try {
       const { Post: postSchema } = this.getSchemas();
       const newPost = new postSchema({
@@ -76,19 +76,19 @@ const postStore = {
         publisher: options.publisher,
       });
       const doc = await newPost.save();
-      return mapper.toDomainModel(doc);
+      return mapper.toDomainModel(doc, PostDomainModel);
     } catch (error) {
       throw error;
     }
   },
-  async get(options) {
+  async getUserPost(options) {
     try {
       const { Post: postSchema } = this.getSchemas();
       const doc = await postSchema.findOne({ userId: options.userId, _id: options.postId }).lean().exec();
       if (!doc) {
         throw new errors.NotFound(`Post with id ${options.postId} not found.`);
       }
-      return mapper.toDomainModel(doc);
+      return mapper.toDomainModel(doc, PostDomainModel);
     } catch (error) {
       throw error;
     }
@@ -96,7 +96,7 @@ const postStore = {
 };
 
 
-module.exports = ({ Post }) => Object.assign(Object.create(postStore), {
+module.exports.init = ({ Post }) => Object.assign(Object.create(postStore), {
   getSchemas() {
     return {
       Post,

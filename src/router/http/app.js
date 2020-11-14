@@ -11,7 +11,6 @@ const swaggerUi = require('swagger-ui-express');
 const EndpointValidator = require('./middleware/endpointValidator');
 const authenticateEndpoint = require('./middleware/authentication');
 const authRoutes = require('./routes/auth/routes');
-const postsRoutes = require('./routes/posts/routes');
 const usersRoutes = require('./routes/users/routes');
 const errorRoute = require('./routes/errors');
 const swaggerDocument = require('../../swagger');
@@ -29,7 +28,7 @@ app.use(logger('dev'));
 app.use(expressValidator(endpointValidator.settings));
 app.use(cors());
 
-module.exports = (services) => {
+module.exports.init = (services) => {
   app.use(express.static(path.join(__dirname, 'public')));
   // swagger API docs
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
@@ -39,7 +38,6 @@ module.exports = (services) => {
   app.all('*', asyncWrapper(authenticateEndpoint(services)), (req, res, next) => {
     next();
   });
-  app.use('/posts', postsRoutes.init(services));
   app.use('/users', usersRoutes.init(services));
   app.use(errorRoute);
 

@@ -1,5 +1,6 @@
 const errors = require('../../../common/errors');
-const mapper = require('./mapper');
+const mapper = require('../../mapper');
+const UserDomainModel = require('../../../domain/users/model');
 
 const queryForGetUser = ({ email, userId }) => {
   const queries = {};
@@ -13,7 +14,7 @@ const queryForGetUser = ({ email, userId }) => {
 };
 
 const userStore = {
-  async create({
+  async createUser({
     name,
     surname,
     username,
@@ -32,13 +33,13 @@ const userStore = {
         password,
       });
       const userDoc = await newUser.save();
-      return mapper.toDomainModel(userDoc);
+      return mapper.toDomainModel(userDoc, UserDomainModel);
     } catch (error) {
       throw error;
     }
   },
 
-  async get({
+  async getUser({
     email,
     userId,
   }) {
@@ -53,15 +54,14 @@ const userStore = {
       if (!userDoc) {
         throw new errors.NotFound('User not found.');
       }
-      return mapper.toDomainModel(userDoc);
+      return mapper.toDomainModel(userDoc, UserDomainModel);
     } catch (error) {
       throw error;
     }
   },
 };
 
-
-module.exports = function init({ User }) {
+module.exports.init = function init({ User }) {
   return Object.assign(Object.create(userStore), {
     getSchemas() {
       return {

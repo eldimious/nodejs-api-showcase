@@ -58,6 +58,7 @@ Create an .env file in project root to register the following required environme
   - `DATABASE_URL` - MongoDB connection URL
   - `HTTP_PORT` - port of server
   - `JWT_SECRET` - we will use secret to generate our JSON web tokens
+  - `REDIS_URL` - redis client
 
 ### Use Docker: ###
 
@@ -138,6 +139,18 @@ Body Params:
 }
 ```
 
+## User Routes ##
+
+In order to be able to retrieve posts list, user should send a Bearer token using Authorization header, otherwise server will answer with 401.
+
+### Get specific user ###
+
+```shell
+GET /users/:userId
+```
+
+**Description**: Gets specific user.
+
 ## Posts Routes ##
 
 In order to be able to retrieve posts list, user should send a Bearer token using Authorization header, otherwise server will answer with 401.
@@ -145,7 +158,7 @@ In order to be able to retrieve posts list, user should send a Bearer token usin
 ### Posts List ###
 
 ```shell
-GET /posts
+GET /users/:userId/posts
 ```
 
 Query Params:
@@ -158,7 +171,7 @@ Query Params:
 
 
 ```shell
-POST /posts
+POST /users/:userId/posts
 ```
 
 Body Params:
@@ -172,7 +185,7 @@ Body Params:
 **Description**: creates a new post doc in DB for user.
 
 ```shell
-GET /posts/:postId
+GET /users/:userId/posts/:postId
 ```
 
 **Description**: Gets specific user's post.

@@ -1,8 +1,9 @@
-name: '[Api_Showcase] Running Tests for new Pull Request'
+name: '[Api_Showcase] Running Tests on merging to Master Branch'
 
 on:
-  pull_request:
+  push:
     branches: [ master ]
+
 jobs:
   tests:
     runs-on: ubuntu-latest

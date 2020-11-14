@@ -1,5 +1,10 @@
 const errors = require('../../../common/errors');
+const authenticationRepository = require('../../../data/repositories/authenticationRepository');
+const {
+  jwtSecret,
+} = require('../../../configuration');
 
+const authentication = authenticationRepository.init();
 
 const getJWTFromAuthHeader = function getJWTFromAuthHeader(req) {
   const authHeader = req.headers['authorization'];
@@ -9,11 +14,11 @@ const getJWTFromAuthHeader = function getJWTFromAuthHeader(req) {
   return authHeader.includes('Bearer') ? authHeader.split(' ').pop() : authHeader;
 };
 
-module.exports = function authenticateEndpoint(services) {
+module.exports = function authenticateEndpoint() {
   return async (req, res, next) => {
     try {
-      const jwt = getJWTFromAuthHeader(req);
-      const decoded = await services.authService.verifyToken(jwt);
+      const token = getJWTFromAuthHeader(req);
+      const decoded = await authentication.verifyToken(token, jwtSecret);
       req.user = decoded;
       return next();
     } catch (error) {

@@ -1,5 +1,9 @@
+const passwordComplexity = require('joi-password-complexity');
 const errorHandler = require('../routes/errors');
 const errors = require('../../../common/errors');
+const {
+  PASSWORD_COMPLEXITY,
+} = require('../../../common/constants');
 
 module.exports = class EndpointValidator {
   constructor() {
@@ -45,6 +49,13 @@ module.exports = class EndpointValidator {
     req.getValidationResult().then((result) => {
       if (!result.isEmpty()) {
         return errorHandler(new errors.BadRequest(`${result.array({ onlyFirstError: true })[0].msg}`), req, res, next);
+      }
+      const passwordChecking = passwordComplexity(PASSWORD_COMPLEXITY, 'Password').validate(req.body.password);
+      const passwordErrors = passwordChecking && passwordChecking.error && passwordChecking.error.details && Array.isArray(passwordChecking.error.details)
+        ? passwordChecking.error.details[0].message
+        : null;
+      if (passwordErrors) {
+        return errorHandler(new errors.BadRequest(passwordErrors), req, res, next);
       }
       return next();
     });

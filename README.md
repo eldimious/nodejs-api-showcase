@@ -58,6 +58,7 @@ Create an .env file in project root to register the following required environme
   - `DATABASE_URL` - MongoDB connection URL
   - `HTTP_PORT` - port of server
   - `JWT_SECRET` - we will use secret to generate our JSON web tokens
+  - `REDIS_URL` - redis client
 
 ### Use Docker: ###
 

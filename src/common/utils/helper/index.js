@@ -100,6 +100,9 @@ const sortArrayAscBy = (prop, type) => (a, b) => {
 
 const removeDuplicateFromArray = arr => Array.from(new Set(arr));
 
+function getRetryAfterSeconds(msBeforeNext) {
+  return Math.round(msBeforeNext / 1000) || 1;
+}
 
 module.exports = {
   isObject,
@@ -111,4 +114,5 @@ module.exports = {
   sortArrayDescBy,
   sortArrayAscBy,
   removeDuplicateFromArray,
+  getRetryAfterSeconds,
 };

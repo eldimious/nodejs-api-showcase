@@ -5,13 +5,14 @@ const schemasFactory = require('../../../src/data/infrastructure/db/schemas');
 const {
   posts: postDocs,
 } = require('../../mockedData');
+
 const schemas = schemasFactory.create(mongoose);
 const db = {
   schemas,
 };
-const {
-  postRepository,
-} = require('../../../src/data/repositories')(db);
+const postRepositoryContainer = require('../../../src/data/repositories/posts');
+
+const postRepository = postRepositoryContainer.init(db.schemas);
 
 function createDbPosts(total = []) {
   return () => {
@@ -37,7 +38,7 @@ describe('post repository test', () => {
     db.schemas.Post.findOne.restore();
   });
   // eslint-disable-next-line no-undef
-  describe('post list method', () => {
+  describe('post listUserPosts method', () => {
     // eslint-disable-next-line no-undef
     it('should call the db and return list of posts', async () => {
       const posts = createDbPosts([])();
@@ -48,7 +49,7 @@ describe('post repository test', () => {
         pages: 1,
         total: 3,
       });
-      const response = await postRepository.list({
+      const response = await postRepository.listUserPosts({
         page: 1,
         limit: 15,
       });

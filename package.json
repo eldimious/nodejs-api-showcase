@@ -38,7 +38,7 @@
     "mongoose": "4.11.13",
     "mongoose-paginate": "5.0.3",
     "mongoose-unique-validator": "2.0.1",
-    "morgan": "^1.9.0",
+    "morgan": "^1.9.1",
     "nyc": "^13.1.0",
     "rate-limiter-flexible": "^2.1.13",
     "redis": "^3.0.2",

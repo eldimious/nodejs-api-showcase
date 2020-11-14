@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/eldimious/nodejs-api-showcase#readme",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.5.0",
     "body-parser": "^1.18.2",
@@ -30,6 +31,7 @@
     "express-validator": "^4.2.1",
     "express-winston": "2.6.0",
     "helmet": "^3.9.0",
+    "joi-password-complexity": "^4.1.0",
     "jsonwebtoken": "^8.1.0",
     "moment": "^2.18.1",
     "mongodb": "2.2.31",

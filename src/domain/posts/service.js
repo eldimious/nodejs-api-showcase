@@ -4,25 +4,51 @@
 // by the implementation of the repositories. It just calls the needed repositories
 // gets the results and usually applies some business logic on them.
 function init({
-  postRepository,
+  postsRepository,
 }) {
-  const list = async function list(options) {
-    return postRepository.list(options);
-  };
+  async function listUserPosts({
+    userId,
+    publisher,
+    limit,
+    page,
+  }) {
+    return postsRepository.listUserPosts({
+      userId,
+      publisher,
+      limit,
+      page,
+    });
+  }
 
-  const create = async function create(options) {
-    return postRepository.create(options);
-  };
+  async function createUserPost({
+    userId,
+    imageUrl,
+    description,
+    publisher,
+  }) {
+    return postsRepository.createUserPost({
+      userId,
+      imageUrl,
+      description,
+      publisher,
+    });
+  }
 
-  const get = async function get(options) {
-    return postRepository.get(options);
-  };
+  async function getUserPost({
+    userId,
+    postId,
+  }) {
+    return postsRepository.getUserPost({
+      userId,
+      postId,
+    });
+  }
 
   return {
-    list,
-    create,
-    get,
+    listUserPosts,
+    createUserPost,
+    getUserPost,
   };
 }
 
-module.exports = init;
+module.exports.init = init;

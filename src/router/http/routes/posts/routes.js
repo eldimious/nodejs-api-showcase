@@ -1,16 +1,13 @@
 const express = require('express');
 const EndpointValidator = require('../../middleware/endpointValidator');
 const asyncWrapper = require('../../utils/asyncWrapper');
-const {
-  getDefaultRequestParams,
-} = require('../../utils/getRequestParams');
 
 const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
 
 
 function init({
-  postService,
+  postsService,
 }) {
   const DEFAULT_PAGINATION_LIMIT = 25;
   const MAX_PAGINATION_LIMIT = 100;
@@ -31,39 +28,35 @@ function init({
   };
 
   router.get('/', asyncWrapper(async (req, res) => {
-    const postsList = await postService.list(Object.assign(
+    const postsList = await postsService.listUserPosts(Object.assign(
       {},
       handlePagination({
+        userId: req.params.userId,
         publisher: req.query.publisher,
         page: req.query.page ? parseInt(req.query.page, 10) : 1,
         limit: req.query.limit ? parseInt(req.query.limit, 10) : 25,
       }),
-      getDefaultRequestParams(req),
     ));
     return res.send(postsList);
   }));
 
   router.post('/', endpointValidator.requireValidPostBody, asyncWrapper(async (req, res) => {
-    const newPost = await postService.create(Object.assign(
-      {
-        imageUrl: req.body.imageUrl,
-        description: req.body.description,
-        publisher: req.body.publisher,
-      },
-      getDefaultRequestParams(req),
-    ));
+    const newPost = await postsService.createUserPost({
+      imageUrl: req.body.imageUrl,
+      description: req.body.description,
+      publisher: req.body.publisher,
+      userId: req.params.userId,
+    });
     return res.send({
       data: newPost,
     });
   }));
 
   router.get('/:postId', endpointValidator.requireValidPostId, asyncWrapper(async (req, res) => {
-    const postDoc = await postService.get(Object.assign(
-      {
-        postId: req.params.postId,
-      },
-      getDefaultRequestParams(req),
-    ));
+    const postDoc = await postsService.getUserPost({
+      postId: req.params.postId,
+      userId: req.params.userId,
+    });
     return res.send({
       data: postDoc,
     });

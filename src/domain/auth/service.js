@@ -26,14 +26,14 @@ const comparePassword = async (password, dbPassword) => {
 };
 
 
-function init({ userRepository }) {
+function init({ usersRepository }) {
   async function register(options) {
-    return userRepository.create(options);
+    return usersRepository.createUser(options);
   }
 
   async function login(options) {
     try {
-      const user = await userRepository.get(options);
+      const user = await usersRepository.getUser(options);
       await comparePassword(options.password, user.password);
       return {
         token: {
@@ -59,4 +59,4 @@ function init({ userRepository }) {
 }
 
 
-module.exports = init;
+module.exports.init = init;

@@ -3,14 +3,17 @@
   e.g. Lets say that every time that we ask for a user, we need his posts too.
   So we add this logic in domain layer.
 */
-function init({ userRepository, postRepository }) {
-  async function get(options) {
+function init({
+  usersRepository,
+  postsRepository,
+}) {
+  async function getUser(options) {
     const [
       user,
       posts,
     ] = await Promise.all([
-      userRepository.get(options),
-      postRepository.list(options),
+      usersRepository.getUser(options),
+      postsRepository.listUserPosts(options),
     ]);
     return {
       user,
@@ -19,8 +22,8 @@ function init({ userRepository, postRepository }) {
   }
 
   return {
-    get,
+    getUser,
   };
 }
 
-module.exports = init;
+module.exports.init = init;

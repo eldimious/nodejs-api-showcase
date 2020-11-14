@@ -20,7 +20,7 @@ jobs:
       run: | # run multiple commands
         npm ci
     - name: Run tests server
-      run: npm run test-github-actions
+      run: npm run test
       env:
         APP_ENV: test
         DATABASE_URL: ${{ secrets.DATABASE_URL_TEST }}

@@ -1,7 +1,7 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const mongoose = require('mongoose');
-const schemasFactory = require('../../data/infrastructure/db/schemas');
+const schemasFactory = require('../../../src/data/infrastructure/db/schemas');
 
 const schemas = schemasFactory.create(mongoose);
 const db = {
@@ -9,7 +9,7 @@ const db = {
 };
 const {
   postRepository,
-} = require('../../data/repositories')(db);
+} = require('../../../src/data/repositories')(db);
 
 const postDocs = [
   {
@@ -41,20 +41,22 @@ function createDbPosts(total = []) {
   };
 }
 
-describe('post repository test', function () {
+// eslint-disable-next-line no-undef
+describe('post repository test', () => {
+  // eslint-disable-next-line no-undef
   beforeEach(() => {
     sinon.stub(db.schemas.Post, 'paginate');
     sinon.stub(db.schemas.Post, 'findOne');
   });
-
+  // eslint-disable-next-line no-undef
   afterEach(() => {
     db.schemas.Post.paginate.restore();
     db.schemas.Post.findOne.restore();
   });
-
-
-  describe('post list method', function () {
-    it('should call the db and return list of posts', async function () {
+  // eslint-disable-next-line no-undef
+  describe('post list method', () => {
+    // eslint-disable-next-line no-undef
+    it('should call the db and return list of posts', async () => {
       const posts = createDbPosts([])();
       db.schemas.Post.paginate.resolves({
         docs: posts,

@@ -42,7 +42,7 @@
     "nyc": "^13.1.0",
     "rate-limiter-flexible": "^2.1.13",
     "redis": "^3.0.2",
-    "socket.io": "^2.2.0",
+    "socket.io": "^2.4.0",
     "swagger-ui-express": "^4.0.1",
     "throw-http-errors": "^2.0.0",
     "winston": "2.4.3"

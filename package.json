@@ -41,7 +41,7 @@
     "morgan": "^1.9.0",
     "nyc": "^13.1.0",
     "rate-limiter-flexible": "^2.1.13",
-    "redis": "^3.0.2",
+    "redis": "^3.1.1",
     "socket.io": "^2.2.0",
     "swagger-ui-express": "^4.0.1",
     "throw-http-errors": "^2.0.0",

@@ -1,16 +1,33 @@
-version: '3.4'
+version: '3.9'
 services:
- web:
-  build: .
-  ports:
-   - "5555:5555"
-  env_file: .env
-  depends_on:
-   - db
-  volumes:
-   - .:/usr/src/api
- db:
-  image: mongo:latest
-  ports:
-   - "27017:27017"
-  env_file: .env
+  api-showcase:
+    build:
+      context: .
+    container_name: nodejs-api-showcase
+    ports:
+      - "5555:5555"
+    env_file: .env
+    environment:
+      - DATABASE_URL=mongodb://db:27017/nodejsshowcase
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - .:/home/nodejs/src
+  db:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb:/data/db
+    env_file: .env
+  redis:
+    image: redis:alpine
+    command: ["redis-server", "--bind", "redis", "--port", "6379"]
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart:
+      always
+volumes:
+  mongodb:

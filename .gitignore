@@ -18,11 +18,15 @@ node_modules
 
 # dotenv environment variables file
 .env
-
+.env.local
+.env.staging
+.env.stage
+.env.prod
+.local.env
+.test.env
 # Coverage directory used by tools like istanbul
 coverage
 # nyc test coverage
 .nyc_output
-
 # Compiled binary addons (http://nodejs.org/api/addons.html)
 build/Release

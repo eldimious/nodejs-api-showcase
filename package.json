@@ -34,7 +34,7 @@
     "joi-password-complexity": "^4.1.0",
     "jsonwebtoken": "^8.1.0",
     "moment": "^2.18.1",
-    "mongodb": "2.2.31",
+    "mongodb": "3.1.13",
     "mongoose": "4.11.13",
     "mongoose-paginate": "5.0.3",
     "mongoose-unique-validator": "2.0.1",

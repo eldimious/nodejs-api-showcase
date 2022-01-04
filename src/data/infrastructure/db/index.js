@@ -11,7 +11,6 @@ module.exports = ({ dbConnectionString }) => {
     throw new Error('add correct format of config with dbConnectionString');
   }
   const options = {
-    useMongoClient: true,
     promiseLibrary: require('bluebird'),
   };
 

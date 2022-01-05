@@ -14,8 +14,8 @@ const recourceLimiterRepositoryContainer = require('./data/repositories/recource
 const authServiceContainer = require('./domain/auth/service');
 const postsServiceContainer = require('./domain/posts/service');
 const usersServiceContainer = require('./domain/users/service');
-const appContainer = require('./router/http/app');
-const websocketsContainer = require('./router/websockets');
+const appContainer = require('./presentation/http/app');
+const websocketsContainer = require('./presentation/websockets');
 
 const authenticationRepository = authenticationRepositoryContainer.init();
 const postsRepository = postsRepositoryContainer.init(db.schemas);

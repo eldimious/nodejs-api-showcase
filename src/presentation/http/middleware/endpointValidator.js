@@ -1,98 +1,178 @@
+/* eslint-disable no-underscore-dangle */
 const passwordComplexity = require('joi-password-complexity');
 const errorHandler = require('../routes/errors');
 const errors = require('../../../common/errors');
 const {
   PASSWORD_COMPLEXITY,
 } = require('../../../common/constants');
+const {
+  body,
+  param,
+  validationResult,
+} = require('express-validator');
 
-module.exports = class EndpointValidator {
-  constructor() {
-    this._settings = {
-      customValidators: {
-        isInArray(item, array) {
-          return array.includes(item);
-        },
-        isMongoObjectID(param) {
-          return new RegExp('^[0-9a-fA-F]{24}$').test(param);
-        },
-        isTheSameUser(param, jwtUser) {
-          return param === jwtUser._id;
-        },
-      },
-    };
-  }
+const isMongoObjectID = value => new RegExp('^[0-9a-fA-F]{24}$').test(value);
 
-  get settings() {
-    return this._settings;
-  }
-
-  set settings(newSettings) {
-    this._settings = newSettings;
-  }
-
-  requireSameUser(req, res, next) {
-    req.checkParams('userId', 'You can manage a user doc for your own user;)').isTheSameUser(req.user);
-    req.getValidationResult().then((result) => {
-      if (!result.isEmpty()) {
-        return errorHandler(new errors.Forbidden(`${result.array({ onlyFirstError: true })[0].msg}`), req, res, next);
+const requireSameUser = () => [
+  param('userId')
+    .exists()
+    .withMessage('You can manage a user doc for your own user;')
+    .custom((value, { req }) => {
+      if (value !== req.user._id) {
+        return false;
       }
-      return next();
-    });
-  }
+      return true;
+    })
+    .withMessage({
+      message: 'You can manage a user doc for your own user;',
+      status: 403,
+    }),
+];
 
-  requireValidUserBody(req, res, next) {
-    req.checkBody('email', 'add a valid email.').notEmpty().isEmail();
-    req.checkBody('name', 'name in body required.').notEmpty();
-    req.checkBody('username', 'username in body required.').notEmpty();
-    req.checkBody('surname', 'surname in body required.').notEmpty();
-    req.checkBody('password', 'password in body required.').notEmpty();
-    req.getValidationResult().then((result) => {
-      if (!result.isEmpty()) {
-        return errorHandler(new errors.BadRequest(`${result.array({ onlyFirstError: true })[0].msg}`), req, res, next);
+const requireValidUserBody = () => {
+  let passwordErrorMsg;
+  return [
+    body('email')
+      .exists()
+      .isEmail()
+      .withMessage({
+        message: 'email not provided. Make sure you have a "email" property in your body params.',
+        status: 400,
+      }),
+    body('name')
+      .exists()
+      .withMessage({
+        message: 'name not provided. Make sure you have a "name" property in your body params.',
+        status: 400,
+      }),
+    body('username')
+      .exists()
+      .withMessage({
+        message: 'username not provided. Make sure you have a "username" property in your body params.',
+        status: 400,
+      }),
+    body('surname')
+      .exists()
+      .withMessage({
+        message: 'surname not provided. Make sure you have a "surname" property in your body params.',
+        status: 400,
+      }),
+    body('password')
+      .exists()
+      .withMessage({
+        message: 'password not provided. Make sure you have a "password" property in your body params.',
+        status: 400,
+      })
+      .custom((value) => {
+        const passwordChecking = passwordComplexity(PASSWORD_COMPLEXITY, 'Password').validate(value);
+        passwordErrorMsg = passwordChecking && passwordChecking.error && passwordChecking.error.details && Array.isArray(passwordChecking.error.details)
+          ? passwordChecking.error.details[0].message
+          : null;
+        if (passwordErrorMsg) {
+          return false;
+        }
+        return true;
+      })
+      .withMessage(() => ({
+        message: passwordErrorMsg,
+        status: 400,
+      })),
+  ];
+};
+
+const requireBodyParamsForLogin = () => [
+  body('email')
+    .exists()
+    .isEmail()
+    .withMessage({
+      message: 'email not provided. Make sure you have a "email" property in your body params.',
+      status: 400,
+    }),
+  body('password')
+    .exists()
+    .withMessage({
+      message: 'password not provided. Make sure you have a "password" property in your body params.',
+      status: 400,
+    }),
+];
+
+const requireValidPostId = () => [
+  param('postId')
+    .exists()
+    .withMessage({
+      message: 'Add a valid post id.',
+      status: 400,
+    })
+    .custom((value) => {
+      if (!isMongoObjectID(value)) {
+        return false;
       }
-      const passwordChecking = passwordComplexity(PASSWORD_COMPLEXITY, 'Password').validate(req.body.password);
-      const passwordErrors = passwordChecking && passwordChecking.error && passwordChecking.error.details && Array.isArray(passwordChecking.error.details)
-        ? passwordChecking.error.details[0].message
-        : null;
-      if (passwordErrors) {
-        return errorHandler(new errors.BadRequest(passwordErrors), req, res, next);
-      }
-      return next();
-    });
+      return true;
+    })
+    .withMessage({
+      message: 'Add a valid post id.',
+      status: 400,
+    }),
+];
+
+const requireValidPostBody = () => [
+  body('imageUrl')
+    .exists()
+    .isURL()
+    .withMessage({
+      message: 'imageUrl not provided. Make sure you have a "imageUrl" property in your body params.',
+      status: 400,
+    }),
+  body('publisher')
+    .exists()
+    .withMessage({
+      message: 'publisher not provided. Make sure you have a "publisher" property in your body params.',
+      status: 400,
+    }),
+];
+
+const validate = (req, res, next) => {
+  const validationErrors = validationResult(req);
+  if (validationErrors.isEmpty()) {
+    return next();
   }
+  const validationError = validationErrors.array({
+    onlyFirstError: true,
+  })[0];
+  const errMsg = validationError?.msg?.message || 'Bad request';
+  const errStatus = validationError?.msg?.status || 400;
+  return errorHandler(new errors[errStatus](errMsg, 'BAD_BODY_PARAMS'), req, res, next);
+};
 
+const validateCreateUserBody = () => [
+  requireValidUserBody(),
+  validate,
+];
 
-  requireBodyParamsForLogin(req, res, next) {
-    req.checkBody('email', 'add a valid email.').notEmpty().isEmail();
-    req.checkBody('password', 'password in query required.').notEmpty();
-    req.getValidationResult().then((result) => {
-      if (!result.isEmpty()) {
-        return errorHandler(new errors.BadRequest(result.array({ onlyFirstError: true })[0].msg), req, res, next);
-      }
-      return next();
-    });
-  }
+const validateUserToken = () => [
+  requireSameUser(),
+  validate,
+];
 
+const validateLoginBodyParams = () => [
+  requireBodyParamsForLogin(),
+  validate,
+];
 
-  requireValidPostId(req, res, next) {
-    req.checkParams('postId', 'add a valid post id.').isMongoObjectID();
-    req.getValidationResult().then((result) => {
-      if (!result.isEmpty()) {
-        return errorHandler(new errors.BadRequest(result.array({ onlyFirstError: true })[0].msg), req, res, next);
-      }
-      return next();
-    });
-  }
+const validatePostId = () => [
+  requireValidPostId(),
+  validate,
+];
 
+const validateCreatePostBody = () => [
+  requireValidPostBody(),
+  validate,
+];
 
-  requireValidPostBody(req, res, next) {
-    req.checkBody('imageUrl', 'imageUrl in body required.').notEmpty().isURL();
-    req.checkBody('publisher', 'publisher in body required.').notEmpty();
-    req.getValidationResult().then((result) => {
-      if (!result.isEmpty()) {
-        return errorHandler(new errors.BadRequest(`${result.array({ onlyFirstError: true })[0].msg}`), req, res, next);
-      }
-      return next();
-    });
-  }
+module.exports = {
+  validateUserToken,
+  validateCreateUserBody,
+  validateLoginBodyParams,
+  validatePostId,
+  validateCreatePostBody,
 };

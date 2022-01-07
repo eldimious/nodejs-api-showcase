@@ -1,10 +1,12 @@
 const express = require('express');
-const EndpointValidator = require('../../middleware/endpointValidator');
+const {
+  validateUserToken,
+  validatePostId,
+  validateCreatePostBody,
+} = require('../../middleware/endpointValidator');
 const asyncWrapper = require('../../utils/asyncWrapper');
 
-const endpointValidator = new EndpointValidator();
 const router = express.Router({ mergeParams: true });
-
 
 function init({
   postsService,
@@ -40,30 +42,35 @@ function init({
     return res.send(postsList);
   }));
 
-  router.post('/', endpointValidator.requireValidPostBody, asyncWrapper(async (req, res) => {
-    const newPost = await postsService.createUserPost({
-      imageUrl: req.body.imageUrl,
-      description: req.body.description,
-      publisher: req.body.publisher,
-      userId: req.params.userId,
-    });
-    return res.send({
-      data: newPost,
-    });
-  }));
+  router.post('/',
+    validateUserToken(),
+    validateCreatePostBody(),
+    asyncWrapper(async (req, res) => {
+      const newPost = await postsService.createUserPost({
+        imageUrl: req.body.imageUrl,
+        description: req.body.description,
+        publisher: req.body.publisher,
+        userId: req.params.userId,
+      });
+      return res.send({
+        data: newPost,
+      });
+    }));
 
-  router.get('/:postId', endpointValidator.requireValidPostId, asyncWrapper(async (req, res) => {
-    const postDoc = await postsService.getUserPost({
-      postId: req.params.postId,
-      userId: req.params.userId,
-    });
-    return res.send({
-      data: postDoc,
-    });
-  }));
+  router.get('/:postId',
+    validateUserToken(),
+    validatePostId(),
+    asyncWrapper(async (req, res) => {
+      const postDoc = await postsService.getUserPost({
+        postId: req.params.postId,
+        userId: req.params.userId,
+      });
+      return res.send({
+        data: postDoc,
+      });
+    }));
 
   return router;
 }
-
 
 module.exports.init = init;

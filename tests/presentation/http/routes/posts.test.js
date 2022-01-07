@@ -96,21 +96,4 @@ describe('post routes test', () => {
       .set('Authorization', `Bearer ${testToken}test`)
       .expect(401));
   });
-
-  describe('GET /users/:userId/posts/:id test', () => {
-    beforeEach(() => {
-      sinon.stub(postsService, 'getUserPost');
-    });
-    afterEach(() => {
-      postsService.getUserPost.restore();
-    });
-    it('should return a post', (done) => {
-      postsService.getUserPost.resolves(postData[0]);
-      request(app)
-        .get('/users/5fb02910c74ce3697859cee2/posts/5a511ff1568c490f9e0e4b4d')
-        .set('Authorization', `Bearer ${testToken}`)
-        .expect(200)
-        .then(() => done());
-    });
-  });
 });

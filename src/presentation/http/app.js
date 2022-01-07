@@ -8,7 +8,6 @@ const expressValidator = require('express-validator');
 const helmet = require('helmet');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
-const EndpointValidator = require('./middleware/endpointValidator');
 const authenticateEndpoint = require('./middleware/authentication');
 const authRoutes = require('./routes/auth/routes');
 const usersRoutes = require('./routes/users/routes');
@@ -16,16 +15,13 @@ const errorRoute = require('./routes/errors');
 const swaggerDocument = require('../../swagger');
 const asyncWrapper = require('./utils/asyncWrapper');
 
-const endpointValidator = new EndpointValidator();
 const app = express();
-
 app.disable('x-powered-by');
 app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(compress);
 app.use(logger('dev'));
-app.use(expressValidator(endpointValidator.settings));
 app.use(cors());
 
 module.exports.init = (services) => {

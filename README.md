@@ -62,11 +62,7 @@ Create an .env file in project root to register the following required environme
 
 ### Use Docker: ###
 
-You can use Docker to start the app locally. The Dockerfile and the docker-compose.yml are already provided for you. For this option you must specify following var in the .env file:
-
-DATABASE_URL
-
-then run the following command:
+You can use Docker to start the app locally. The Dockerfile and the docker-compose.yml are already provided for you. You have to run the following command:
 
 ```shell
 docker-compose up
@@ -200,6 +196,7 @@ GET /users/:userId/posts/:postId
   - [Express-validator](https://github.com/ctavan/express-validator)
   - [Bcrypt](https://github.com/dcodeIO/bcrypt.js)
   - [Jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
+  - [Redis](https://github.com/redis/node-redis)
   - [Mocha](https://www.npmjs.com/package/mocha)
   - [Chai](https://www.npmjs.com/package/chai)
   - [Sinon](https://www.npmjs.com/package/sinon)

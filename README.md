@@ -197,6 +197,8 @@ GET /users/:userId/posts/:postId
   - [Bcrypt](https://github.com/dcodeIO/bcrypt.js)
   - [Jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
   - [Redis](https://github.com/redis/node-redis)
+  - [Express-winston](https://github.com/bithavoc/express-winston)
+  - [Winston](https://github.com/winstonjs/winston)
   - [Mocha](https://www.npmjs.com/package/mocha)
   - [Chai](https://www.npmjs.com/package/chai)
   - [Sinon](https://www.npmjs.com/package/sinon)

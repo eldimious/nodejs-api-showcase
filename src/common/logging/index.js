@@ -1,48 +1,50 @@
 const winston = require('winston');
 const expressWinston = require('express-winston');
-
-const { Logger } = winston;
-
+const {
+  PRODUCTION_ENV,
+  VERBOSE_LOGGING_LVL,
+  INFO_LOGGING_LVL,
+} = require('../constants');
 
 const getTransports = () => {
   const transports = [
-    new winston.transports.Console({
-      colorize: true,
-    }),
+    new winston.transports.Console(),
   ];
   return transports;
 };
 
+const getFormat = () => winston.format.combine(
+  winston.format.colorize(),
+  winston.format.json(),
+);
 
 const requestLogger = expressWinston.logger({
-  level: 'info',
   transports: getTransports(),
-  colorize: false,
+  format: getFormat(),
+  colorize: true,
   expressFormat: true,
   meta: true,
 });
 
-
 const errorLogger = expressWinston.errorLogger({
-  level: 'error',
   transports: getTransports(),
+  format: getFormat(),
 });
 
-
-const logger = new Logger({
-  level: process.env.NODE_ENV !== 'production' ? 'verbose' : 'info',
+const logger = winston.createLogger({
+  level: process.env.NODE_ENV !== PRODUCTION_ENV ? VERBOSE_LOGGING_LVL : INFO_LOGGING_LVL,
+  format: getFormat(),
   transports: getTransports(),
 });
-
 
 module.exports = {
   requestLogger,
   errorLogger,
-  error: logger.error,
-  warn: logger.warn,
-  info: logger.info,
-  log: logger.log,
-  verbose: logger.verbose,
-  debug: logger.debug,
-  silly: logger.silly,
+  error: logger.error.bind(logger),
+  warn: logger.warn.bind(logger),
+  info: logger.info.bind(logger),
+  log: logger.log.bind(logger),
+  verbose: logger.verbose.bind(logger),
+  debug: logger.debug.bind(logger),
+  silly: logger.silly.bind(logger),
 };

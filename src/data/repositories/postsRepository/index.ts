@@ -33,7 +33,6 @@ const handleUsersPaginationResponse = (response: PaginateResult<IPostEntity>): I
   if (!response || !response.docs || response.docs.length <= 0) {
     return DEFAULT_PAGINATION_CONTENT;
   }
-  console.log("response.docs", typeof response.docs[0].toPost);
   const postsList: IPaginatedPosts = {
     data: response.docs.map((doc: IPostEntity) => doc.toPost()),
     pagination: {

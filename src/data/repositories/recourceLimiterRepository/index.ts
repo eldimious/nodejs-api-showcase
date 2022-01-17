@@ -12,7 +12,7 @@ export interface IRecourceLimiterRepository {
   deleteUserKeyForFailedLogin: (usernameKey: string) => Promise<boolean>
 }
 
-export function init(): IRecourceLimiterRepository {
+function init(): IRecourceLimiterRepository {
   const redisClient = new Redis(config.redis.uri, { enableOfflineQueue: false });
 
   const limiterUserConsecutiveFailsByUsername = new RateLimiterRedis({
@@ -30,3 +30,7 @@ export function init(): IRecourceLimiterRepository {
     deleteUserKeyForFailedLogin: async (usernameKey: string) => limiterUserConsecutiveFailsByUsername.delete(usernameKey),
   };
 }
+
+export default {
+  init,
+};

@@ -8,7 +8,7 @@ import { Database } from './data/infrastructure/db';
 import postsRepositoryContainer from './data/repositories/postsRepository';
 import usersRepositoryContainer from './data/repositories/usersRepository';
 import authenticationRepositoryContainer from './data/repositories/authenticationRepository';
-import { init as recourceLimiterRepositoryContainer} from './data/repositories/recourceLimiterRepository';
+import recourceLimiterRepositoryContainer from './data/repositories/recourceLimiterRepository';
 import authServiceContainer from './domain/auth/service';
 import postsServiceContainer from './domain/posts/service';
 import usersServiceContainer from './domain/users/service';
@@ -21,7 +21,7 @@ const db = new Database(config.dbConnectionString as string);
 const authenticationRepository = authenticationRepositoryContainer.init();
 const postsRepository = postsRepositoryContainer.init();
 const usersRepository = usersRepositoryContainer.init();
-const recourceLimiterRepository = recourceLimiterRepositoryContainer();
+const recourceLimiterRepository = recourceLimiterRepositoryContainer.init();
 const authService = authServiceContainer.init({
   authenticationRepository,
   usersRepository,

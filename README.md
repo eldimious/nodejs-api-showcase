@@ -1,5 +1,8 @@
 [![Build Status](https://api.travis-ci.org/eldimious/nodejs-api-showcase.svg?branch=master)](https://api.travis-ci.org/eldimious/nodejs-api-showcase)
 
+# Typescript #
+You can take a look at Typescript source code at the branch [typescript](https://github.com/eldimious/nodejs-api-showcase/tree/typescript)
+
 # What is this repository for? #
 Node.js app architecture showcase using [Express](https://www.npmjs.com/package/express), [MongoDB](https://www.mongodb.com/) and [Mongoose](http://mongoosejs.com/) as ORM. The project has an  implementation of an authentication system that uses JSON Web Token to manage users' login data in Node.js web server. You can start your Node.js projects building on this boilerplate.
 

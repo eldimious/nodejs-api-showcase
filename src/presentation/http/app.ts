@@ -9,7 +9,7 @@ import path from 'path';
 import { authenticateEndpoint } from './middleware/authentication';
 import authRoutes from './routes/auth/routes';
 import usersRoutes from './routes/users/routes';
-import { errorHandler } from './routes/errors';
+import { errorHandler } from './routes/errors/routes';
 import { asyncWrapper } from './utils/asyncWrapper';
 import { IServices } from '../../common/interfaces/IServices';
 import { IExpressRequest } from '../../common/interfaces/IExpressRequest';

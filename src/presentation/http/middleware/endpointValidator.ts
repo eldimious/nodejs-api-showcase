@@ -6,7 +6,7 @@ import {
   param,
   validationResult,
 } from 'express-validator';
-import { errorHandler } from '../routes/errors';
+import { errorHandler } from '../routes/errors/routes';
 import errors from '../../../common/errors';
 import {
   PASSWORD_COMPLEXITY,

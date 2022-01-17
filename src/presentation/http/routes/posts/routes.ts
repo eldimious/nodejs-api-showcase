@@ -9,7 +9,6 @@ import {
 } from '../../middleware/endpointValidator';
 import { asyncWrapper } from '../../utils/asyncWrapper';
 import { IExpressRequest } from '../../../../common/interfaces/IExpressRequest';
-import { IListUserPostsDto } from './dto/IListUserPostsDto';
 import { IListPostsQuery } from '../../../../domain/posts/postsRepository';
 
 const router = express.Router({ mergeParams: true });
@@ -19,7 +18,7 @@ function init(services: IServices): Router {
   const MAX_PAGINATION_LIMIT = 100;
   const DEFAULT_PAGINATION_PAGE = 1;
 
-  const handlePagination = (options: IListUserPostsDto): IListUserPostsDto => {
+  const handlePagination = (options: IListPostsQuery): IListPostsQuery => {
     const populateOptionsWithPagination = { ...options };
     if (populateOptionsWithPagination.limit && isNaN(populateOptionsWithPagination.limit)) {
       populateOptionsWithPagination.limit = DEFAULT_PAGINATION_LIMIT;

@@ -8,6 +8,9 @@ RUN npm ci
 # Bundle app source
 COPY . /build
 
+# Build app for production
+RUN npm run build
+
 FROM node:16-alpine
 # user with username node is provided from the official node image
 ENV user node
@@ -24,4 +27,4 @@ EXPOSE 5555
 
 ENV NODE_ENV production
 
-CMD ["npm", "start"]
+CMD [ "npm", "start" ]

@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "target": "ES2021",
+    "module": "commonjs",
+    "strict": true,
+    "declaration": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "typeRoots": ["./node_modules/@types", "./src/@types"],
+    "outDir": "./dist",
+  },
+  // "files": ["./src/server.ts", "./src/@types/express/index.d.ts", "./src/@types/throw-http-errors/index.d.ts"],
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules", "dist"]
+}

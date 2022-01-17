@@ -13,7 +13,11 @@ import { IAuthenticationRepository } from '../../../domain/auth/authenticationRe
 
 const SALT_ROUNDS = 10;
 
-export default {
+interface IAuthenticationRepositoryFactory {
+  init(): IAuthenticationRepository;
+}
+
+export const authenticationRepositoryFactory: IAuthenticationRepositoryFactory = {
   init(): IAuthenticationRepository {
     async function comparePassword(password: string, dbPassword: string): Promise<boolean> {
       try {

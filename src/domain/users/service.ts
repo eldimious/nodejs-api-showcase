@@ -14,29 +14,31 @@ export interface IUsersService {
   getUser(query: GetUserQuery): Promise<{ user: User; posts: IPaginatedPosts }>
 }
 
-function init(repositories: IRepositories) {
-  async function getUser(query: GetUserQuery): Promise<{
-    user: User;
-    posts: IPaginatedPosts;
-  }> {
-    const [
-      user,
-      posts,
-    ] = await Promise.all([
-      repositories.usersRepository.getUser(query as IGetUserQuery),
-      repositories.postsRepository.listUserPosts(query as IListPostsQuery),
-    ]);
-    return {
-      user,
-      posts,
-    };
-  }
-
-  return {
-    getUser,
-  };
+interface IUsersServiceFactory {
+  init(repositories: IRepositories): IUsersService;
 }
 
-export default {
-  init,
+export const usersServiceFactory: IUsersServiceFactory = {
+  init(repositories: IRepositories) {
+    async function getUser(query: GetUserQuery): Promise<{
+      user: User;
+      posts: IPaginatedPosts;
+    }> {
+      const [
+        user,
+        posts,
+      ] = await Promise.all([
+        repositories.usersRepository.getUser(query as IGetUserQuery),
+        repositories.postsRepository.listUserPosts(query as IListPostsQuery),
+      ]);
+      return {
+        user,
+        posts,
+      };
+    }
+
+    return {
+      getUser,
+    };
+  },
 };

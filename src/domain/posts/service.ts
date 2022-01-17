@@ -18,26 +18,28 @@ export interface IPostsService {
   getUserPost(query: IGetUserPostQuery): Promise<Post>
 }
 
-function init(repositories: IRepositories) {
-  async function listUserPosts(query: IListPostsQuery): Promise<IPaginatedPosts> {
-    return repositories.postsRepository.listUserPosts(query);
-  }
-
-  async function createUserPost(createPostDto: ICreatePostDto): Promise<Post> {
-    return repositories.postsRepository.createUserPost(createPostDto);
-  }
-
-  async function getUserPost(query: IGetUserPostQuery): Promise<Post> {
-    return repositories.postsRepository.getUserPost(query);
-  }
-
-  return {
-    listUserPosts,
-    createUserPost,
-    getUserPost,
-  };
+interface IPostsServiceFactory {
+  init(repositories: IRepositories): IPostsService;
 }
 
-export default {
-  init,
+export const postsServiceFactory: IPostsServiceFactory = {
+  init(repositories: IRepositories) {
+    async function listUserPosts(query: IListPostsQuery): Promise<IPaginatedPosts> {
+      return repositories.postsRepository.listUserPosts(query);
+    }
+
+    async function createUserPost(createPostDto: ICreatePostDto): Promise<Post> {
+      return repositories.postsRepository.createUserPost(createPostDto);
+    }
+
+    async function getUserPost(query: IGetUserPostQuery): Promise<Post> {
+      return repositories.postsRepository.getUserPost(query);
+    }
+
+    return {
+      listUserPosts,
+      createUserPost,
+      getUserPost,
+    };
+  },
 };

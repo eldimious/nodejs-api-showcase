@@ -4,6 +4,10 @@ import { UserDao } from '../../infrastructure/db/schemas/User';
 import { User } from '../../../domain/users/model';
 import { IUsersRepository, IGetUserQuery, ICreateUser } from '../../../domain/users/usersRepository';
 
+interface IUsersRepositoryFactory {
+  init(): IUsersRepository;
+}
+
 const queryForGetUser = (query: IGetUserQuery): FilterQuery<typeof UserDao> => {
   const queries: FilterQuery<typeof UserDao> = {};
   if (query.userId) {
@@ -31,7 +35,7 @@ const userStore: IUsersRepository = {
   },
 };
 
-export default {
+export const usersRepositoryFactory: IUsersRepositoryFactory = {
   init(): IUsersRepository {
     return Object.create(userStore);
   },

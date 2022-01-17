@@ -1,46 +1,45 @@
 import cluster from 'cluster';
-import { Server } from 'http';
 import config from './configuration';
 import { setupWorkerProcesses } from './common/utils/workerProcesses';
 import logging from './common/logging';
 import signals from './signals';
 import { Database } from './data/infrastructure/db';
-import postsRepositoryContainer from './data/repositories/postsRepository';
-import usersRepositoryContainer from './data/repositories/usersRepository';
-import authenticationRepositoryContainer from './data/repositories/authenticationRepository';
-import recourceLimiterRepositoryContainer from './data/repositories/recourceLimiterRepository';
-import authServiceContainer from './domain/auth/service';
-import postsServiceContainer from './domain/posts/service';
-import usersServiceContainer from './domain/users/service';
-import appContainer from './presentation/http/app';
-import websocketsContainer from './presentation/websockets';
+import { postsRepositoryFactory } from './data/repositories/postsRepository';
+import { usersRepositoryFactory } from './data/repositories/usersRepository';
+import { authenticationRepositoryFactory } from './data/repositories/authenticationRepository';
+import { recourceLimiterRepositoryFactory } from './data/repositories/recourceLimiterRepository';
+import { authServiceFactory } from './domain/auth/service';
+import { postsServiceFactory } from './domain/posts/service';
+import { usersServiceFactory } from './domain/users/service';
+import { appServerFactory } from './presentation/http/app';
+import { appSocketsFactory } from './presentation/websockets';
 import { IRepositories } from './common/interfaces/IRepositories';
 import { IServices } from './common/interfaces/IServices';
 
 const db = new Database(config.dbConnectionString as string);
-const authenticationRepository = authenticationRepositoryContainer.init();
-const postsRepository = postsRepositoryContainer.init();
-const usersRepository = usersRepositoryContainer.init();
-const recourceLimiterRepository = recourceLimiterRepositoryContainer.init();
-const authService = authServiceContainer.init({
+const authenticationRepository = authenticationRepositoryFactory.init();
+const postsRepository = postsRepositoryFactory.init();
+const recourceLimiterRepository = recourceLimiterRepositoryFactory.init();
+const usersRepository = usersRepositoryFactory.init();
+const authService = authServiceFactory.init({
   authenticationRepository,
   usersRepository,
   recourceLimiterRepository,
 } as IRepositories);
-const postsService = postsServiceContainer.init({
+const postsService = postsServiceFactory.init({
   postsRepository,
 } as IRepositories);
-const usersService = usersServiceContainer.init({
+const usersService = usersServiceFactory.init({
   usersRepository,
   postsRepository,
 } as IRepositories);
-const app: Server = appContainer.init({
+const app = appServerFactory.init({
   authService,
   postsService,
   usersService,
 } as IServices);
 
-websocketsContainer.init(app);
+appSocketsFactory.init(app);
 
 let server: any;
 

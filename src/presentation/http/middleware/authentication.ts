@@ -1,13 +1,13 @@
 import { Response, NextFunction } from 'express';
 import errors from '../../../common/errors';
-import authenticationRepositoryFactory from '../../../data/repositories/authenticationRepository';
+import { authenticationRepositoryFactory } from '../../../data/repositories/authenticationRepository';
 import config from '../../../configuration';
 import { IExpressRequest } from '../../../common/interfaces/IExpressRequest';
 
 const authentication = authenticationRepositoryFactory.init();
 
 const getJWTFromAuthHeader = function getJWTFromAuthHeader(req: IExpressRequest) {
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers.authorization;
   if (!authHeader) {
     throw new errors.Unauthorized('Invalid user token', 'INVALID_TOKEN');
   }

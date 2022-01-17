@@ -19,6 +19,10 @@ import { IPostEntity, PostDao } from '../../infrastructure/db/schemas/Post';
 import errors from '../../../common/errors';
 import { Post } from '../../../domain/posts/model';
 
+interface IPostsRepositoryFactory {
+  init(): IPostsRepository;
+}
+
 const DEFAULT_PAGINATION_CONTENT: IPaginatedPosts = {
   pagination: {
     total: undefined,
@@ -87,7 +91,7 @@ const postStore: IPostsRepository = {
   },
 };
 
-export default {
+export const postsRepositoryFactory: IPostsRepositoryFactory = {
   init(): IPostsRepository {
     return Object.create(postStore);
   },

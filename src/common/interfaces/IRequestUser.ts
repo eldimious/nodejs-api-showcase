@@ -1,5 +1,5 @@
 import { JwtPayload } from 'jsonwebtoken';
 
-export interface IRequestId {
+export interface IRequestUser {
   user?: JwtPayload;
 }

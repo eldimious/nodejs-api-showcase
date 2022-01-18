@@ -46,7 +46,7 @@
     "redis": "^4.0.2",
     "socket.io": "^4.4.1",
     "swagger-ui-express": "^4.3.0",
-    "throw-http-errors": "^2.0.0",
+    "throw-http-errors": "^4.0.1",
     "tsoa": "^3.14.1",
     "winston": "^3.3.3"
   },

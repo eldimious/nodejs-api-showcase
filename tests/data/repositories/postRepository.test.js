@@ -1,12 +1,11 @@
 const expect = require('chai').expect;
 const sinon = require('sinon');
-const mongoose = require('mongoose');
 const schemasFactory = require('../../../src/data/infrastructure/db/schemas');
 const {
   posts: postDocs,
 } = require('../../mockedData');
 
-const schemas = schemasFactory.create(mongoose);
+const schemas = schemasFactory.create();
 const db = {
   schemas,
 };

@@ -7,7 +7,7 @@
 // network or the db without the need to alter the consumers code.
 // I am using a factory function (using object literal and prototype) to pass methods on prototype chain
 // With factory functions(closures) we can have data privacy.
-import { FilterQuery, PaginateResult } from 'mongoose';
+import { FilterQuery, PaginateOptions, PaginateResult } from 'mongoose';
 import {
   IPostsRepository,
   IListPostsQuery,
@@ -49,8 +49,7 @@ const handleUsersPaginationResponse = (response: PaginateResult<IPostEntity>): I
   return postsList;
 };
 
-const getPaginationOptions = (query: IListPostsQuery) => ({
-  lean: true,
+const getPaginationOptions = (query: IListPostsQuery): PaginateOptions => ({
   page: query.page || 1,
   limit: query.limit || 25,
   sort: { created: -1 },
@@ -71,10 +70,7 @@ const getQueryObject = (query: IListPostsQuery) => {
 
 const postStore: IPostsRepository = {
   async listUserPosts(query: IListPostsQuery): Promise<IPaginatedPosts> {
-    const docs = await PostDao.paginate({
-      query: getQueryObject(query),
-      ...getPaginationOptions(query),
-    });
+    const docs = await PostDao.paginate(getQueryObject(query), getPaginationOptions(query));
     return handleUsersPaginationResponse(docs);
   },
   async createUserPost(createPostDto: ICreatePostDto): Promise<Post> {

@@ -1,6 +1,6 @@
 const errors = require('../../../../common/errors');
 
-const createResponseError = err => ({
+const createResponseError = (err) => ({
   status: err.status,
   data: {
     code: err.code,

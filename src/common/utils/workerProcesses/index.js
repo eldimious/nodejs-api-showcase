@@ -17,11 +17,11 @@ const setupWorkerProcesses = () => {
     // these references can be used to receive messages from workers
     workers.push(cluster.fork());
     // to receive messages from worker process
-    workers[i].on('message', message => logging.info(`worker message: ${message}`));
+    workers[i].on('message', (message) => logging.info(`worker message: ${message}`));
   }
   // process is clustered on a core and process id is assigned
-  cluster.on('online', worker => logging.info(`Worker ${worker.process.pid} is online`));
-  cluster.on('listening', worker => logging.info(`Worker ${worker.process.pid} is listening`));
+  cluster.on('online', (worker) => logging.info(`Worker ${worker.process.pid} is online`));
+  cluster.on('listening', (worker) => logging.info(`Worker ${worker.process.pid} is listening`));
   // if any of the worker process dies then start a new one by simply forking another one
   cluster.on('exit', (worker, code, signal) => {
     logging.info(`Worker ${worker.process.pid} died with code: ${code} and signal: ${signal}`);
@@ -31,7 +31,7 @@ const setupWorkerProcesses = () => {
       const newWorker = cluster.fork();
       workers.push(newWorker);
       // to receive messages from new worker process
-      workers[workers.length - 1].on('message', message => logging.info(`worker message: ${message}`));
+      workers[workers.length - 1].on('message', (message) => logging.info(`worker message: ${message}`));
     }
   });
 };

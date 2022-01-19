@@ -7,7 +7,7 @@ const {
 const authentication = authenticationRepository.init();
 
 const getJWTFromAuthHeader = function getJWTFromAuthHeader(req) {
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers.authorization;
   if (!authHeader) {
     throw new errors.Unauthorized('Invalid user token', 'INVALID_TOKEN');
   }

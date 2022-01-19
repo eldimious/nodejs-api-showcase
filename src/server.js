@@ -6,7 +6,7 @@ const {
 const setupWorkerProcesses = require('./common/utils/workerProcesses');
 const logging = require('./common/logging');
 const signals = require('./signals');
-const db = require('./data/infrastructure/db')({ dbConnectionString });
+const dbContainer = require('./data/infrastructure/db');
 const postsRepositoryContainer = require('./data/repositories/posts');
 const usersRepositoryContainer = require('./data/repositories/users');
 const authenticationRepositoryContainer = require('./data/repositories/authenticationRepository');
@@ -17,6 +17,7 @@ const usersServiceContainer = require('./domain/users/service');
 const appContainer = require('./presentation/http/app');
 const websocketsContainer = require('./presentation/websockets');
 
+const db = dbContainer.init(dbConnectionString);
 const authenticationRepository = authenticationRepositoryContainer.init();
 const postsRepository = postsRepositoryContainer.init(db.schemas);
 const usersRepository = usersRepositoryContainer.init(db.schemas);
@@ -38,7 +39,7 @@ const app = appContainer.init({
   postsService,
   usersService,
 });
-const websockets = websocketsContainer.init(app);
+websocketsContainer.init(app);
 
 let server;
 
@@ -53,7 +54,6 @@ let server;
     });
   }
 })(true);
-
 
 const shutdown = signals.init(async () => {
   await db.close();

@@ -1,34 +1,35 @@
 const moment = require('moment');
 const mongoosePaginate = require('mongoose-paginate');
+const mongoose = require('mongoose');
 
-function create(mongoose) {
-  const postSchema = mongoose.Schema({
-    userId: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-    },
-    imageUrl: {
-      type: String,
-      required: true,
-    },
-    description: String,
-    publisher: {
-      type: String,
-      required: true,
-    },
-    created: Date,
-  });
+const PostSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+  description: String,
+  publisher: {
+    type: String,
+    required: true,
+  },
+  created: Date,
+});
 
-  postSchema.pre('save', (next) => {
-    this.created = moment().toJSON();
-    return next();
-  });
+PostSchema.index({ userId: 1 });
 
-  postSchema.index({ created: -1 });
+PostSchema.index({ created: -1 });
 
-  postSchema.plugin(mongoosePaginate);
+PostSchema.plugin(mongoosePaginate);
 
-  return mongoose.model('Post', postSchema);
-}
+PostSchema.pre('save', function (next) {
+  this.created = moment().toJSON();
+  return next();
+});
 
-module.exports = create;
+const PostDao = mongoose.model('Post', PostSchema);
+
+module.exports = { PostDao };

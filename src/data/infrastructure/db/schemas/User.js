@@ -1,60 +1,58 @@
 const moment = require('moment');
-const mongoosePaginate = require('mongoose-paginate');
 const bcrypt = require('bcryptjs');
 const uniqueValidator = require('mongoose-unique-validator');
+const {
+  model,
+  Schema,
+} = require('mongoose');
 
-function create(mongoose) {
-  const userSchema = mongoose.Schema({
-    name: {
-      type: String,
-      required: true,
-    },
-    surname: {
-      type: String,
-      required: true,
-    },
-    username: {
-      type: String,
-      required: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    created: Date,
-  });
+const UserSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  surname: {
+    type: String,
+    required: true,
+  },
+  username: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  created: Date,
+});
 
-  userSchema.pre('save', function (next) {
-    bcrypt.genSalt(10, (err, salt) => {
-      if (err) {
-        return next(err);
+UserSchema.index({ name: 1 });
+
+UserSchema.index({ name: 1, created: -1 });
+
+UserSchema.plugin(uniqueValidator);
+
+UserSchema.pre('save', function (next) {
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      return next(err);
+    }
+    bcrypt.hash(this.password, salt, (error, hash) => {
+      if (error) {
+        return next(error);
       }
-      bcrypt.hash(this.password, salt, (err, hash) => {
-        if (err) {
-          return next(err);
-        }
-        this.password = hash;
-        this.created = moment().toJSON();
-        return next();
-      });
+      this.password = hash;
+      this.created = moment().toJSON();
+      return next();
     });
   });
+});
 
-  userSchema.index({ name: 1 });
+const UserDao = model('User', UserSchema);
 
-  userSchema.index({ name: 1, created: -1 });
-
-  userSchema.plugin(mongoosePaginate);
-
-  userSchema.plugin(uniqueValidator);
-
-  return mongoose.model('User', userSchema);
-}
-
-
-module.exports = create;
+module.exports = { UserDao };

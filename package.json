@@ -1,6 +1,6 @@
 {
   "name": "nodejs-api-showcase",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "",
   "main": "node src/server.js",
   "scripts": {
@@ -22,7 +22,6 @@
   "dependencies": {
     "@hapi/joi": "^17.1.1",
     "bcryptjs": "^2.4.3",
-    "bluebird": "^3.5.0",
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",
     "cors": "^2.8.5",
@@ -36,7 +35,7 @@
     "moment": "^2.18.1",
     "mongodb": "^4.2.2",
     "mongoose": "^6.1.4",
-    "mongoose-paginate": "5.0.3",
+    "mongoose-paginate": "^5.0.3",
     "mongoose-unique-validator": "^3.0.0",
     "morgan": "^1.9.0",
     "rate-limiter-flexible": "^2.1.13",

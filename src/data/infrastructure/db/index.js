@@ -2,52 +2,43 @@
   It can be published as private npm module shared among all team's projects.
 */
 const mongoose = require('mongoose');
-const schemasFactory = require('./schemas');
+const schemas = require('./schemas');
 const logging = require('../../../common/logging');
-mongoose.Promise = require('bluebird');
 
-module.exports = ({ dbConnectionString }) => {
+module.exports.init = (dbConnectionString) => {
   if (!dbConnectionString) {
     throw new Error('add correct format of config with dbConnectionString');
   }
-  const options = {
-    promiseLibrary: require('bluebird'),
-  };
-
   // Check for errors on connecting to Mongo DB
   mongoose.connection.on('error', (err) => {
     logging.error(`Error! DB Connection failed. Error: ${err}`);
     return err;
   });
-
   // Connection opened successfully
   mongoose.connection.once('open', () => {
     logging.info('Connection to MongoDB established');
     // mongoose.connection.db.dropDatabase()
   });
-
   mongoose.connection.on('disconnected', () => {
     logging.info('Connection to MongoDB closed');
     logging.info('-------------------');
   });
 
-  const schemas = schemasFactory.create(mongoose);
   return Object.assign(
     {
       getConnection() {
         return mongoose.connection;
       },
-
       connect() {
         // Open Connection to Mongo DB
-        return mongoose.connect(dbConnectionString, options);
+        return mongoose.connect(dbConnectionString);
       },
       close() {
         return mongoose.connection.close();
       },
     },
     {
-      schemas,
+      schemas: schemas.create(),
     },
   );
 };

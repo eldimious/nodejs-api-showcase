@@ -17,13 +17,12 @@ const DEFAULT_PAGINATION_CONTENT = {
   data: [],
 };
 
-
 const handleUsersPaginationResponse = (response) => {
   if (!response.docs || response.docs.length <= 0) {
     return DEFAULT_PAGINATION_CONTENT;
   }
   const postsList = {
-    data: response.docs.map(doc => mapper.toDomainModel(doc, PostDomainModel)),
+    data: response.docs.map((doc) => mapper.toDomainModel(doc, PostDomainModel)),
     pagination: {
       total: response.total,
       limit: response.limit,
@@ -34,13 +33,12 @@ const handleUsersPaginationResponse = (response) => {
   return postsList;
 };
 
-const getPaginationOptions = options => ({
+const getPaginationOptions = (options) => ({
   lean: true,
   page: options.page || 1,
   limit: options.limit || 25,
   sort: { created: -1 },
 });
-
 
 const getQueryObject = (options) => {
   const queries = {
@@ -55,46 +53,32 @@ const getQueryObject = (options) => {
   return queries;
 };
 
-
 const postStore = {
   async listUserPosts(options) {
-    try {
-      const { Post: postSchema } = this.getSchemas();
-      const docs = await postSchema.paginate(getQueryObject(options), getPaginationOptions(options));
-      return handleUsersPaginationResponse(docs);
-    } catch (error) {
-      throw error;
-    }
+    const { Post: postSchema } = this.getSchemas();
+    const docs = await postSchema.paginate(getQueryObject(options), getPaginationOptions(options));
+    return handleUsersPaginationResponse(docs);
   },
   async createUserPost(options) {
-    try {
-      const { Post: postSchema } = this.getSchemas();
-      const newPost = new postSchema({
-        userId: options.userId,
-        imageUrl: options.imageUrl,
-        description: options.description,
-        publisher: options.publisher,
-      });
-      const doc = await newPost.save();
-      return mapper.toDomainModel(doc, PostDomainModel);
-    } catch (error) {
-      throw error;
-    }
+    const { Post: postSchema } = this.getSchemas();
+    const newPost = new postSchema({
+      userId: options.userId,
+      imageUrl: options.imageUrl,
+      description: options.description,
+      publisher: options.publisher,
+    });
+    const doc = await newPost.save();
+    return mapper.toDomainModel(doc, PostDomainModel);
   },
   async getUserPost(options) {
-    try {
-      const { Post: postSchema } = this.getSchemas();
-      const doc = await postSchema.findOne({ userId: options.userId, _id: options.postId }).lean().exec();
-      if (!doc) {
-        throw new errors.NotFound(`Post with id ${options.postId} not found.`);
-      }
-      return mapper.toDomainModel(doc, PostDomainModel);
-    } catch (error) {
-      throw error;
+    const { Post: postSchema } = this.getSchemas();
+    const doc = await postSchema.findOne({ userId: options.userId, _id: options.postId }).lean().exec();
+    if (!doc) {
+      throw new errors.NotFound(`Post with id ${options.postId} not found.`);
     }
+    return mapper.toDomainModel(doc, PostDomainModel);
   },
 };
-
 
 module.exports.init = ({ Post }) => Object.assign(Object.create(postStore), {
   getSchemas() {
@@ -103,4 +87,3 @@ module.exports.init = ({ Post }) => Object.assign(Object.create(postStore), {
     };
   },
 });
-

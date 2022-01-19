@@ -23,8 +23,8 @@ module.exports.init = function init() {
 
   return {
     maxConsecutiveFailsByUsername: MAX_CONSECUTIVE_FAILS_BY_USERNAME,
-    getUserKeyForFailedLogin: async usernameKey => limiterUserConsecutiveFailsByUsername.get(usernameKey),
-    consumeUserPointsForFailedLogin: async usernameKey => limiterUserConsecutiveFailsByUsername.consume(usernameKey),
-    deleteUserKeyForFailedLogin: async usernameKey => limiterUserConsecutiveFailsByUsername.delete(usernameKey),
+    getUserKeyForFailedLogin: async (usernameKey) => limiterUserConsecutiveFailsByUsername.get(usernameKey),
+    consumeUserPointsForFailedLogin: async (usernameKey) => limiterUserConsecutiveFailsByUsername.consume(usernameKey),
+    deleteUserKeyForFailedLogin: async (usernameKey) => limiterUserConsecutiveFailsByUsername.delete(usernameKey),
   };
 };

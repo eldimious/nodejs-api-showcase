@@ -1,17 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 const passwordComplexity = require('joi-password-complexity');
-const errorHandler = require('../routes/errors');
-const errors = require('../../../common/errors');
-const {
-  PASSWORD_COMPLEXITY,
-} = require('../../../common/constants');
 const {
   body,
   param,
   validationResult,
 } = require('express-validator');
+const errorHandler = require('../routes/errors');
+const errors = require('../../../common/errors');
+const {
+  PASSWORD_COMPLEXITY,
+} = require('../../../common/constants');
 
-const isMongoObjectID = value => new RegExp('^[0-9a-fA-F]{24}$').test(value);
+const isMongoObjectID = (value) => /^[0-9a-fA-F]{24}$/.test(value);
 
 const requireSameUser = () => [
   param('userId')

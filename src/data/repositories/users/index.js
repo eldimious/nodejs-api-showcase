@@ -21,43 +21,35 @@ const userStore = {
     email,
     password,
   }) {
-    try {
-      const {
-        User: userSchema,
-      } = this.getSchemas();
-      const newUser = new userSchema({
-        name,
-        surname,
-        username,
-        email,
-        password,
-      });
-      const userDoc = await newUser.save();
-      return mapper.toDomainModel(userDoc, UserDomainModel);
-    } catch (error) {
-      throw error;
-    }
+    const {
+      User: userSchema,
+    } = this.getSchemas();
+    const newUser = new userSchema({
+      name,
+      surname,
+      username,
+      email,
+      password,
+    });
+    const userDoc = await newUser.save();
+    return mapper.toDomainModel(userDoc, UserDomainModel);
   },
 
   async getUser({
     email,
     userId,
   }) {
-    try {
-      const { User: userSchema } = this.getSchemas();
-      const userDoc = await userSchema.findOne(queryForGetUser({
-        email,
-        userId,
-      }))
-        .lean()
-        .exec();
-      if (!userDoc) {
-        throw new errors.NotFound('User not found.');
-      }
-      return mapper.toDomainModel(userDoc, UserDomainModel);
-    } catch (error) {
-      throw error;
+    const { User: userSchema } = this.getSchemas();
+    const userDoc = await userSchema.findOne(queryForGetUser({
+      email,
+      userId,
+    }))
+      .lean()
+      .exec();
+    if (!userDoc) {
+      throw new errors.NotFound('User not found.');
     }
+    return mapper.toDomainModel(userDoc, UserDomainModel);
   },
 };
 

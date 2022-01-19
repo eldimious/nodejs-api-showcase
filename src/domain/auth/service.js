@@ -8,13 +8,12 @@ const {
   getRetryAfterSeconds,
 } = require('../../common/utils/helper');
 
-
 function init({
   authenticationRepository,
   usersRepository,
   recourceLimiterRepository,
 }) {
-  const getUsernameKey = username => `${username}`;
+  const getUsernameKey = (username) => `${username}`;
 
   async function register(options) {
     return usersRepository.createUser(options);
@@ -60,44 +59,40 @@ function init({
     email,
     password,
   }) {
-    try {
-      const usernameKey = getUsernameKey(email);
-      const [
-        resUsername,
-      ] = await Promise.all([
-        recourceLimiterRepository.getUserKeyForFailedLogin(usernameKey),
-      ]);
-      let retrySecs = 0;
-      if (resUsername !== null && resUsername.consumedPoints > recourceLimiterRepository.maxConsecutiveFailsByUsername) {
-        retrySecs = getRetryAfterSeconds(resUsername.msBeforeNext);
-      }
-      if (retrySecs > 0) {
-        throw new errors.TooManyRequests(`Too Many Requests. Retry after ${String(retrySecs)} seconds`);
-      } else {
-        const user = await usersRepository.getUser({
-          email,
-          password,
+    const usernameKey = getUsernameKey(email);
+    const [
+      resUsername,
+    ] = await Promise.all([
+      recourceLimiterRepository.getUserKeyForFailedLogin(usernameKey),
+    ]);
+    let retrySecs = 0;
+    if (resUsername !== null && resUsername.consumedPoints > recourceLimiterRepository.maxConsecutiveFailsByUsername) {
+      retrySecs = getRetryAfterSeconds(resUsername.msBeforeNext);
+    }
+    if (retrySecs > 0) {
+      throw new errors.TooManyRequests(`Too Many Requests. Retry after ${String(retrySecs)} seconds`);
+    } else {
+      const user = await usersRepository.getUser({
+        email,
+        password,
+      });
+      const isPasswordCorrect = await authenticationRepository.comparePassword(password, user.password)
+        .catch((err) => {
+          console.error(`Error in authentication of user with email: ${email}`, err);
+          return undefined;
         });
-        const isPasswordCorrect = await authenticationRepository.comparePassword(password, user.password)
-          .catch((err) => {
-            console.error(`Error in authentication of user with email: ${email}`, err);
-            return undefined;
-          });
-        if (!isPasswordCorrect) {
-          return handleIncorrectLoginPassword({
-            email,
-            usernameKey,
-            user,
-          });
-        }
-        return handleCorrectLoginPassword({
-          resUsername,
+      if (!isPasswordCorrect) {
+        return handleIncorrectLoginPassword({
+          email,
           usernameKey,
           user,
         });
       }
-    } catch (error) {
-      throw error;
+      return handleCorrectLoginPassword({
+        resUsername,
+        usernameKey,
+        user,
+      });
     }
   }
 

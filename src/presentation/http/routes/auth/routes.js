@@ -8,10 +8,12 @@ const {
   toResponseModel,
 } = require('../users/mapper');
 
+// eslint-disable-next-line new-cap
 const router = express.Router({ mergeParams: true });
 
 function init({ authService }) {
-  router.post('/register',
+  router.post(
+    '/register',
     validateCreateUserBody(),
     asyncWrapper(async (req, res) => {
       const result = await authService.register({
@@ -24,9 +26,11 @@ function init({ authService }) {
       return res.send({
         data: toResponseModel(result),
       });
-    }));
+    }),
+  );
 
-  router.post('/login',
+  router.post(
+    '/login',
     validateLoginBodyParams(),
     asyncWrapper(async (req, res) => {
       const result = await authService.login({
@@ -39,10 +43,10 @@ function init({ authService }) {
           user: toResponseModel(result.user),
         },
       });
-    }));
+    }),
+  );
 
   return router;
 }
-
 
 module.exports.init = init;

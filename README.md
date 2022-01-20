@@ -199,7 +199,7 @@ GET /users/:userId/posts/:postId
   - [Express-validator](https://github.com/ctavan/express-validator)
   - [Bcrypt](https://github.com/dcodeIO/bcrypt.js)
   - [Jsonwebtoken](https://github.com/auth0/node-jsonwebtoken)
-  - [Redis](https://github.com/redis/node-redis)
+  - [Redis](https://github.com/luin/ioredis)
   - [Express-winston](https://github.com/bithavoc/express-winston)
   - [Winston](https://github.com/winstonjs/winston)
   - [Mocha](https://www.npmjs.com/package/mocha)

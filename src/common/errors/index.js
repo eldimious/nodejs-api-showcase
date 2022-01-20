@@ -7,10 +7,8 @@ const isCustomError = (error) => {
   return false;
 };
 
-module.exports = Object.assign(
-  {},
-  httpErrors,
-  {
-    isCustomError,
-  },
-);
+module.exports = {
+
+  ...httpErrors,
+  isCustomError,
+};

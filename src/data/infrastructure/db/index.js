@@ -24,21 +24,17 @@ module.exports.init = (dbConnectionString) => {
     logging.info('-------------------');
   });
 
-  return Object.assign(
-    {
-      getConnection() {
-        return mongoose.connection;
-      },
-      connect() {
-        // Open Connection to Mongo DB
-        return mongoose.connect(dbConnectionString);
-      },
-      close() {
-        return mongoose.connection.close();
-      },
+  return {
+    getConnection() {
+      return mongoose.connection;
     },
-    {
-      schemas: schemas.create(),
+    connect() {
+      // Open Connection to Mongo DB
+      return mongoose.connect(dbConnectionString);
     },
-  );
+    close() {
+      return mongoose.connection.close();
+    },
+    schemas: schemas.create(),
+  };
 };

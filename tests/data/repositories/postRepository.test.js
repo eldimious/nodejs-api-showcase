@@ -1,4 +1,4 @@
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const sinon = require('sinon');
 const schemasFactory = require('../../../src/data/infrastructure/db/schemas');
 const {

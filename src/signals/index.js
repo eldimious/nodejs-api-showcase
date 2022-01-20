@@ -1,6 +1,6 @@
 const process = require('process');
 
-const init = closeFunc => async () => {
+const init = (closeFunc) => async () => {
   try {
     await closeFunc();
     process.exit(0);
@@ -8,6 +8,5 @@ const init = closeFunc => async () => {
     process.exit(1);
   }
 };
-
 
 module.exports = { init };

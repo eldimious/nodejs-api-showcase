@@ -3,7 +3,14 @@
   * the Entities used for the databse
 */
 class Post {
-  constructor({ _id, userId, imageUrl, description, publisher, created } = {}) {
+  constructor({
+    _id,
+    userId,
+    imageUrl,
+    description,
+    publisher,
+    created,
+  } = {}) {
     this.id = _id;
     this.userId = userId;
     this.imageUrl = imageUrl;

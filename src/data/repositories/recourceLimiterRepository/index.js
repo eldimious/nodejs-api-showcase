@@ -1,4 +1,4 @@
-const redis = require('redis');
+const Redis = require('ioredis');
 const { RateLimiterRedis } = require('rate-limiter-flexible');
 const {
   redis: redisConfig,
@@ -8,13 +8,10 @@ const {
 } = require('../../../common/constants');
 
 module.exports.init = function init() {
-  const redisClient = redis.createClient({
-    url: redisConfig.uri,
-    enable_offline_queue: true,
-  });
+  const redisClient = new Redis(redisConfig.uri, { enableOfflineQueue: false });
 
   const limiterUserConsecutiveFailsByUsername = new RateLimiterRedis({
-    redis: redisClient,
+    storeClient: redisClient,
     keyPrefix: 'login_fail_consecutive_username_user',
     points: MAX_CONSECUTIVE_FAILS_BY_USERNAME,
     duration: 60 * 10, // Store number for 10 minutes since first fail(ttl)

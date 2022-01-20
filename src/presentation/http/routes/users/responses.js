@@ -4,7 +4,13 @@
   * Password is property of our business model in domain layer.
 */
 class UserResponse {
-  constructor({ id, fullName, username, email, created } = {}) {
+  constructor({
+    id,
+    fullName,
+    username,
+    email,
+    created,
+  } = {}) {
     this.id = id;
     this.fullName = fullName;
     this.username = username;

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 require('dotenv').config();
 const request = require('supertest');
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const sinon = require('sinon');
 const jwt = require('jsonwebtoken');
 const Post = require('../../../../src/domain/posts/model');

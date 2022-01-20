@@ -1,4 +1,4 @@
-const expect = require('chai').expect;
+const { expect } = require('chai');
 const sinon = require('sinon');
 const Post = require('../../../src/domain/posts/model');
 const postServiceFactory = require('../../../src/domain/posts/service');
@@ -10,8 +10,12 @@ const postRepository = postRepositoryFactory.init(db);
 const postService = postServiceFactory.init(postRepository);
 
 function createPosts() {
-  const alex = new Post({ imageUrl: 'www.test.com', description: 'test1', publisher: 'Aris', created: '2017-08-30T08:17:50.460Z', _id: '5a3b9a95e9f13308a30740a5' });
-  const aris = new Post({ imageUrl: 'www.test1.com', description: 'test2', publisher: 'Alex', created: '2017-08-30T08:17:50.460Z', _id: 'testid2' });
+  const alex = new Post({
+    imageUrl: 'www.test.com', description: 'test1', publisher: 'Aris', created: '2017-08-30T08:17:50.460Z', _id: '5a3b9a95e9f13308a30740a5',
+  });
+  const aris = new Post({
+    imageUrl: 'www.test1.com', description: 'test2', publisher: 'Alex', created: '2017-08-30T08:17:50.460Z', _id: 'testid2',
+  });
   return [alex, aris];
 }
 

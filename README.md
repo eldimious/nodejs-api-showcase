@@ -81,6 +81,8 @@ for running tests.
 
 # Endpoints #
 
+You can take a look at API's endpoints navigated to http://localhost:5555/docs/
+
 ## Auth Routes ##
   
 ### Register ###

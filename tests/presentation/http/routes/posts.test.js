@@ -64,7 +64,8 @@ const postData = [
 const jwtSecret = process.env.JWT_SECRET;
 const testEmail = 'kent@gmail.com';
 const testFullname = 'klark kent';
-const testID = '111111';
+const testID = '5fb02910c74ce3697859cee2';
+const wrongUserId = '3ca12910c74ce3697859caa1';
 let testToken;
 
 describe('post routes test', () => {
@@ -77,22 +78,26 @@ describe('post routes test', () => {
     afterEach(() => {
       postsService.listUserPosts.restore();
     });
-    it('should return 200 an array of posts', (done) => {
+    it('should return 200 an array of posts', async () => {
       postsService.listUserPosts.resolves(postData);
-      request(app)
-        .get('/users/5fb02910c74ce3697859cee2/posts')
-        .set('Authorization', `Bearer ${testToken}`)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.length).to.eql(postData.length);
-          return done();
-        });
+      const res = await request(app)
+        .get(`/users/${testID}/posts`)
+        .set('Authorization', `Bearer ${testToken}`);
+      expect(res.statusCode).to.to.eql(200);
+      expect(res.body.length).to.to.eql(postData.length);
     });
-    it('should return 403 when no token send', () => request(app)
-      .get('/users/5fb02910c74ce3697859cee2/posts')
+    it('should return 403 when token of another user is used', async () => {
+      postsService.listUserPosts.resolves(postData);
+      const res = await request(app)
+        .get(`/users/${wrongUserId}/posts`)
+        .set('Authorization', `Bearer ${testToken}`);
+      expect(res.statusCode).to.to.eql(403);
+    });
+    it('should return 401 when no token send', () => request(app)
+      .get(`/users/${testID}/posts`)
       .expect(401));
     it('should return 401 when we send invalid token', () => request(app)
-      .get('/users/5fb02910c74ce3697859cee2/posts')
+      .get(`/users/${testID}/posts`)
       .set('Authorization', `Bearer ${testToken}test`)
       .expect(401));
   });

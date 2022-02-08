@@ -4,16 +4,15 @@ const cors = require('cors');
 const compress = require('compression')();
 const bodyParser = require('body-parser');
 const logger = require('morgan');
-const expressValidator = require('express-validator');
 const helmet = require('helmet');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
+const asyncWrapper = require('@dimosbotsaris/express-async-handler');
 const authenticateEndpoint = require('./middleware/authentication');
 const authRoutes = require('./routes/auth/routes');
 const usersRoutes = require('./routes/users/routes');
 const errorRoute = require('./routes/errors');
 const swaggerDocument = require('../../swagger');
-const asyncWrapper = require('./utils/asyncWrapper');
 
 const app = express();
 app.disable('x-powered-by');

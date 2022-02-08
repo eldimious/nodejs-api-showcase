@@ -1,8 +1,8 @@
 const express = require('express');
+const asyncWrapper = require('@dimosbotsaris/express-async-handler');
 const {
   validateUserToken,
 } = require('../../middleware/endpointValidator');
-const asyncWrapper = require('../../utils/asyncWrapper');
 const {
   toResponseModel,
 } = require('./mapper');

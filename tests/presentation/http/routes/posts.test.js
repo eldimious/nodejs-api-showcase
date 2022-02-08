@@ -91,8 +91,7 @@ describe('post routes test', () => {
       const res = await request(app)
         .get(`/users/${wrongUserId}/posts`)
         .set('Authorization', `Bearer ${testToken}`);
-      expect(res.statusCode).to.to.eql(200);
-      expect(res.body.length).to.to.eql(postData.length);
+      expect(res.statusCode).to.to.eql(403);
     });
     it('should return 401 when no token send', () => request(app)
       .get(`/users/${testID}/posts`)

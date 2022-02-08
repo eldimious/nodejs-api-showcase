@@ -77,16 +77,13 @@ describe('post routes test', () => {
     afterEach(() => {
       postsService.listUserPosts.restore();
     });
-    it('should return 200 an array of posts', (done) => {
+    it('should return 200 an array of posts', async () => {
       postsService.listUserPosts.resolves(postData);
-      request(app)
+      const res = await request(app)
         .get('/users/5fb02910c74ce3697859cee2/posts')
-        .set('Authorization', `Bearer ${testToken}`)
-        .expect(200)
-        .then((res) => {
-          expect(res.body.length).to.eql(postData.length);
-          return done();
-        });
+        .set('Authorization', `Bearer ${testToken}`);
+      expect(res.statusCode).to.to.eql(200);
+      expect(res.body.length).to.to.eql(postData.length);
     });
     it('should return 403 when no token send', () => request(app)
       .get('/users/5fb02910c74ce3697859cee2/posts')

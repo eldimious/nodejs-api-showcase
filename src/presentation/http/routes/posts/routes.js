@@ -1,10 +1,10 @@
 const express = require('express');
+const asyncWrapper = require('@dimosbotsaris/express-async-handler');
 const {
   validateUserToken,
   validatePostId,
   validateCreatePostBody,
 } = require('../../middleware/endpointValidator');
-const asyncWrapper = require('../../utils/asyncWrapper');
 const {
   getDefaultPage,
   getDefaultLimit,
@@ -18,6 +18,7 @@ function init({
 }) {
   router.get(
     '/',
+    validateUserToken(),
     asyncWrapper(async (req, res) => {
       const postsList = await postsService.listUserPosts({
         userId: req.params.userId,

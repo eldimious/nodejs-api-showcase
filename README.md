@@ -204,3 +204,11 @@ GET /users/:userId/posts/:postId
   - [Sinon](https://www.npmjs.com/package/sinon)
   - [Supertest](https://github.com/visionmedia/supertest)
   - [Eslint](https://www.npmjs.com/package/eslint)
+
+## Support Me
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y797KCA)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!

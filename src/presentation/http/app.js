@@ -7,12 +7,14 @@ const logger = require('morgan');
 const helmet = require('helmet');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
-const asyncWrapper = require('@dimosbotsaris/express-async-handler');
 const { errorHandler } = require('@dimosbotsaris/express-error-handler');
-const authenticateEndpoint = require('./middleware/authentication');
+const jwt = require('express-jwt');
 const authRoutes = require('./routes/auth/routes');
 const usersRoutes = require('./routes/users/routes');
 const swaggerDocument = require('../../swagger');
+const {
+  jwtSecret,
+} = require('../../configuration');
 
 const app = express();
 app.disable('x-powered-by');
@@ -29,10 +31,14 @@ module.exports.init = (services) => {
   app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
     explorer: true,
   }));
+  app.use(jwt({
+    secret: jwtSecret,
+    algorithms: ['HS256'],
+  })
+    .unless({
+      path: ['/auth/register', '/auth/login'],
+    }));
   app.use('/auth', authRoutes.init(services));
-  app.all('*', asyncWrapper(authenticateEndpoint(services)), (req, res, next) => {
-    next();
-  });
   app.use('/users', usersRoutes.init(services));
   app.use(errorHandler({ trace: true }));
   const httpServer = http.createServer(app);

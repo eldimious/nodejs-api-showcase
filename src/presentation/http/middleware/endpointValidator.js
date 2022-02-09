@@ -5,7 +5,7 @@ const {
   param,
   validationResult,
 } = require('express-validator');
-const errorHandler = require('../routes/errors');
+const { errorHandler } = require('@dimosbotsaris/express-error-handler');
 const errors = require('../../../common/errors');
 const {
   PASSWORD_COMPLEXITY,
@@ -141,7 +141,7 @@ const validate = (req, res, next) => {
   })[0];
   const errMsg = validationError?.msg?.message || 'Bad request';
   const errStatus = validationError?.msg?.status || 400;
-  return errorHandler(new errors[errStatus](errMsg, 'BAD_BODY_PARAMS'), req, res, next);
+  return errorHandler({ trace: true })(new errors[errStatus](errMsg, 'BAD_BODY_PARAMS'), req, res, next);
 };
 
 const validateCreateUserBody = () => [

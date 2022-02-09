@@ -8,10 +8,10 @@ const helmet = require('helmet');
 const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const asyncWrapper = require('@dimosbotsaris/express-async-handler');
+const { errorHandler } = require('@dimosbotsaris/express-error-handler');
 const authenticateEndpoint = require('./middleware/authentication');
 const authRoutes = require('./routes/auth/routes');
 const usersRoutes = require('./routes/users/routes');
-const errorRoute = require('./routes/errors');
 const swaggerDocument = require('../../swagger');
 
 const app = express();
@@ -34,8 +34,7 @@ module.exports.init = (services) => {
     next();
   });
   app.use('/users', usersRoutes.init(services));
-  app.use(errorRoute);
-
+  app.use(errorHandler({ trace: true }));
   const httpServer = http.createServer(app);
   return httpServer;
 };

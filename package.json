@@ -37,7 +37,7 @@
     "ioredis": "^4.28.3",
     "joi-password-complexity": "^4.1.0",
     "jsonwebtoken": "^8.5.1",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "mongodb": "^4.3.1",
     "mongoose": "^6.1.7",
     "mongoose-paginate": "^5.0.3",

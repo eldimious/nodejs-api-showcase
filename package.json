@@ -44,7 +44,7 @@
     "mongoose-unique-validator": "^3.0.0",
     "morgan": "^1.10.0",
     "rate-limiter-flexible": "^2.3.6",
-    "socket.io": "^4.4.1",
+    "socket.io": "^4.5.3",
     "swagger-ui-express": "^4.3.0",
     "throw-http-errors": "2.0.0",
     "winston": "^3.4.0"
